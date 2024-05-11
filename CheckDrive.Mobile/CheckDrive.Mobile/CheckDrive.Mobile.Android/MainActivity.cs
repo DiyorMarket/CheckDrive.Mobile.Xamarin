@@ -25,11 +25,5 @@ namespace CheckDrive.Mobile.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-        public override void OnBackPressed()
-        {
-            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
-            base.OnBackPressed();
-        }
     }
 }
