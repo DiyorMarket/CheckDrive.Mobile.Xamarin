@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CheckDrive.Mobile.Views.RoadMapPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}">
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0,25,0,0">
+                <Button
+                    Margin="25,25,0,0"
+                    BackgroundColor="#F2F2F2"
+                    CornerRadius="15"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="Pay, 9 May"
+                    TextColor="Black" />
+                <Button
+                    Margin="0,25,25,0"
+                    BackgroundColor="#F2F2F2"
+                    CornerRadius="15"
+                    FontSize="Medium"
+                    HorizontalOptions="End"
+                    Text="315 litr"
+                    TextColor="Black" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+
+                <!--#region Doktor-->
+                <Grid Grid.Row="1">
+                    <Label
+                        Margin="20,0,0,0"
+                        FontSize="Large"
+                        HorizontalOptions="Start"
+                        Text="Doktor"
+                        TextColor="Black" />
+                    <Image
+                        Margin="25,0,0,0"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        Source="icon_check.png"
+                        WidthRequest="35" />
+                    <Label
+                        Margin="0,0,40,0"
+                        FontSize="Medium"
+                        HorizontalOptions="End"
+                        Text="09:35"
+                        TextColor="Black" />
+                </Grid>
+                <!--#endregion-->
+                <Grid Grid.Row="2">
+                    <Image
+                        Margin="25,0,0,0"
+                        HorizontalOptions="Center"
+                        Source="down_arrow.png" />
+                </Grid>
+                <!--#region Mexanik(qabul)-->
+                <Grid Grid.Row="3">
+                    <Label
+                        Margin="20,0,0,0"
+                        FontSize="Large"
+                        HorizontalOptions="Start"
+                        Text="Mexanik"
+                        TextColor="Black" />
+                    <Image
+                        Margin="25,0,0,0"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        Source="icon_faild.png"
+                        WidthRequest="35" />
+                    <Label
+                        Margin="0,0,40,0"
+                        FontSize="Medium"
+                        HorizontalOptions="End"
+                        Text="09:42"
+                        TextColor="Black" />
+                </Grid>
+                <!--#endregion-->
+                <Grid Grid.Row="4">
+                    <Image
+                        Margin="25,0,0,0"
+                        HorizontalOptions="Center"
+                        Source="down_arrow.png" />
+                </Grid>
+                <!--#region Operator-->
+                <Grid Grid.Row="5">
+                    <Label
+                        Margin="20,0,0,0"
+                        FontSize="Large"
+                        HorizontalOptions="Start"
+                        Text="Operator"
+                        TextColor="Black" />
+                    <Image
+                        Margin="25,0,0,0"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        Source="icon_darkcricle.png"
+                        WidthRequest="35" />
+                    <Label
+                        Margin="0,0,40,0"
+                        FontSize="Medium"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="Black" />
+                </Grid>
+                <!--#endregion-->
+                <Grid Grid.Row="6">
+                    <Image
+                        Margin="25,0,0,0"
+                        HorizontalOptions="Center"
+                        Source="down_arrow.png" />
+                </Grid>
+                <!--#region Mexanik(topshirish)-->
+                <Grid Grid.Row="7">
+                    <Label
+                        Margin="20,0,0,0"
+                        FontSize="Large"
+                        HorizontalOptions="Start"
+                        Text="Mexanik"
+                        TextColor="Black" />
+                    <Image
+                        Margin="25,0,0,0"
+                        HeightRequest="35"
+                        HorizontalOptions="Center"
+                        Source="icon_darkcricle.png"
+                        WidthRequest="35" />
+                    <Label
+                        Margin="0,0,40,0"
+                        FontSize="Medium"
+                        HorizontalOptions="End"
+                        Text=""
+                        TextColor="Black" />
+                </Grid>
+                <!--#endregion-->
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
