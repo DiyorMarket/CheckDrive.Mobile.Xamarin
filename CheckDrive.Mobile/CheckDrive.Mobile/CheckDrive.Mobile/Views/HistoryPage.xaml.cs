@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CheckDrive.Mobile.DataStores.Dispatcher;
+using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +18,9 @@ namespace CheckDrive.Mobile.Views
         public HistoryPage()
         {
             InitializeComponent();
+            var apiClient = new ApiClient();
+            var dispatcherReviewDataStore = new DispatcherReviewDataStore(apiClient);
+            BindingContext = new HistoryViewModel(dispatcherReviewDataStore);
         }
     }
 }

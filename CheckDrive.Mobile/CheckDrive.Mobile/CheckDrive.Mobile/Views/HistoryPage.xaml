@@ -12,10 +12,10 @@
                 Margin="0,15,0,0"
                 FontSize="Medium"
                 HorizontalOptions="Center"
-                Text="Tarix"
+                Text="Tarix"                
                 TextColor="Black" />
 
-            <CollectionView x:Name="HistoryList" SelectionMode="None">
+            <CollectionView x:Name="HistoryList" SelectionMode="None" ItemsSource="{Binding DispatcherReviews}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>

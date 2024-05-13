@@ -9,12 +9,12 @@ namespace CheckDrive.Mobile.Responses
     public class ApiResponse<T>
     {
         public IEnumerable<T> Data { get; private set; }
-        public MetaData Metadata { get; private set; }
+        public MetaData<T> Metadata { get; private set; }
 
         public ApiResponse()
         {
             Data = new List<T>();
-            Metadata = new MetaData();
+            Metadata = new MetaData<T>();
         }
 
         public static implicit operator ApiResponse<T>(HttpResponseMessage v)
