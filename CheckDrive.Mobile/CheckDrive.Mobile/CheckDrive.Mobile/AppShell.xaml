@@ -81,7 +81,7 @@
             Icon="icon_history.png" />
         <ShellContent
             Title="Profil"
-            ContentTemplate="{DataTemplate local:AboutPage}"
+            ContentTemplate="{DataTemplate local:PersonalAccountPage}"
             Icon="icon_user.png" />
         <ShellContent
             ContentTemplate="{DataTemplate local:LoginPage}"
