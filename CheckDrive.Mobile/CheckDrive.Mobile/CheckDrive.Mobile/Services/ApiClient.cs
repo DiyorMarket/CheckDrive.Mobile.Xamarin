@@ -10,7 +10,7 @@ namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "https://vzwlsq47-7111.euw.devtunnels.ms";
+        private const string BaseUrl = "https://xsx0lcnz-7111.asse.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 
@@ -22,13 +22,13 @@ namespace CheckDrive.Mobile.Services
         }
         public async Task<ApiResponse<T>> GetAsync<T>(string resource, bool isFullUrl = false)
         {
-            //string url = isFullUrl ?
-            //    resource :
-            //    BaseUrl + "/" + resource;
+            string url = isFullUrl ?
+                resource :
+                BaseUrl + "/" + resource;
 
             try
             {
-                HttpResponseMessage response = await _client.GetAsync(BaseUrl + "/" + resource);
+                HttpResponseMessage response = await _client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
                 {
