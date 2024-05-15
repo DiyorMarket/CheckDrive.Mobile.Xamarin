@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Com.Igniscor.Progressbar" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />
     <PackageReference Include="Syncfusion.Xamarin.SfProgressBar" Version="25.2.4" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />  
