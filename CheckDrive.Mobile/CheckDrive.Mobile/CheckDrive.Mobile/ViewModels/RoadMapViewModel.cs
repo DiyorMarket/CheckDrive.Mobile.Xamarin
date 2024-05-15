@@ -1,14 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace CheckDrive.Mobile.ViewModels
 {
-    public class RoadMapViewModel : BaseViewModel
+    public class RoadMapViewModel : INotifyPropertyChanged
     {
-        public RoadMapViewModel() 
+        private double oilPrecentValue;
+        public double OilPrecentValue
         {
-            Title = "RoadMap";
+            get => oilPrecentValue;
+            set
+            {
+                if (oilPrecentValue != value)
+                {
+                    oilPrecentValue = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string OilValueToString { get; set; }
+
+        private float oilPercent;
+        public float OilPercent
+        {
+            get => oilPercent;
+            set
+            {
+                if (oilPercent != value)
+                {
+                    oilPercent = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public RoadMapViewModel()
+        {
+            GetOilResult();
+        }
+
+        public void GetOilResult()
+        {
+            oilPrecentValue = 45;
+            OilValueToString = $"{oilPrecentValue} L";
+            oilPercent = (float)(OilPrecentValue / 450);
         }
     }
 }
