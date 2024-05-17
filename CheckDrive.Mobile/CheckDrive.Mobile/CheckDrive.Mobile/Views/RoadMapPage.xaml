@@ -3,32 +3,54 @@
     x:Class="CheckDrive.Mobile.Views.RoadMapPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:progressBar="clr-namespace:Syncfusion.XForms.ProgressBar;assembly=Syncfusion.SfProgressBar.XForms"
+    xmlns:progressBars="clr-namespace:Com.Igniscor.Controls.ProgressBar;assembly=Com.Igniscor.Controls"
     Title="{Binding Title}">
 
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="7*" />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="0,25,0,0">
-                <Button
-                    Margin="25,25,0,0"
-                    BackgroundColor="#F2F2F2"
-                    CornerRadius="15"
-                    FontSize="Medium"
-                    HorizontalOptions="Start"
-                    Text="Pay, 9 May"
+            <Grid Grid.Row="0" Margin="20,25,20,0">
+                <Label HorizontalOptions="StartAndExpand" Text="1 May" />
+                <Label
+                    FontSize="Body"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="14 May"
                     TextColor="Black" />
-                <Button
-                    Margin="0,25,25,0"
-                    BackgroundColor="#F2F2F2"
-                    CornerRadius="15"
-                    FontSize="Medium"
-                    HorizontalOptions="End"
-                    Text="315 litr"
+                <Label HorizontalOptions="EndAndExpand" Text="30 May" />
+
+                <progressBars:DetailedProgressBar
+                    BackgroundColor="LightGray"
+                    BorderColor="Black"
+                    EndBackgroundColor="LightGray"
+                    EndProgressColor="#00BA00"
+                    HeightRequest="20"
+                    Orientation="Horizontal"
+                    PercentageValue="{Binding OilPercent}"
+                    ProgressTextOrientation="Center"
+                    ProgressTextPosition="Attached"
+                    StartBackgroundColor="LightGray"
+                    StartProgressColor="#00BA00"
+                    VerticalOptions="Center" />
+
+                <Label
+                    Margin="0,45,0,0"
+                    HorizontalOptions="StartAndExpand"
+                    Text="0" />
+                <Label
+                    Margin="0,45,0,0"
+                    FontSize="Body"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding OilValueToString}"
                     TextColor="Black" />
+                <Label
+                    Margin="0,45,0,0"
+                    HorizontalOptions="EndAndExpand"
+                    Text="450 L" />
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
@@ -42,23 +64,26 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
-
                 <!--#region Doktor-->
                 <Grid Grid.Row="1">
+                    <Image
+                        Margin="10,0,0,0"
+                        HeightRequest="45"
+                        HorizontalOptions="StartAndExpand"
+                        Source="icon_doctor.png" />
                     <Label
-                        Margin="20,0,0,0"
+                        Margin="85,5,0,0"
                         FontSize="Large"
-                        HorizontalOptions="Start"
                         Text="Doktor"
                         TextColor="Black" />
                     <Image
-                        Margin="25,0,0,0"
+                        Margin="0,0,100,0"
                         HeightRequest="35"
-                        HorizontalOptions="Center"
+                        HorizontalOptions="End"
                         Source="icon_check.png"
                         WidthRequest="35" />
                     <Label
-                        Margin="0,0,40,0"
+                        Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
                         Text="09:35"
@@ -67,82 +92,94 @@
                 <!--#endregion-->
                 <Grid Grid.Row="2">
                     <Image
-                        Margin="25,0,0,0"
-                        HorizontalOptions="Center"
+                        Margin="0,0,75,0"
+                        HorizontalOptions="End"
                         Source="down_arrow.png" />
                 </Grid>
-                <!--#region Mexanik(qabul)-->
+                <!--#region Mexanik Q.q.-->
                 <Grid Grid.Row="3">
+                    <Image
+                        Margin="10,0,0,0"
+                        HeightRequest="45"
+                        HorizontalOptions="StartAndExpand"
+                        Source="icon_mechanicAcception.png" />
                     <Label
-                        Margin="20,0,0,0"
+                        Margin="85,5,0,0"
                         FontSize="Large"
-                        HorizontalOptions="Start"
                         Text="Mexanik"
                         TextColor="Black" />
                     <Image
-                        Margin="25,0,0,0"
+                        Margin="0,0,100,0"
                         HeightRequest="35"
-                        HorizontalOptions="Center"
-                        Source="icon_faild.png"
+                        HorizontalOptions="End"
+                        Source="icon_check.png"
                         WidthRequest="35" />
                     <Label
-                        Margin="0,0,40,0"
+                        Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
-                        Text="09:42"
+                        Text="09:41"
                         TextColor="Black" />
                 </Grid>
                 <!--#endregion-->
                 <Grid Grid.Row="4">
                     <Image
-                        Margin="25,0,0,0"
-                        HorizontalOptions="Center"
+                        Margin="0,0,75,0"
+                        HorizontalOptions="End"
                         Source="down_arrow.png" />
                 </Grid>
                 <!--#region Operator-->
                 <Grid Grid.Row="5">
+                    <Image
+                        Margin="10,0,0,0"
+                        HeightRequest="45"
+                        HorizontalOptions="StartAndExpand"
+                        Source="icon_fuel.png" />
                     <Label
-                        Margin="20,0,0,0"
+                        Margin="85,5,0,0"
                         FontSize="Large"
-                        HorizontalOptions="Start"
                         Text="Operator"
                         TextColor="Black" />
                     <Image
-                        Margin="25,0,0,0"
+                        Margin="0,0,100,0"
                         HeightRequest="35"
-                        HorizontalOptions="Center"
-                        Source="icon_darkcricle.png"
+                        HorizontalOptions="End"
+                        Source="icon_faild.png"
                         WidthRequest="35" />
                     <Label
-                        Margin="0,0,40,0"
+                        Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
-                        Text=""
+                        Text="09:48"
                         TextColor="Black" />
                 </Grid>
                 <!--#endregion-->
                 <Grid Grid.Row="6">
                     <Image
-                        Margin="25,0,0,0"
-                        HorizontalOptions="Center"
+                        Margin="0,0,75,0"
+                        HorizontalOptions="End"
                         Source="down_arrow.png" />
                 </Grid>
-                <!--#region Mexanik(topshirish)-->
+                <!--#region Mexanik T.-->
                 <Grid Grid.Row="7">
+                    <Image
+                        Margin="10,0,0,0"
+                        HeightRequest="45"
+                        HorizontalOptions="StartAndExpand"
+                        Source="icon_mechanicHandover.png" />
                     <Label
-                        Margin="20,0,0,0"
+                        Margin="85,5,0,0"
                         FontSize="Large"
-                        HorizontalOptions="Start"
                         Text="Mexanik"
                         TextColor="Black" />
                     <Image
-                        Margin="25,0,0,0"
+                        Margin="0,0,100,0"
                         HeightRequest="35"
-                        HorizontalOptions="Center"
-                        Source="icon_darkcricle.png"
+                        HorizontalOptions="End"
+                        Source="icon_circle.png"
                         WidthRequest="35" />
                     <Label
-                        Margin="0,0,40,0"
+                        Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
                         Text=""
