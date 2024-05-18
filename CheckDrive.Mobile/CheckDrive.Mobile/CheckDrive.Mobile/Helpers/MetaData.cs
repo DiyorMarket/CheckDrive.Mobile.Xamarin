@@ -4,8 +4,9 @@ using System.Text;
 
 namespace CheckDrive.Mobile.Helpers
 {
-    public class MetaData
+    public class MetaData<T>
     {
+        public IEnumerable<T> Data { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
         public bool HasNextPage { get; set; }

@@ -15,43 +15,108 @@
                 Text="Tarix"
                 TextColor="Black" />
 
-            <CollectionView x:Name="HistoryList" SelectionMode="None">
+            <CollectionView
+                x:Name="HistoryList"
+                ItemsSource="{Binding DispatcherReviews}"
+                SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                        <StackLayout Margin="10">
+                            <Frame BackgroundColor="#D9D9D9" CornerRadius="30">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0" Margin="0,25,0,0">
-                                <Button
-                                    Margin="25,25,0,0"
-                                    BackgroundColor="#F2F2F2"
-                                    CornerRadius="15"
-                                    FontSize="Medium"
-                                    HorizontalOptions="Start"
-                                    Text="Pay, 9 May"
-                                    TextColor="Black" />
-                                <Button
-                                    Margin="0,25,25,0"
-                                    BackgroundColor="#F2F2F2"
-                                    CornerRadius="15"
-                                    FontSize="Medium"
-                                    HorizontalOptions="End"
-                                    Text="315 litr"
-                                    TextColor="Black" />
-                            </Grid>
+                                    <Label                                      
+                                        Margin="5,5,0,0"
+                                        FontSize="Large"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}"
+                                        TextColor="Black" />
 
-                            <!--  Right Column  -->
-                            <StackLayout>
-                                <Image
-                                    HeightRequest="30"
-                                    Source="icon_check.png"
-                                    WidthRequest="30" />
-                                <!--  Add similar Image tags for each status picture  -->
-                            </StackLayout>
-                        </Grid>
+                                    <Image
+                                        Grid.Row="0"
+                                        HeightRequest="50"
+                                        Source="icon_check.png"
+                                        WidthRequest="50" 
+                                        HorizontalOptions="End"/>
+                                    
+                                    <Label    
+                                        Grid.Row="1"
+                                        Margin="5,5,0,0"
+                                        FontSize="Medium"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Text="Doktor"
+                                        TextColor="Black" />
+
+                                    <Image
+                                        Grid.Row="1"
+                                        Margin="0,0,10,0"
+                                        HeightRequest="30"
+                                        Source="icon_check.png"
+                                        WidthRequest="30" 
+                                        HorizontalOptions="End"/>
+                                    
+                                    <Label    
+                                        Grid.Row="2"
+                                        Margin="5,5,0,0"
+                                        FontSize="Medium"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Text="Mexanik"
+                                        TextColor="Black" />
+
+                                    <Image
+                                        Grid.Row="2"
+                                        Margin="0,0,10,0"
+                                        HeightRequest="30"
+                                        Source="icon_check.png"
+                                        WidthRequest="30" 
+                                        HorizontalOptions="End"/>
+                                    
+                                    <Label    
+                                        Grid.Row="3"
+                                        Margin="5,5,0,0"
+                                        FontSize="Medium"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Text="Operator"
+                                        TextColor="Black" />
+
+                                    <Image
+                                        Grid.Row="3"
+                                        Margin="0,0,10,0"
+                                        HeightRequest="30"
+                                        Source="icon_check.png"
+                                        WidthRequest="30" 
+                                        HorizontalOptions="End"/>
+                                    
+                                    <Label    
+                                        Grid.Row="4"
+                                        Margin="5,5,0,0"
+                                        FontSize="Medium"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center"
+                                        Text="Mexanik"
+                                        TextColor="Black" />
+
+                                    <Image
+                                        Grid.Row="4"
+                                        Margin="0,0,10,0"
+                                        HeightRequest="30"
+                                        Source="icon_check.png"
+                                        WidthRequest="30" 
+                                        HorizontalOptions="End"/>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

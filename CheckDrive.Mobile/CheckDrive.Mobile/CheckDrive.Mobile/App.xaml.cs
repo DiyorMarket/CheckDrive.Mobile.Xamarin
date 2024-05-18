@@ -1,8 +1,4 @@
-﻿using CheckDrive.Mobile.Services;
-using CheckDrive.Mobile.Views;
-using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace CheckDrive.Mobile
 {
@@ -13,7 +9,6 @@ namespace CheckDrive.Mobile
         {
             InitializeComponent();
 
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
