@@ -1,16 +1,14 @@
 ﻿using CheckDrive.Mobile.Responses;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "https://xsx0lcnz-7111.asse.devtunnels.ms/api";
+        private const string BaseUrl = "https://jsw763dc-7111.euw.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 

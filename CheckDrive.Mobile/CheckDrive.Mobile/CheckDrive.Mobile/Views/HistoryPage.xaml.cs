@@ -1,12 +1,6 @@
-﻿using CheckDrive.Mobile.DataStores.Dispatcher;
-using CheckDrive.Mobile.Services;
-using CheckDrive.Mobile.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using CheckDrive.Mobile.ViewModels;
+using CheckDrive.Web.Stores.DispatcherReviews;
+using CheckDrive.Web.Stores.DoctorReviews;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,9 +12,11 @@ namespace CheckDrive.Mobile.Views
         public HistoryPage()
         {
             InitializeComponent();
-            var apiClient = new ApiClient();
-            var dispatcherReviewDataStore = new DispatcherReviewDataStore(apiClient);
-            BindingContext = new HistoryViewModel(dispatcherReviewDataStore);
+
+            var dispatcherReviewDataStore = new MockDispatcherReviewDataStore();
+            var doctorReviewDataStore = new MockDoctorReviewDataStore();
+
+            BindingContext = new HistoryViewModel(dispatcherReviewDataStore, doctorReviewDataStore);
         }
     }
 }

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CheckDrive.DTOs" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Plugin.MaterialDesignControls" Version="3.1.7" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.1.0" />

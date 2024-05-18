@@ -1,24 +1,24 @@
-﻿using CheckDrive.Domain.DTOs.DispatcherReview;
-using CheckDrive.Mobile.DataStores.Dispatcher;
-using System;
-using System.Collections.Generic;
+﻿using CheckDrive.Mobile.Helpers;
+using CheckDrive.Web.Stores.DispatcherReviews;
+using CheckDrive.Web.Stores.DoctorReviews;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.ViewModels
 {
-    public class HistoryViewModel 
+    public class HistoryViewModel
     {
         private readonly IDispatcherReviewDataStore _dispatcherDataStore;
-        
-        public ObservableCollection<DispatcherReviewDto> DispatcherReviews { get; private set; }
+        private readonly IDoctorReviewDataStore _doctorReviewDataStore;
 
-        public HistoryViewModel(IDispatcherReviewDataStore dispatcherDataStore)
+        public ObservableCollection<History> DispatcherReviews { get; private set; }
+
+        public HistoryViewModel(IDispatcherReviewDataStore dispatcherDataStore, IDoctorReviewDataStore doctorReviewDataStore)
         {
             _dispatcherDataStore = dispatcherDataStore;
-            
-            DispatcherReviews = new ObservableCollection<DispatcherReviewDto>();
+            _doctorReviewDataStore = doctorReviewDataStore;
+
+            DispatcherReviews = new ObservableCollection<History>();
 
             GetDispatcherReviews();
         }
@@ -27,11 +27,24 @@ namespace CheckDrive.Mobile.ViewModels
         {
             DispatcherReviews.Clear();
 
-            var items = await _dispatcherDataStore.GetReviewsAsync();
+            var dipatcherItems = await _dispatcherDataStore.GetDispatcherReviews();
+            var doctorItems = await _doctorReviewDataStore.GetDoctorReviews();
 
-            foreach (var item in items)
+
+            foreach (var item in dipatcherItems)
             {
-                DispatcherReviews.Add(item);
+                if (item.DriverId == 2)
+                {
+                    var historyItem = new History
+                    {
+                        Date = item.Date,
+                    };
+                    foreach (var doctoritem in doctorItems)
+                    {
+                        historyItem.IsHealthy = doctoritem.IsHealthy;
+                    }
+                    DispatcherReviews.Add(historyItem);
+                }
             }
         }
     }
