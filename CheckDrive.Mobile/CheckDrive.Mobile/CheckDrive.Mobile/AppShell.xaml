@@ -77,14 +77,14 @@
             Icon="icon_roadMap.png" />
         <ShellContent
             Title="Tarix"
-            ContentTemplate="{DataTemplate local:AboutPage}"
+            ContentTemplate="{DataTemplate local:HistoryPage}"
             Icon="icon_history.png" />
         <ShellContent
             Title="Profil"
-            ContentTemplate="{DataTemplate local:AboutPage}"
+            ContentTemplate="{DataTemplate local:RoadMapPage}"
             Icon="icon_user.png" />
         <ShellContent
-            ContentTemplate="{DataTemplate local:LoginPage}"
+            ContentTemplate="{DataTemplate local:RoadMapPage}"
             IsVisible="False"
             Route="LoginPage" />
     </TabBar>
