@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="CheckDrive.Mobile.Views.PersonalAccountPage" 
+    x:Class="CheckDrive.Mobile.Views.PersonalAccountPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls">
@@ -14,16 +14,8 @@
             <Image
                 Grid.RowSpan="3"
                 Aspect="AspectFill"
-                Source="personalaccount3.png" />
+                Source="accountLayout.png" />
 
-            <Label
-                Grid.Row="0"
-                FontAttributes="Bold"
-                FontSize="Large"
-                HorizontalOptions="Center"
-                Text="Personal account"
-                TextColor="#FFFFFF"
-                VerticalOptions="Start" />
 
             <md:MaterialCard
                 Grid.Row="0"
@@ -54,12 +46,11 @@
                     HasBorder="True"
                     IsEnabled="True"
                     TabIndex="1"
-                    Type="Filled"> 
-                    <!--Text="{Binding LoginResponse.UserName}"-->
+                    Type="Filled">
                     <md:MaterialLabel
                         Margin="10,0"
-                        FontSize="Medium"                        
-                        Text="Sharafiddin" 
+                        FontSize="Medium"
+                        Text="{Binding Driver.FirstName}"
                         TextColor="#00A3FF" />
                 </md:MaterialCard>
                 <md:MaterialCard
@@ -71,11 +62,10 @@
                     IsEnabled="True"
                     TabIndex="1"
                     Type="Filled">
-                    <!--Text="{Binding LoginResponse.UserEmail}"-->
                     <md:MaterialLabel
                         Margin="10,0"
                         FontSize="Medium"
-                        Text="sharafiddin.muxtorov2007@gmail.com"
+                        Text="{Binding Driver.Login}"
                         TextColor="#00A3FF" />
                 </md:MaterialCard>
                 <md:MaterialCard
@@ -87,11 +77,10 @@
                     IsEnabled="True"
                     TabIndex="1"
                     Type="Filled">
-                    <!--Text="{Binding LoginResponse.UserPhone}"-->
                     <md:MaterialLabel
                         Margin="10,0"
                         FontSize="Medium"
-                        Text="+998 88 777 00 89"
+                        Text="{Binding Driver.PhoneNumber}"
                         TextColor="#00A3FF" />
                 </md:MaterialCard>
                 <md:MaterialButton
@@ -99,13 +88,13 @@
                     BackgroundColor="Transparent"
                     BorderColor="#00A3FF"
                     ButtonType="Outlined"
+                    Command="{Binding RegisterCommand}"
                     CornerRadius="10"
                     FontSize="18"
                     HeightRequest="50"
                     TabIndex="3"
                     Text="Log out"
-                    TextColor="#00A3FF"
-                    Command="{Binding RegisterCommand}"/>
+                    TextColor="#00A3FF" />
 
 
             </StackLayout>
