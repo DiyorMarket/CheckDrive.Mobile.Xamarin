@@ -1,4 +1,4 @@
-﻿using CheckDrive.DTOs.MechanicAcceptance;
+﻿using CheckDrive.ApiContracts.MechanicAcceptance;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

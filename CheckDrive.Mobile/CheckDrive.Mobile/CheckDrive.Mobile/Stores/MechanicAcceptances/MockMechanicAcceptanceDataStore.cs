@@ -1,5 +1,5 @@
-﻿using CheckDrive.DTOs;
-using CheckDrive.DTOs.MechanicAcceptance;
+﻿using CheckDrive.ApiContracts.MechanicAcceptance;
+using CheckDrive.ApiContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +15,13 @@ namespace CheckDrive.Web.Stores.MechanicAcceptances
         {
             _mechanicAcceptances = new List<MechanicAcceptanceDto>
             {
-                new MechanicAcceptanceDto { Id = 1, IsAccepted = true, Comments = "Completed", Status = Status.Completed, Date = DateTime.Now, Distance = 10, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-1), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-2), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-3), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-4), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-5), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-6), Distance = 20, MechanicHandoverId = 2 },
+                new MechanicAcceptanceDto { Id = 1, IsAccepted = true, Comments = "Completed", Status =StatusForDto.Completed, Date = DateTime.Now, Distance = 10, MechanicHandoverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-1), Distance = 20, MechanicHandoverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-2), Distance = 20, MechanicHandoverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-3), Distance = 20, MechanicHandoverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-4), Distance = 20, MechanicHandoverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-5), Distance = 20, MechanicHandoverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-6), Distance = 20, MechanicHandoverId = 2 },
             };
         }
 

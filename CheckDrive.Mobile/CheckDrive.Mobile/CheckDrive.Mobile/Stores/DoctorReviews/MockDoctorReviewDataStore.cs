@@ -1,5 +1,4 @@
-﻿using CheckDrive.DTOs;
-using CheckDrive.DTOs.DoctorReview;
+﻿using CheckDrive.ApiContracts.DoctorReview;
 using System;
 using System.Collections.Generic;
 using System.Linq;

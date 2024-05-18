@@ -1,4 +1,4 @@
-﻿using CheckDrive.DTOs.Account;
+﻿using CheckDrive.ApiContracts.Account;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

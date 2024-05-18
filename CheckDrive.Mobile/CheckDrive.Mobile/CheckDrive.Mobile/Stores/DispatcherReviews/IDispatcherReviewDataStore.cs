@@ -1,4 +1,4 @@
-﻿using CheckDrive.DTOs.DispatcherReview;
+﻿using CheckDrive.ApiContracts.DispatcherReview;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

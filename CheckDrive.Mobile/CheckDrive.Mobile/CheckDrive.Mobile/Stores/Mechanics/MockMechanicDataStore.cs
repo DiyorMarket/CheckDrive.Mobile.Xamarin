@@ -1,4 +1,5 @@
-﻿using CheckDrive.DTOs.Mechanic;
+﻿using CheckDrive.ApiContracts.Mechanic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,8 +14,8 @@ namespace CheckDrive.Web.Stores.Mechanics
         {
             _mechanics = new List<MechanicDto>
             {
-                new MechanicDto { Id = 1, AccountId = 1 },
-                new MechanicDto { Id = 2, AccountId = 2 },
+                new MechanicDto { Id = 1, Login = "user1", Password = "password1", PhoneNumber = "123456789", FirstName = "John", LastName = "Doe", Birthdate = new DateTime(1990, 1, 1)  },
+                new MechanicDto { Id = 2, Login = "user2", Password = "password2", PhoneNumber = "987654321", FirstName = "Jane", LastName = "Siu", Birthdate = new DateTime(1995, 5, 15)},
             };
         }
 
@@ -36,17 +37,6 @@ namespace CheckDrive.Web.Stores.Mechanics
             mechanic.Id = _mechanics.Max(m => m.Id) + 1; 
             _mechanics.Add(mechanic);
             return mechanic;
-        }
-
-        public async Task<MechanicDto> UpdateMechanic(int id, MechanicDto mechanic)
-        {
-            await Task.Delay(100); 
-            var existingMechanic = _mechanics.FirstOrDefault(m => m.Id == id);
-            if (existingMechanic != null)
-            {
-                existingMechanic.AccountId = mechanic.AccountId;
-            }
-            return existingMechanic;
         }
 
         public async Task DeleteMechanic(int id)

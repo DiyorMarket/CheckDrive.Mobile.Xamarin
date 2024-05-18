@@ -1,4 +1,4 @@
-﻿using CheckDrive.DTOs.Operator;
+﻿using CheckDrive.ApiContracts.Operator;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +9,6 @@ namespace CheckDrive.Web.Stores.Operators
         Task<List<OperatorDto>> GetOperators();
         Task<OperatorDto> GetOperator(int id);
         Task<OperatorDto> CreateOperator(OperatorDto @operator);
-        Task<OperatorDto> UpdateOperator(int id, OperatorDto @operator);
         Task DeleteOperator(int id);
     }
 }

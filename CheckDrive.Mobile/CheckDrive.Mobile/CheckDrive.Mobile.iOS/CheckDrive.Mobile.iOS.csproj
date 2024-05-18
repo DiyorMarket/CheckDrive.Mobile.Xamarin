@@ -132,8 +132,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CheckDrive.DTOs">
-      <Version>1.0.0</Version>
+    <PackageReference Include="CheckDrive.ApiContracts">
+      <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="Plugin.MaterialDesignControls">
       <Version>3.1.7</Version>

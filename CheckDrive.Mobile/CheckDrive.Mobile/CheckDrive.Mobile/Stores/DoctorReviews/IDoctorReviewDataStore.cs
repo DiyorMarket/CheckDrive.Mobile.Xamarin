@@ -1,4 +1,4 @@
-﻿using CheckDrive.DTOs.DoctorReview;
+﻿using CheckDrive.ApiContracts.DoctorReview;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

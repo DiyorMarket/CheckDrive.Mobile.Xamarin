@@ -1,4 +1,4 @@
-﻿using CheckDrive.DTOs.Doctor;
+﻿using CheckDrive.ApiContracts.Doctor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace CheckDrive.Web.Stores.Doctors
@@ -8,7 +8,6 @@ namespace CheckDrive.Web.Stores.Doctors
         Task<List<DoctorDto>> GetDoctors();
         Task<DoctorDto> GetDoctor(int id);
         Task<DoctorDto> CreateDoctor(DoctorDto doctor);
-        Task<DoctorDto> UpdateDoctor(int id, DoctorDto doctor);
         Task DeleteDoctor(int id);
     }
 }

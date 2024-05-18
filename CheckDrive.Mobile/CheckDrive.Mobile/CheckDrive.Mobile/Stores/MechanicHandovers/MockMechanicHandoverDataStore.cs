@@ -1,5 +1,5 @@
-﻿using CheckDrive.DTOs;
-using CheckDrive.DTOs.MechanicHandover;
+﻿using CheckDrive.ApiContracts.MechanicHandover;
+using CheckDrive.ApiContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +15,12 @@ namespace CheckDrive.Web.Stores.MechanicHandovers
         {
             _mechanicHandovers = new List<MechanicHandoverDto>
             {
-                new MechanicHandoverDto { Id = 1, IsHanded = true, Comments = "Completed", Status = Status.Completed, Date = DateTime.Now, MechanicId = 1, CarId = 1, DriverId = 1 },
-                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-1), MechanicId = 2, CarId = 2, DriverId = 1 },
-                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-2), MechanicId = 2, CarId = 2, DriverId = 1 },
-                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-3), MechanicId = 2, CarId = 2, DriverId = 1 },
-                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-4), MechanicId = 2, CarId = 2, DriverId = 1 },
-                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = Status.Rejected, Date = DateTime.Now.AddDays(-5), MechanicId = 2, CarId = 2, DriverId = 1 },
+                new MechanicHandoverDto { Id = 1, IsHanded = true, Comments = "Completed", Status = StatusForDto.Completed, Date = DateTime.Now, MechanicId = 1, CarId = 1, DriverId = 1 },
+                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-1), MechanicId = 2, CarId = 2, DriverId = 1 },
+                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-2), MechanicId = 2, CarId = 2, DriverId = 1 },
+                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-3), MechanicId = 2, CarId = 2, DriverId = 1 },
+                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-4), MechanicId = 2, CarId = 2, DriverId = 1 },
+                new MechanicHandoverDto { Id = 2, IsHanded = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-5), MechanicId = 2, CarId = 2, DriverId = 1 },
             };
         }
 

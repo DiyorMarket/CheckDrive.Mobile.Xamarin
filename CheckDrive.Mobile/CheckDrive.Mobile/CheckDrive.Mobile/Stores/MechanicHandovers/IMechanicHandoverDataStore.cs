@@ -1,4 +1,4 @@
-﻿using CheckDrive.DTOs.MechanicHandover;
+﻿using CheckDrive.ApiContracts.MechanicHandover;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
