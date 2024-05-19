@@ -1,10 +1,53 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using CheckDrive.Mobile.Models;
 
 namespace CheckDrive.Mobile.ViewModels
 {
-    public class RoadMapViewModel : INotifyPropertyChanged
+    public class RoadMapViewModel : BaseViewModel
     {
+        private Status _doctorStatus;
+        public Status DoctorStatusCheck
+        {
+            get { return _doctorStatus; }
+            set
+            {
+                SetProperty(ref _doctorStatus, value);
+                OnPropertyChanged(nameof(_doctorStatus));
+            }
+        }
+
+        private Status _mechanicAcceptanceStatus;
+        public Status MechanicAcceptanceStatusCheck
+        {
+            get { return _mechanicAcceptanceStatus; }
+            set
+            {
+                SetProperty(ref _mechanicAcceptanceStatus, value);
+                OnPropertyChanged(nameof(_mechanicAcceptanceStatus));
+            }
+        }
+
+        private Status _operatorStatus;
+        public Status OperatorStatusCheck
+        {
+            get { return _operatorStatus; }
+            set
+            {
+                SetProperty(ref _operatorStatus, value);
+                OnPropertyChanged(nameof(_operatorStatus));
+            }
+        }
+
+        private Status _mechanicHandoverStatus;
+        public Status MechanicHandoverStatusCheck
+        {
+            get { return _mechanicHandoverStatus; }
+            set
+            {
+                SetProperty(ref _mechanicHandoverStatus, value);
+                OnPropertyChanged(nameof(_mechanicHandoverStatus));
+            }
+        }
+
         private double oilPrecentValue;
         public double OilPrecentValue
         {
@@ -35,15 +78,10 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public RoadMapViewModel()
         {
             GetOilResult();
+            GetStatusValue();
         }
 
         public void GetOilResult()
@@ -51,6 +89,14 @@ namespace CheckDrive.Mobile.ViewModels
             oilPrecentValue = 45;
             OilValueToString = $"{oilPrecentValue} L";
             oilPercent = (float)(OilPrecentValue / 450);
+        }
+
+        public void GetStatusValue()
+        {
+            _doctorStatus = Status.Completed;
+            _mechanicAcceptanceStatus = Status.Completed;
+            _operatorStatus = Status.Rejected;
+            _mechanicHandoverStatus = Status.Pending;
         }
     }
 }
