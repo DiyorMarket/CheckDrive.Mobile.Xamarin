@@ -3,9 +3,16 @@
     x:Class="CheckDrive.Mobile.Views.RoadMapPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:CheckDrive.Mobile.Converter"
     xmlns:progressBar="clr-namespace:Syncfusion.XForms.ProgressBar;assembly=Syncfusion.SfProgressBar.XForms"
     xmlns:progressBars="clr-namespace:Com.Igniscor.Controls.ProgressBar;assembly=Com.Igniscor.Controls"
     Title="{Binding Title}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:IconStatusConverter x:Key="iconStatusConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ContentPage.Content>
         <Grid>
@@ -80,7 +87,7 @@
                         Margin="0,0,100,0"
                         HeightRequest="35"
                         HorizontalOptions="End"
-                        Source="icon_check.png"
+                        Source="{Binding DoctorStatusCheck, Converter={StaticResource iconStatusConverter}}"
                         WidthRequest="35" />
                     <Label
                         Margin="0,5,20,0"
@@ -112,7 +119,7 @@
                         Margin="0,0,100,0"
                         HeightRequest="35"
                         HorizontalOptions="End"
-                        Source="icon_check.png"
+                        Source="{Binding MechanicAcceptanceStatusCheck, Converter={StaticResource iconStatusConverter}}"
                         WidthRequest="35" />
                     <Label
                         Margin="0,5,20,0"
@@ -144,7 +151,7 @@
                         Margin="0,0,100,0"
                         HeightRequest="35"
                         HorizontalOptions="End"
-                        Source="icon_faild.png"
+                        Source="{Binding OperatorStatusCheck, Converter={StaticResource iconStatusConverter}}"
                         WidthRequest="35" />
                     <Label
                         Margin="0,5,20,0"
@@ -176,7 +183,7 @@
                         Margin="0,0,100,0"
                         HeightRequest="35"
                         HorizontalOptions="End"
-                        Source="icon_circle.png"
+                        Source="{Binding MechanicHandoverStatusCheck, Converter={StaticResource iconStatusConverter}}"
                         WidthRequest="35" />
                     <Label
                         Margin="0,5,20,0"
