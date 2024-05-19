@@ -77,10 +77,22 @@ namespace CheckDrive.Mobile.ViewModels
                 }
             }
         }
+        private string message;
+
+        public string Message
+        {
+            get => message;
+            set
+            {
+                message = value;
+                OnPropertyChanged();
+            }
+        }
 
         public RoadMapViewModel()
         {
             GetOilResult();
+            GetMessage();
             GetStatusValue();
         }
 
@@ -91,6 +103,10 @@ namespace CheckDrive.Mobile.ViewModels
             oilPercent = (float)(OilPrecentValue / 450);
         }
 
+        public void GetMessage()
+        {
+            Message = "Siz davlat raqami 'P333MB' bo'lgan Malibu avtomobilini qabul qilasizmi";
+        }
         public void GetStatusValue()
         {
             _doctorStatus = Status.Completed;
