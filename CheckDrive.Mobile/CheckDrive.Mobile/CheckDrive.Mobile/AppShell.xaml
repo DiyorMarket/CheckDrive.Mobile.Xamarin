@@ -21,7 +21,7 @@
             </Style>
             <Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar" />
             <Style BasedOn="{StaticResource BaseStyle}" TargetType="FlyoutItem" />
-            
+
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="White" />
             </Style>
@@ -81,7 +81,7 @@
             Icon="icon_history.png" />
         <ShellContent
             Title="Profil"
-            ContentTemplate="{DataTemplate local:RoadMapPage}"
+            ContentTemplate="{DataTemplate local:PersonalAccountPage}"
             Icon="icon_user.png" />
         <ShellContent
             ContentTemplate="{DataTemplate local:RoadMapPage}"

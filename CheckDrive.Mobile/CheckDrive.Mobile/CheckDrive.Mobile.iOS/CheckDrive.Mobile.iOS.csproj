@@ -141,9 +141,6 @@
     <PackageReference Include="Plugin.MaterialDesignControls">
       <Version>3.1.7</Version>
     </PackageReference>
-    <PackageReference Include="Plugin.MaterialDesignControls">
-      <Version>3.1.7</Version>
-    </PackageReference>
     <PackageReference Include="Rg.Plugins.Popup">
       <Version>2.1.0</Version>
     </PackageReference>

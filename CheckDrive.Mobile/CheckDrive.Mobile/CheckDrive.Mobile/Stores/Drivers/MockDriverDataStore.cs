@@ -21,19 +21,16 @@ namespace CheckDrive.Web.Stores.Drivers
 
         public async Task<List<DriverDto>> GetDrivers()
         {
-            await Task.Delay(100); 
             return _drivers.ToList();
         }
 
         public async Task<DriverDto> GetDriver(int id)
-        {
-            await Task.Delay(100); 
+        { 
             return _drivers.FirstOrDefault(d => d.Id == id);
         }
 
         public async Task<DriverDto> CreateDriver(DriverDto driver)
         {
-            await Task.Delay(100); 
             driver.Id = _drivers.Max(d => d.Id) + 1; 
             _drivers.Add(driver);
             return driver;
@@ -41,7 +38,6 @@ namespace CheckDrive.Web.Stores.Drivers
 
         public async Task DeleteDriver(int id)
         {
-            await Task.Delay(100); 
             var driverToRemove = _drivers.FirstOrDefault(d => d.Id == id);
             if (driverToRemove != null)
             {
