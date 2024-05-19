@@ -34,6 +34,17 @@ namespace CheckDrive.Mobile.ViewModels
                 }
             }
         }
+        private string message;
+
+        public string Message
+        {
+            get => message;
+            set
+            {
+                message = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -44,6 +55,7 @@ namespace CheckDrive.Mobile.ViewModels
         public RoadMapViewModel()
         {
             GetOilResult();
+            GetMessage();
         }
 
         public void GetOilResult()
@@ -51,6 +63,11 @@ namespace CheckDrive.Mobile.ViewModels
             oilPrecentValue = 45;
             OilValueToString = $"{oilPrecentValue} L";
             oilPercent = (float)(OilPrecentValue / 450);
+        }
+
+        public void GetMessage()
+        {
+            Message = "Siz davlat raqami 'P333MB' bo'lgan Malibu avtomobilini qabul qilasizmi";
         }
     }
 }
