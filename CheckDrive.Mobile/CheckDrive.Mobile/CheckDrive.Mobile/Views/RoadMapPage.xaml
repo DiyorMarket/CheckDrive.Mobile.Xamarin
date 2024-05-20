@@ -22,13 +22,13 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Margin="20,25,20,0">
-                <Label HorizontalOptions="StartAndExpand" Text="1 May" />
+                <Label HorizontalOptions="StartAndExpand" Text="{Binding StartDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
                 <Label
                     FontSize="Body"
                     HorizontalOptions="CenterAndExpand"
-                    Text="14 May"
+                    Text="{Binding TodayDateForProgressBar, StringFormat='{0:MMMM dd}'}"
                     TextColor="Black" />
-                <Label HorizontalOptions="EndAndExpand" Text="30 May" />
+                <Label HorizontalOptions="EndAndExpand" Text="{Binding EndDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
 
                 <progressBars:DetailedProgressBar
                     BackgroundColor="LightGray"
@@ -93,7 +93,7 @@
                         Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
-                        Text="09:35"
+                        Text="{Binding DoctorCheckTimeToString}"
                         TextColor="Black" />
                 </Grid>
                 <!--#endregion-->
@@ -125,7 +125,7 @@
                         Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
-                        Text="09:41"
+                        Text="{Binding MechanicAcceptenceCheckTime}"
                         TextColor="Black" />
                 </Grid>
                 <!--#endregion-->
@@ -157,7 +157,7 @@
                         Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
-                        Text="09:48"
+                        Text="{Binding OperatorCheckTime}"
                         TextColor="Black" />
                 </Grid>
                 <!--#endregion-->
@@ -189,7 +189,7 @@
                         Margin="0,5,20,0"
                         FontSize="Medium"
                         HorizontalOptions="End"
-                        Text=""
+                        Text="{Binding MechanicHandoverCheckTime}"
                         TextColor="Black" />
                 </Grid>
                 <!--#endregion-->

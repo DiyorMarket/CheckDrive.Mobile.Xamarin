@@ -1,8 +1,8 @@
-﻿using System;
-using CheckDrive.ApiContracts.Account;
+﻿using CheckDrive.ApiContracts.Account;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.Accounts
 {
@@ -14,8 +14,8 @@ namespace CheckDrive.Web.Stores.Accounts
         {
             _accounts = new List<AccountDto>
             {
-                new AccountDto { Id = 1, Login = "user1", Password = "password1", PhoneNumber = "123456789", FirstName = "John", LastName = "Doe", Bithdate = new DateTime(1990, 1, 1), RoleId = 1 },
-                new AccountDto { Id = 2, Login = "user2", Password = "password2", PhoneNumber = "987654321", FirstName = "Jane", LastName = "Siu", Bithdate = new DateTime(1995, 5, 15), RoleId = 2 },
+                new AccountDto { Id = 1, Login = "user1", Password = "password1", PhoneNumber = "123456789", FirstName = "John", LastName = "Doe", Bithdate = new DateTime(1990, 1, 1), RoleName = "Driver" },
+                new AccountDto { Id = 2, Login = "user2", Password = "password2", PhoneNumber = "987654321", FirstName = "Jane", LastName = "Siu", Bithdate = new DateTime(1995, 5, 15), RoleName = "Operator" },
             };
         }
 
@@ -51,7 +51,7 @@ namespace CheckDrive.Web.Stores.Accounts
                 existingAccount.FirstName = account.FirstName;
                 existingAccount.LastName = account.LastName;
                 existingAccount.Bithdate = account.Bithdate;
-                existingAccount.RoleId = account.RoleId;
+                existingAccount.RoleName = account.RoleName;
             }
             return existingAccount;
         }
