@@ -18,10 +18,23 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="7*" />
             </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button
+                    x:Name="clickToShowPopup"
+                    BackgroundColor="#00a3ff"
+                    Clicked="ClickToShowPopup_Clicked"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Click To Show Popup"
+                    VerticalOptions="Start"
+                    Margin="10,10,10,0"
+                    CornerRadius="30"/>
+            </Grid>
 
-            <Grid Grid.Row="0" Margin="20,25,20,0">
+            <Grid Grid.Row="1" Margin="10,0,10,0">
+           <Grid Grid.Row="0" Margin="20,25,20,0">
                 <Label HorizontalOptions="StartAndExpand" Text="{Binding StartDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
                 <Label
                     FontSize="Body"
@@ -45,21 +58,21 @@
                     VerticalOptions="Center" />
 
                 <Label
-                    Margin="0,45,0,0"
+                    Margin="0,55,0,0"
                     HorizontalOptions="StartAndExpand"
                     Text="0" />
                 <Label
-                    Margin="0,45,0,0"
+                    Margin="0,55,0,0"
                     FontSize="Body"
                     HorizontalOptions="CenterAndExpand"
                     Text="{Binding OilValueToString}"
                     TextColor="Black" />
                 <Label
-                    Margin="0,45,0,0"
+                    Margin="0,55,0,0"
                     HorizontalOptions="EndAndExpand"
                     Text="450 L" />
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="*" />
