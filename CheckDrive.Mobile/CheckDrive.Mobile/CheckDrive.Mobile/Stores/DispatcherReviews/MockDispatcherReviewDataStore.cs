@@ -14,12 +14,11 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
         {
             _reviews = new List<DispatcherReviewDto>
             {
-                new DispatcherReviewDto { Id = 1, FuelSpended = 50, DistanceCovered = 100, Date = DateTime.Now, DriverId = 2},
-                new DispatcherReviewDto { Id = 2, FuelSpended = 60, DistanceCovered = 120, Date = DateTime.Now.AddDays(-1), DriverId = 2},
-                new DispatcherReviewDto { Id = 2, FuelSpended = 60, DistanceCovered = 120, Date = DateTime.Now.AddDays(-2) },
-                new DispatcherReviewDto { Id = 2, FuelSpended = 60, DistanceCovered = 120, Date = DateTime.Now.AddDays(-3) , DriverId = 2},
-                new DispatcherReviewDto { Id = 2, FuelSpended = 60, DistanceCovered = 120, Date = DateTime.Now.AddDays(-4) , DriverId = 2 },
-                new DispatcherReviewDto { Id = 2, FuelSpended = 60, DistanceCovered = 120, Date = DateTime.Now.AddDays(-5) },
+                new DispatcherReviewDto { Id = 1, FuelSpended = 50, DistanceCovered = 100, Date = DateTime.Now, DriverId = 1, DriverName = "John", DispatcherId = 1, DispatcherName = "Harry1", MechanicId = 1, MechanicName = "Bill1", OperatorId = 1, OperatorName = "Jack1"},
+                new DispatcherReviewDto { Id = 2, FuelSpended = 45, DistanceCovered = 120, Date = DateTime.Now, DriverId = 1, DriverName = "John", DispatcherId = 2, DispatcherName = "Harry2", MechanicId = 2, MechanicName = "Bill2", OperatorId = 2, OperatorName = "Jack2"},
+                new DispatcherReviewDto { Id = 3, FuelSpended = 40, DistanceCovered = 80, Date = DateTime.Now, DriverId = 1, DriverName = "John", DispatcherId = 2, DispatcherName = "Harry2", MechanicId = 1, MechanicName = "Bill1", OperatorId = 3, OperatorName = "Jack3"},
+                new DispatcherReviewDto { Id = 4, FuelSpended = 55, DistanceCovered = 90, Date = DateTime.Now, DriverId = 4, DriverName = "John4", DispatcherId = 3, DispatcherName = "Harry3", MechanicId = 3, MechanicName = "Bill3", OperatorId = 4, OperatorName = "Jack4"},
+                new DispatcherReviewDto { Id = 5, FuelSpended = 60, DistanceCovered = 50, Date = DateTime.Now, DriverId = 3, DriverName = "John3", DispatcherId = 3, DispatcherName = "Harry3", MechanicId = 1, MechanicName = "Bill1", OperatorId = 5, OperatorName = "Jack5"},
             };
         }
 

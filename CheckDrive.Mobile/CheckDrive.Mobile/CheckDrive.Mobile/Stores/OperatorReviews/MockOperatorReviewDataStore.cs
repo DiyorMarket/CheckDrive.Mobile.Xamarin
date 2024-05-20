@@ -15,7 +15,13 @@ namespace CheckDrive.Web.Stores.OperatorReviews
         {
             _operatorReviews = new List<OperatorReviewDto>
             {
-                new OperatorReviewDto { Id = 1, OilAmount = 5.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now, OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, OilAmount = 25.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-35), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, OilAmount = 15.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-6), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, OilAmount = 5.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-40), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, OilAmount = 30.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-8), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, OilAmount = 10.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-1), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, OilAmount = 15.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-2), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, OilAmount = 10.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-8), OperatorId = 1, DriverId = 1 },
                 new OperatorReviewDto { Id = 2, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-1), OperatorId = 2, DriverId = 1 },
                 new OperatorReviewDto { Id = 3, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-2), OperatorId = 2, DriverId = 1 },
                 new OperatorReviewDto { Id = 4, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-3), OperatorId = 2, DriverId = 1 },
@@ -27,27 +33,23 @@ namespace CheckDrive.Web.Stores.OperatorReviews
 
         public async Task<List<OperatorReviewDto>> GetOperatorReviews()
         {
-            await Task.Delay(100);
             return _operatorReviews.ToList();
         }
 
         public async Task<OperatorReviewDto> GetOperatorReview(int id)
         {
-            await Task.Delay(100); 
             return _operatorReviews.FirstOrDefault(or => or.Id == id);
         }
 
         public async Task<OperatorReviewDto> CreateOperatorReview(OperatorReviewDto operatorReview)
         {
-            await Task.Delay(100);
             operatorReview.Id = _operatorReviews.Max(or => or.Id) + 1;
             _operatorReviews.Add(operatorReview);
             return operatorReview;
         }
 
         public async Task<OperatorReviewDto> UpdateOperatorReview(int id, OperatorReviewDto operatorReview)
-        {
-            await Task.Delay(100); 
+        { 
             var existingOperatorReview = _operatorReviews.FirstOrDefault(or => or.Id == id);
             if (existingOperatorReview != null)
             {
@@ -63,7 +65,6 @@ namespace CheckDrive.Web.Stores.OperatorReviews
 
         public async Task DeleteOperatorReview(int id)
         {
-            await Task.Delay(100); 
             var operatorReviewToRemove = _operatorReviews.FirstOrDefault(or => or.Id == id);
             if (operatorReviewToRemove != null)
             {
