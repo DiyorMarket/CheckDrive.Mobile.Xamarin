@@ -15,19 +15,19 @@ namespace CheckDrive.Web.Stores.OperatorReviews
         {
             _operatorReviews = new List<OperatorReviewDto>
             {
-                new OperatorReviewDto { Id = 1, OilAmount = 25.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-35), OperatorId = 1, DriverId = 1 },
-                new OperatorReviewDto { Id = 1, OilAmount = 15.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-6), OperatorId = 1, DriverId = 1 },
-                new OperatorReviewDto { Id = 1, OilAmount = 5.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-40), OperatorId = 1, DriverId = 1 },
-                new OperatorReviewDto { Id = 1, OilAmount = 30.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-8), OperatorId = 1, DriverId = 1 },
-                new OperatorReviewDto { Id = 1, OilAmount = 10.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-1), OperatorId = 1, DriverId = 1 },
-                new OperatorReviewDto { Id = 1, OilAmount = 15.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-2), OperatorId = 1, DriverId = 1 },
-                new OperatorReviewDto { Id = 1, OilAmount = 10.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-8), OperatorId = 1, DriverId = 1 },
-                new OperatorReviewDto { Id = 2, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-1), OperatorId = 2, DriverId = 1 },
-                new OperatorReviewDto { Id = 3, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-2), OperatorId = 2, DriverId = 1 },
-                new OperatorReviewDto { Id = 4, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-3), OperatorId = 2, DriverId = 1 },
-                new OperatorReviewDto { Id = 5, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-4), OperatorId = 2, DriverId = 1 },
-                new OperatorReviewDto { Id = 6, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-5), OperatorId = 2, DriverId = 1 },
-                new OperatorReviewDto { Id = 7, OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-6), OperatorId = 2, DriverId = 1 },
+                new OperatorReviewDto { Id = 1, IsGiven = true, OilAmount = 25.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-35), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 2, IsGiven = false,  OilAmount = 15.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-6), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 3, IsGiven = true,  OilAmount = 5.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-40), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 4, IsGiven = false,  OilAmount = 30.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-8), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 5, IsGiven = true,  OilAmount = 10.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-1), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 6, IsGiven = false,  OilAmount = 15.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-2), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 7, IsGiven = true,  OilAmount = 10.0, Comments = "Good service", Status = StatusForDto.Completed, Date = DateTime.Now.AddDays(-8), OperatorId = 1, DriverId = 1 },
+                new OperatorReviewDto { Id = 8, IsGiven = false,  OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-1), OperatorId = 2, DriverId = 1 },
+                new OperatorReviewDto { Id = 9, IsGiven = true,  OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-2), OperatorId = 2, DriverId = 1 },
+                new OperatorReviewDto { Id = 10, IsGiven = true,  OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-3), OperatorId = 2, DriverId = 1 },
+                new OperatorReviewDto { Id = 11, IsGiven = true,  OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-4), OperatorId = 2, DriverId = 1 },
+                new OperatorReviewDto { Id = 12, IsGiven = false,  OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-5), OperatorId = 2, DriverId = 1 },
+                new OperatorReviewDto { Id = 13, IsGiven = true,  OilAmount = 6.0, Comments = "Needs improvement", Status = StatusForDto.Pending, Date = DateTime.Now.AddDays(-6), OperatorId = 2, DriverId = 1 },
             };
         }
 

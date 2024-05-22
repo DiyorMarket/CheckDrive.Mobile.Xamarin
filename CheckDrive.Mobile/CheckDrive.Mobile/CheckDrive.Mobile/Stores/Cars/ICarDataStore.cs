@@ -1,4 +1,5 @@
 ﻿using CheckDrive.ApiContracts.Car;
+using CheckDrive.Mobile.Responses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,10 +7,10 @@ namespace CheckDrive.Web.Stores.Cars
 {
     public interface ICarDataStore
     {
-        Task<List<CarDto>> GetCars();
-        Task<CarDto> GetCar(int id);
-        Task<CarDto> CreateCar(CarDto Car);
-        Task<CarDto> UpdateCar(int id, CarDto Car);
-        Task DeleteCar(int id);
+        Task<List<CarDto>> GetCarsAsync();
+        Task<CarDto> GetCarAsync(int id);
+        Task<CarDto> CreateCarAsync(CarForCreateDto Car);
+        Task<CarDto> UpdateCarAsync(int id, CarForUpdateDto Car);
+        Task DeleteCarAsync(int id);
     }
 }

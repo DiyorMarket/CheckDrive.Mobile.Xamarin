@@ -18,27 +18,35 @@ namespace CheckDrive.Web.Stores.Cars
             };
         }
 
-        public async Task<List<CarDto>> GetCars()
+        public async Task<List<CarDto>> GetCarsAsync()
         {
             await Task.Delay(100); 
             return _Cars.ToList();
         }
 
-        public async Task<CarDto> GetCar(int id)
+        public async Task<CarDto> GetCarAsync(int id)
         {
             await Task.Delay(100);
             return _Cars.FirstOrDefault(c => c.Id == id);
         }
 
-        public async Task<CarDto> CreateCar(CarDto Car)
+        public async Task<CarDto> CreateCarAsync(CarForCreateDto Car)
         {
             await Task.Delay(100); 
-            Car.Id = _Cars.Max(c => c.Id) + 1;
-            _Cars.Add(Car);
-            return Car;
+            
+            return new CarDto()
+            {
+                Id = _Cars.Count + 1,
+                Model = Car.Model,
+                Color = Car.Color,
+                ManufacturedYear = Car.ManufacturedYear,
+                FuelTankCapacity = Car.FuelTankCapacity,
+                MeduimFuelConsumption = Car.MeduimFuelConsumption,
+                Number = Car.Number,
+            };
         }
 
-        public async Task<CarDto> UpdateCar(int id, CarDto Car)
+        public async Task<CarDto> UpdateCarAsync(int id, CarForUpdateDto Car)
         {
             await Task.Delay(100);
             var existingCar = _Cars.FirstOrDefault(c => c.Id == id);
@@ -54,7 +62,7 @@ namespace CheckDrive.Web.Stores.Cars
             return existingCar;
         }
 
-        public async Task DeleteCar(int id)
+        public async Task DeleteCarAsync(int id)
         {
             await Task.Delay(100);
             var CarToRemove = _Cars.FirstOrDefault(c => c.Id == id);

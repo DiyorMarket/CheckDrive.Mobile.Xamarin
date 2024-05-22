@@ -6,10 +6,10 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
 {
     public interface IDispatcherReviewDataStore
     {
-        Task<List<DispatcherReviewDto>> GetDispatcherReviews();
-        Task<DispatcherReviewDto> GetDispatcherReview(int id);
-        Task<DispatcherReviewDto> CreateDispatcherReview(DispatcherReviewDto review);
-        Task<DispatcherReviewDto> UpdateDispatcherReview(int id, DispatcherReviewDto review);
-        Task DeleteDispatcherReview(int id);
+        Task<List<DispatcherReviewDto>> GetDispatcherReviewsAsync();
+        Task<DispatcherReviewDto> GetDispatcherReviewAsync(int id);
+        Task<DispatcherReviewDto> CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview);
+        Task<DispatcherReviewDto> UpdateDispatcherReviewAsync(int id, DispatcherReviewForUpdateDto dispatcherReview);
+        Task DeleteDispatcherReviewAsync(int id);
     }
 }

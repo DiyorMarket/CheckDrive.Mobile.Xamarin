@@ -15,6 +15,7 @@ namespace CheckDrive.Web.Stores.DoctorReviews
             _reviews = new List<DoctorReviewDto>
             {
                 new DoctorReviewDto { Id = 1, IsHealthy = true, Comments = "Good condition", Date = DateTime.Now, DriverId = 1, DriverName = "Jose" },
+                new DoctorReviewDto { Id = 9, IsHealthy = true, Comments = "Good condition", Date = DateTime.Now, DriverId = 1, DriverName = "Ravshan" },
                 new DoctorReviewDto { Id = 2, IsHealthy = false, Comments = "Needs rest", Date = DateTime.Now.AddDays(-1), DriverId = 2, DriverName = "Willian" },
                 new DoctorReviewDto { Id = 3, IsHealthy = true, Comments = "Good condition", Date = DateTime.Now.AddDays(-2), DriverId = 1, DriverName = "Jose" },
                 new DoctorReviewDto { Id = 4, IsHealthy = false, Comments = "Needs rest", Date = DateTime.Now.AddDays(-2), DriverId = 2, DriverName = "Willian" },
@@ -27,40 +28,44 @@ namespace CheckDrive.Web.Stores.DoctorReviews
 
         public async Task<List<DoctorReviewDto>> GetDoctorReviews()
         {
-            await Task.Delay(100);
             return _reviews.ToList();
         }
 
         public async Task<DoctorReviewDto> GetDoctorReview(int id)
         {
-            await Task.Delay(100); 
             return _reviews.FirstOrDefault(r => r.Id == id);
         }
 
-        public async Task<DoctorReviewDto> CreateDoctorReview(DoctorReviewDto review)
+        public async Task<DoctorReviewDto> CreateDoctorReview(DoctorReviewForCreateDto review)
         {
-            await Task.Delay(100); 
-            review.Id = _reviews.Max(r => r.Id) + 1;
-            _reviews.Add(review);
-            return review;
+            var newDoctorReview = new DoctorReviewDto
+            {
+                Id = _reviews.Count + 1,
+                IsHealthy = review.IsHealthy,
+                Comments = review.Comments,
+                Date = review.Date,
+                DriverId = review.DriverId
+            };
+            
+            _reviews.Add(newDoctorReview);
+            return newDoctorReview;
         }
 
-        public async Task<DoctorReviewDto> UpdateDoctorReview(int id, DoctorReviewDto review)
+        public async Task<DoctorReviewDto> UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
         {
-            await Task.Delay(100);
             var existingReview = _reviews.FirstOrDefault(r => r.Id == id);
             if (existingReview != null)
             {
                 existingReview.IsHealthy = review.IsHealthy;
                 existingReview.Comments = review.Comments;
                 existingReview.Date = review.Date;
+                existingReview.DriverId = review.DriverId;
             }
             return existingReview;
         }
 
         public async Task DeleteDoctorReview(int id)
         {
-            await Task.Delay(100); 
             var reviewToRemove = _reviews.FirstOrDefault(r => r.Id == id);
             if (reviewToRemove != null)
             {

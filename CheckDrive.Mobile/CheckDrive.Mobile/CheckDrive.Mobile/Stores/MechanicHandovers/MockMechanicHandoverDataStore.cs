@@ -26,13 +26,11 @@ namespace CheckDrive.Web.Stores.MechanicHandovers
 
         public async Task<List<MechanicHandoverDto>> GetMechanicHandovers()
         {
-            await Task.Delay(100);
             return _mechanicHandovers.ToList();
         }
 
         public async Task<MechanicHandoverDto> GetMechanicHandover(int id)
-        {
-            await Task.Delay(100); 
+        { 
             return _mechanicHandovers.FirstOrDefault(mh => mh.Id == id);
         }
 
