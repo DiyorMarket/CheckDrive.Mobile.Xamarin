@@ -51,7 +51,7 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
         public  DoctorReviewDto CreateDoctorReview(DoctorReviewForCreateDto review)
         {
             var json = JsonConvert.SerializeObject(review);
-            var response =  _api.PostAsync("doctors/reviews", json).Result;
+            var response =  _api.Post("doctors/reviews", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -66,7 +66,7 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
         public DoctorReviewDto UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
         {
             var json = JsonConvert.SerializeObject(review);
-            var response = _api.PutAsync($"doctors/reviews/{review.Id}", json).Result;
+            var response = _api.Put($"doctors/reviews/{review.Id}", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -80,13 +80,12 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
 
         public  void DeleteDoctorReview(int id)
         {
-            var response = _api.DeleteAsync($"doctors/reviews/{id}").Result;
+            var response = _api.Delete($"doctors/reviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Could not delete doctorreviews with id: {id}.");
             }
         }
-
     }
 }

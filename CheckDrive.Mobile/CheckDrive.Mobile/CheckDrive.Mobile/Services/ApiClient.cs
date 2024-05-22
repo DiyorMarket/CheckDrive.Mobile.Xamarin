@@ -85,7 +85,7 @@ namespace CheckDrive.Mobile.Services
             return response;
         }
 
-        public  HttpResponseMessage DeleteAsync(string url)
+        public  HttpResponseMessage Delete(string url)
         {
             string token = string.Empty;
             var request = new HttpRequestMessage(HttpMethod.Delete, _client.BaseAddress?.AbsolutePath + "/" + url);
