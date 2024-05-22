@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.MechanicAcceptances
 {
-    public class MockMechanicAcceptanceDataStore : IMechanicAcceptanceDataStore
+    public class MockMechanicAcceptanceDataStore
     {
         private readonly List<MechanicAcceptanceDto> _mechanicAcceptances;
 

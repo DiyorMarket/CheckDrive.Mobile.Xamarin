@@ -5,11 +5,10 @@ using CheckDrive.Web.Stores.DispatcherReviews;
 using Newtonsoft.Json;
 using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.DispatcherReviews
 {
-    public class DispatcheReviewDataStore
+    public class DispatcheReviewDataStore : IDispatcherReviewDataStore
     {
         private readonly ApiClient _api;
 
@@ -18,7 +17,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
             _api = apiClient;
         }
 
-        public async Task<GetDispatcherReviewResponse> GetDispatcherReviewsAsync()
+        public GetDispatcherReviewResponse GetDispatcherReviews()
         {
             StringBuilder query = new StringBuilder("");
 
@@ -28,13 +27,13 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
                 throw new Exception("Could not fetch dispatcherreviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
             var result = JsonConvert.DeserializeObject<GetDispatcherReviewResponse>(json);
 
             return result;
         }
 
-        public DispatcherReviewDto GetDispatcherReviewAsync(int id)
+        public DispatcherReviewDto GetDispatcherReview(int id)
         {
             var response =  _api.Get($"dispatcherreviews/{id}");
 
@@ -49,10 +48,10 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
             return result;
         }
 
-        public async Task<DispatcherReviewForCreateDto> CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview)
+        public DispatcherReviewDto CreateDispatcherReview(DispatcherReviewForCreateDto dispatcherReview)
         {
             var json = JsonConvert.SerializeObject(dispatcherReview);
-            var response = await _api.PostAsync("dispatcherreviews", json);
+            var response = _api.Post("dispatcherreviews", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -61,27 +60,27 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
 
             var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            return JsonConvert.DeserializeObject<DispatcherReviewForCreateDto>(jsonResponse);
+            return JsonConvert.DeserializeObject<DispatcherReviewDto>(jsonResponse);
         }
 
-        public async Task<DispatcherReviewForUpdateDto> UpdateDispatcherReviewAsync(int id, DispatcherReviewForUpdateDto dispatcherReview)
+        public DispatcherReviewDto UpdateDispatcherReview(int id, DispatcherReviewForUpdateDto dispatcherReview)
         {
             var json = JsonConvert.SerializeObject(dispatcherReview);
-            var response = await _api.PutAsync($"dispatcherreviews/{dispatcherReview.Id}", json);
+            var response = _api.Put($"dispatcherreviews/{dispatcherReview.Id}", json);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error updating dispatcherReview.");
             }
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            return JsonConvert.DeserializeObject<DispatcherReviewForUpdateDto>(jsonResponse);
+            return JsonConvert.DeserializeObject<DispatcherReviewDto>(jsonResponse);
         }
 
-        public async Task DeleteDispatcherReviewAsync(int id)
+        public void DeleteDispatcherReview(int id)
         {
-            var response = await _api.DeleteAsync($"dispatcherreviews/{id}");
+            var response = _api.DeleteAsync($"dispatcherreviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
