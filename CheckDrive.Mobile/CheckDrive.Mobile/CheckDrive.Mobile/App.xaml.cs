@@ -1,6 +1,3 @@
-
-﻿using CheckDrive.Mobile.Services;
-using CheckDrive.Mobile.Views;
 using Xamarin.Forms;
 
 namespace CheckDrive.Mobile
@@ -11,7 +8,6 @@ namespace CheckDrive.Mobile
         public App()
         {
             InitializeComponent();
-            DependencyService.Register<MockDataStore>();
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzI3MDgyNEAzMjM1MmUzMDJlMzBIU2RvbkFWNUp2R0FwNDBnYi9yUFFROExGcGVmc0c3NU56bDBhaU85SGZnPQ==");
 
