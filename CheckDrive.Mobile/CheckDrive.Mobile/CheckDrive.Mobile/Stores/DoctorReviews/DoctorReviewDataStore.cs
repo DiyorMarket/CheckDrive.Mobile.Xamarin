@@ -5,11 +5,10 @@ using CheckDrive.Web.Stores.DoctorReviews;
 using Newtonsoft.Json;
 using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.DoctorReviews
 {
-    public class DoctorReviewDataStore 
+    public class DoctorReviewDataStore : IDoctorReviewDataStore
     {
         private readonly ApiClient _api;
 
@@ -18,25 +17,25 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
             _api = apiClient;
         }
 
-        public async Task<GetDoctorReviewResponse> GetDoctorReviews()
+        public GetDoctorReviewResponse GetDoctorReviews()
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = await _api.GetAsync("doctors/reviews?" + query.ToString());
+            var response = _api.Get("doctors/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch doctorreviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetDoctorReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<DoctorReviewDto> GetDoctorReview(int id)
+        public  DoctorReviewDto GetDoctorReview(int id)
         {
-            var response = await _api.GetAsync($"doctors/reviews/{id}");
+            var response =  _api.Get($"doctors/reviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -49,10 +48,10 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
             return result;
         }
 
-        public async Task<DoctorReviewForCreateDto> CreateDoctorReview(DoctorReviewForCreateDto review)
+        public  DoctorReviewDto CreateDoctorReview(DoctorReviewForCreateDto review)
         {
             var json = JsonConvert.SerializeObject(review);
-            var response = await _api.PostAsync("doctors/reviews", json);
+            var response =  _api.PostAsync("doctors/reviews", json).Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -61,27 +60,27 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
 
             var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            return JsonConvert.DeserializeObject<DoctorReviewForCreateDto>(jsonResponse);
+            return JsonConvert.DeserializeObject<DoctorReviewDto>(jsonResponse);
         }
 
-        public async Task<DoctorReviewForUpdateDto> UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
+        public DoctorReviewDto UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
         {
             var json = JsonConvert.SerializeObject(review);
-            var response = await _api.PutAsync($"doctors/reviews/{review.Id}", json);
+            var response = _api.PutAsync($"doctors/reviews/{review.Id}", json).Result;
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error updating doctorreview.");
             }
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            return JsonConvert.DeserializeObject<DoctorReviewForUpdateDto>(jsonResponse);
+            return JsonConvert.DeserializeObject<DoctorReviewDto>(jsonResponse);
         }
 
-        public async Task DeleteDoctorReview(int id)
+        public  void DeleteDoctorReview(int id)
         {
-            var response = await _api.DeleteAsync($"doctors/reviews/{id}");
+            var response = _api.DeleteAsync($"doctors/reviews/{id}").Result;
 
             if (!response.IsSuccessStatusCode)
             {

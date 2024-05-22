@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Services
 {
@@ -18,7 +17,7 @@ namespace CheckDrive.Mobile.Services
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
-        public async Task<HttpResponseMessage> GetAsync(string resource, bool isFullUrl = false)
+        public HttpResponseMessage Get(string resource, bool isFullUrl = false)
         {
             string url = isFullUrl ?
                 resource :
@@ -26,7 +25,7 @@ namespace CheckDrive.Mobile.Services
 
             try
             {
-                HttpResponseMessage response = await _client.GetAsync(url);
+                HttpResponseMessage response =  _client.GetAsync(url).Result;
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -47,13 +46,13 @@ namespace CheckDrive.Mobile.Services
             }
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string resource, string body)
+        public HttpResponseMessage Post(string resource, string body)
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, BaseUrl + "/" + resource);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = await _client.SendAsync(request);
+                var response =  _client.SendAsync(request).Result;
 
                 return response;
             }
@@ -68,7 +67,7 @@ namespace CheckDrive.Mobile.Services
 
         }
 
-        public async Task<HttpResponseMessage> PutAsync(string url, string data)
+        public HttpResponseMessage Put(string url, string data)
         {
             var token = string.Empty;
             var request = new HttpRequestMessage(HttpMethod.Put, _client.BaseAddress?.AbsolutePath + "/" + url)
@@ -76,7 +75,7 @@ namespace CheckDrive.Mobile.Services
                 Content = new StringContent(data, Encoding.UTF8, "application/json")
             };
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await _client.SendAsync(request);
+            var response = _client.SendAsync(request).Result;
 
             if (!response.IsSuccessStatusCode)
             {
@@ -86,11 +85,11 @@ namespace CheckDrive.Mobile.Services
             return response;
         }
 
-        public async Task<HttpResponseMessage> DeleteAsync(string url)
+        public  HttpResponseMessage DeleteAsync(string url)
         {
             string token = string.Empty;
             var request = new HttpRequestMessage(HttpMethod.Delete, _client.BaseAddress?.AbsolutePath + "/" + url);
-            var response = await _client.SendAsync(request);
+            var response = _client.SendAsync(request).Result;
 
             if (!response.IsSuccessStatusCode)
             {

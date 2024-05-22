@@ -5,11 +5,10 @@ using CheckDrive.Web.Stores.Cars;
 using Newtonsoft.Json;
 using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.Cars
 {
-    public class CarDataStore
+    public class CarDataStore : ICarDataStore
     {
         private readonly ApiClient _api;
 
@@ -18,25 +17,25 @@ namespace CheckDrive.Mobile.Stores.Cars
             _api = apiClient;
         }
 
-        public async Task<GetCarResponse> GetCarsAsync()
+        public GetCarResponse GetCars()
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = await _api.GetAsync("cars?" + query.ToString());
+            var response = _api.Get("cars?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch cars.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetCarResponse>(json);
 
             return result;
         }
 
-        public async Task<CarDto> GetCarAsync(int id)
+        public CarDto GetCar(int id)
         {
-            var response = await _api.GetAsync($"cars/{id}");
+            var response = _api.Get($"cars/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -49,10 +48,10 @@ namespace CheckDrive.Mobile.Stores.Cars
             return result;
         }
 
-        public async Task<CarForCreateDto> CreateCarAsync(CarForCreateDto Car)
+        public CarDto CreateCar(CarForCreateDto Car)
         {
             var json = JsonConvert.SerializeObject(Car);
-            var response = await _api.PostAsync("cars", json);
+            var response = _api.Post("cars", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -61,27 +60,27 @@ namespace CheckDrive.Mobile.Stores.Cars
 
             var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-            return JsonConvert.DeserializeObject<CarForCreateDto>(jsonResponse);
+            return JsonConvert.DeserializeObject<CarDto>(jsonResponse);
         }
 
-        public async Task<CarForUpdateDto> UpdateCarAsync(int id, CarForUpdateDto car)
+        public CarDto UpdateCar(int id, CarForUpdateDto car)
         {
             var json = JsonConvert.SerializeObject(car);
-            var response = await _api.PutAsync($"cars/{car.Id}", json);
+            var response = _api.Put($"cars/{car.Id}", json);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error updating car.");
             }
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var jsonResponse = response.Content.ReadAsStringAsync().Result;
 
-            return JsonConvert.DeserializeObject<CarForUpdateDto>(jsonResponse);
+            return JsonConvert.DeserializeObject<CarDto>(jsonResponse);
         }
 
-        public async Task DeleteCarAsync(int id)
+        public void DeleteCar(int id)
         {
-            var response = await _api.DeleteAsync($"cars/{id}");
+            var response = _api.DeleteAsync($"cars/{id}");
 
             if (!response.IsSuccessStatusCode)
             {

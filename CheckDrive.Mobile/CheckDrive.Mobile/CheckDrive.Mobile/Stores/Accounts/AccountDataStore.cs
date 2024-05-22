@@ -5,7 +5,6 @@ using CheckDrive.Web.Stores.Accounts;
 using Newtonsoft.Json;
 using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.Accounts
 {
@@ -18,30 +17,30 @@ namespace CheckDrive.Mobile.Stores.Accounts
             _api = apiClient;
         }
 
-        public async Task<GetAccountResponse> GetAccounts(int roleId)
+        public GetAccountResponse GetAccounts(int roleId)
         {
             StringBuilder query = new StringBuilder("");
 
-            if (roleId != null)
+            if (!roleId.Equals(0))
             {
                 query.Append($"roleId={roleId}&");
             }
 
-            var response = _api.GetAsync("accounts?" + query.ToString());
-            if(!response.Result.IsSuccessStatusCode)
+            var response = _api.Get("accounts?" + query.ToString());
+            if(!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch accounts.");
             }
 
-            var json = await response.Result.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetAccountResponse>(json);
 
             return result;
         }
 
-        public async Task<AccountDto> GetAccount(int id)
+        public AccountDto GetAccount(int id)
         {
-            var response = _api.GetAsync($"accounts/{id}").Result;
+            var response = _api.Get($"accounts/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -54,10 +53,10 @@ namespace CheckDrive.Mobile.Stores.Accounts
             return result;
         }
 
-        public async Task<AccountDto> CreateAccount(AccountDto account)
+        public AccountDto CreateAccount(AccountDto account)
         {
             var json = JsonConvert.SerializeObject(account);
-            var response = _api.PostAsync("accounts", json).Result;
+            var response = _api.Post("accounts", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -69,10 +68,10 @@ namespace CheckDrive.Mobile.Stores.Accounts
             return JsonConvert.DeserializeObject<AccountDto>(jsonResponse);
         }
 
-        public async Task<AccountDto> UpdateAccount(int id, AccountDto account)
+        public AccountDto UpdateAccount(int id, AccountDto account)
         {
             var json = JsonConvert.SerializeObject(account);
-            var response = _api.PutAsync($"accounts/{account.Id}", json).Result;
+            var response = _api.Put($"accounts/{account.Id}", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -84,9 +83,9 @@ namespace CheckDrive.Mobile.Stores.Accounts
             return JsonConvert.DeserializeObject<AccountDto>(jsonResponse);
         }
 
-        public async Task DeleteAccount(int id)
+        public void DeleteAccount(int id)
         {
-            var response = _api.DeleteAsync($"accounts/{id}").Result;
+            var response = _api.DeleteAsync($"accounts/{id}");
 
             if (!response.IsSuccessStatusCode)
             {

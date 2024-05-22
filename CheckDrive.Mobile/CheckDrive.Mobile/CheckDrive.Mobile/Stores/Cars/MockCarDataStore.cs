@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.Cars
 {
-    public class MockCarDataStore : ICarDataStore
+    public class MockCarDataStore
     {
         private readonly List<CarDto> _Cars;
 

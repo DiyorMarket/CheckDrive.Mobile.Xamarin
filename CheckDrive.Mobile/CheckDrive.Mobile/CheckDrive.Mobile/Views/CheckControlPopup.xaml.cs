@@ -16,9 +16,9 @@ namespace CheckDrive.Mobile.Views
         {
 			InitializeComponent ();
 
-            //var client = new ApiClient();
-            //var doctorReviewDS = new DoctorReviewDataStore(client);
-            var doctorReviewDS = new MockDoctorReviewDataStore();
+            var client = new ApiClient();
+            var doctorReviewDS = new DoctorReviewDataStore(client);
+
             var viewModel = new RoadMapViewModel(doctorReviewDS);
             BindingContext = viewModel;
         }

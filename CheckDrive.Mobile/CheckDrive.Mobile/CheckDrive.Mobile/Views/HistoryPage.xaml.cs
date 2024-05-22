@@ -17,12 +17,11 @@ namespace CheckDrive.Mobile.Views
         {
             InitializeComponent();
 
-            //var client = new ApiClient();
+            var client = new ApiClient();
             //var dispatcherreviewDS = new DispatcheReviewDataStore(client);
-            //var doctorReviewDS = new DoctorReviewDataStore(client);
+            var doctorReviewDS = new DoctorReviewDataStore(client);
 
             var dispatcherreviewDS = new MockDispatcherReviewDataStore();
-            var doctorReviewDS = new MockDoctorReviewDataStore();
 
             BindingContext = new HistoryViewModel(dispatcherreviewDS, doctorReviewDS);
         }

@@ -150,7 +150,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void CheckDoctorStatusValue()
         {
-            var doctorReviews = _doctorReviewDatastore.GetDoctorReviews().Result;
+            var doctorReviews = _doctorReviewDatastore.GetDoctorReviews().Data;
 
             var doctorReview = doctorReviews.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
 

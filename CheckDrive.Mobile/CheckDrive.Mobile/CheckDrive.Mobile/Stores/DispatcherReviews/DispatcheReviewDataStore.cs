@@ -22,7 +22,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = await _api.GetAsync("dispatcherreviews?" + query.ToString());
+            var response = _api.Get("dispatcherreviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch dispatcherreviews.");
@@ -34,9 +34,9 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
             return result;
         }
 
-        public async Task<DispatcherReviewDto> GetDispatcherReviewAsync(int id)
+        public DispatcherReviewDto GetDispatcherReviewAsync(int id)
         {
-            var response = await _api.GetAsync($"dispatcherreviews/{id}");
+            var response =  _api.Get($"dispatcherreviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {

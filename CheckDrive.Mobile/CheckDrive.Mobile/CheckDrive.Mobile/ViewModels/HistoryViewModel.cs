@@ -23,12 +23,12 @@ namespace CheckDrive.Mobile.ViewModels
             GetDispatcherReviews();
         }
 
-        public async Task GetDispatcherReviews()
+        public void GetDispatcherReviews()
         {
             DispatcherReviews.Clear();
 
-            var dipatcherItems = await _dispatcherDataStore.GetDispatcherReviewsAsync();
-            var doctorItems = await _doctorReviewDataStore.GetDoctorReviews();
+            var dipatcherItems =  _dispatcherDataStore.GetDispatcherReviewsAsync().Result;
+            var doctorItems =  _doctorReviewDataStore.GetDoctorReviews().Data;
 
 
             foreach (var item in dipatcherItems)

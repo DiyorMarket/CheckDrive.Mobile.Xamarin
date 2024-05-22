@@ -17,9 +17,8 @@ namespace CheckDrive.Mobile.Views
         {
             InitializeComponent();
 
-            //var client = new ApiClient();
-            //var doctorReviewDS = new DoctorReviewDataStore(client);
-            var doctorReviewDS = new MockDoctorReviewDataStore();
+            var client = new ApiClient();
+            var doctorReviewDS = new DoctorReviewDataStore(client);
             BindingContext = roadMapViewModel = new RoadMapViewModel(doctorReviewDS);
         }
         private async void ClickToShowPopup_Clicked(object sender, EventArgs e)
