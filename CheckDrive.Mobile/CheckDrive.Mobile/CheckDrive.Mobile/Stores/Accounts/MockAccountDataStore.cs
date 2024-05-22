@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.Accounts
 {
-    public class MockAccountDataStore : IAccountDataStore
+    public class MockAccountDataStore 
     {
         private readonly List<AccountDto> _accounts;
 

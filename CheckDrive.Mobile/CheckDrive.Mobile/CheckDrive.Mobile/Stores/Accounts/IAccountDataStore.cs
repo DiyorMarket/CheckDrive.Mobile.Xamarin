@@ -1,15 +1,14 @@
 ﻿using CheckDrive.ApiContracts.Account;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using CheckDrive.Mobile.Responses;
 
 namespace CheckDrive.Web.Stores.Accounts
 {
     public interface IAccountDataStore
     {
-        Task<List<AccountDto>> GetAccounts();
-        Task<AccountDto> GetAccount(int id);
-        Task<AccountDto> CreateAccount(AccountDto account);
-        Task<AccountDto> UpdateAccount(int id, AccountDto account);
-        Task DeleteAccount(int id);
+        GetAccountResponse GetAccounts(int roleId);
+        AccountDto GetAccount(int id);
+        AccountDto CreateAccount(AccountDto account);
+        AccountDto UpdateAccount(int id, AccountDto account);
+        void DeleteAccount(int id);
     }
 }

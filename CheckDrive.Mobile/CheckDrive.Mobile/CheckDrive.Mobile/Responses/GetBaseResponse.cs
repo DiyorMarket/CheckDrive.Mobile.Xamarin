@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace CheckDrive.Mobile.Responses
 {
-    public class GetBaseResponse<T>
+    public abstract class GetBaseResponse<T>
     {
         public IEnumerable<T> Data { get; set; }
         public int PageNumber { get; set; }

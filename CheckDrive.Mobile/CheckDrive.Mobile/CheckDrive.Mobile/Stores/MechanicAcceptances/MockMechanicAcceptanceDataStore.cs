@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.MechanicAcceptances
 {
-    public class MockMechanicAcceptanceDataStore : IMechanicAcceptanceDataStore
+    public class MockMechanicAcceptanceDataStore
     {
         private readonly List<MechanicAcceptanceDto> _mechanicAcceptances;
 
@@ -15,25 +15,23 @@ namespace CheckDrive.Web.Stores.MechanicAcceptances
         {
             _mechanicAcceptances = new List<MechanicAcceptanceDto>
             {
-                new MechanicAcceptanceDto { Id = 1, IsAccepted = true, Comments = "Completed", Status =StatusForDto.Completed, Date = DateTime.Now, Distance = 10, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-1), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-2), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-3), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-4), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-5), Distance = 20, MechanicHandoverId = 1 },
-                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-6), Distance = 20, MechanicHandoverId = 2 },
+                new MechanicAcceptanceDto { Id = 1, IsAccepted = true, Comments = "Completed", Status =StatusForDto.Completed, Date = DateTime.Now, Distance = 10, MechanicHandoverId = 1, DriverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-1), Distance = 20, MechanicHandoverId = 1, DriverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-2), Distance = 20, MechanicHandoverId = 1, DriverId = 2 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-3), Distance = 20, MechanicHandoverId = 1, DriverId = 1 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-4), Distance = 20, MechanicHandoverId = 1 , DriverId = 1},
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-5), Distance = 20, MechanicHandoverId = 1, DriverId = 2 },
+                new MechanicAcceptanceDto { Id = 2, IsAccepted = false, Comments = "Rejected", Status = StatusForDto.Rejected, Date = DateTime.Now.AddDays(-6), Distance = 20, MechanicHandoverId = 2, DriverId = 2 },
             };
         }
 
         public async Task<List<MechanicAcceptanceDto>> GetMechanicAcceptances()
         {
-            await Task.Delay(100); 
             return _mechanicAcceptances.ToList();
         }
 
         public async Task<MechanicAcceptanceDto> GetMechanicAcceptance(int id)
         {
-            await Task.Delay(100);
             return _mechanicAcceptances.FirstOrDefault(ma => ma.Id == id);
         }
 

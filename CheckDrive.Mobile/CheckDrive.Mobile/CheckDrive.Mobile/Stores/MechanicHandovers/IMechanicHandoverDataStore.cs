@@ -1,4 +1,5 @@
 ﻿using CheckDrive.ApiContracts.MechanicHandover;
+using CheckDrive.Mobile.Responses;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,10 +7,10 @@ namespace CheckDrive.Web.Stores.MechanicHandovers
 {
     public interface IMechanicHandoverDataStore
     {
-        Task<List<MechanicHandoverDto>> GetMechanicHandovers();
-        Task<MechanicHandoverDto> GetMechanicHandover(int id);
-        Task<MechanicHandoverDto> CreateMechanicHandover(MechanicHandoverDto mechanicHandover);
-        Task<MechanicHandoverDto> UpdateMechanicHandover(int id, MechanicHandoverDto mechanicHandover);
-        Task DeleteMechanicHandover(int id);
+        GetMechanicHandoverResponse GetMechanicHandovers();
+        MechanicHandoverDto GetMechanicHandover(int id);
+        MechanicHandoverDto CreateMechanicHandover(MechanicHandoverForCreateDto mechanicHandover);
+        MechanicHandoverDto UpdateMechanicHandover(int id, MechanicHandoverForUpdateDto mechanicHandover);
+        void DeleteMechanicHandover(int id);
     }
 }

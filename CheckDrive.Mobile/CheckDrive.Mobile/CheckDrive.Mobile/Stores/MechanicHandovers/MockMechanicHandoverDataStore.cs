@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.MechanicHandovers
 {
-    public class MockMechanicHandoverDataStore : IMechanicHandoverDataStore
+    public class MockMechanicHandoverDataStore
     {
         private readonly List<MechanicHandoverDto> _mechanicHandovers;
 
@@ -26,13 +26,11 @@ namespace CheckDrive.Web.Stores.MechanicHandovers
 
         public async Task<List<MechanicHandoverDto>> GetMechanicHandovers()
         {
-            await Task.Delay(100);
             return _mechanicHandovers.ToList();
         }
 
         public async Task<MechanicHandoverDto> GetMechanicHandover(int id)
-        {
-            await Task.Delay(100); 
+        { 
             return _mechanicHandovers.FirstOrDefault(mh => mh.Id == id);
         }
 

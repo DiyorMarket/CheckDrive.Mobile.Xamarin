@@ -14,6 +14,7 @@ namespace CheckDrive.Web.Stores.Doctors
         {
             _doctors = new List<DoctorDto>
             {
+                new DoctorDto {  Id = 3, Login = "user3", Password = "password3", PhoneNumber = "120456789", FirstName = "Azam", LastName = "Nazarov", Birthdate = new DateTime(1990, 1, 1)},
                 new DoctorDto {  Id = 1, Login = "user1", Password = "password1", PhoneNumber = "123456789", FirstName = "John", LastName = "Doe", Birthdate = new DateTime(1990, 1, 1)},
                 new DoctorDto {Id = 2, Login = "user2", Password = "password2", PhoneNumber = "987654321", FirstName = "Jane", LastName = "Siu", Birthdate = new DateTime(1995, 5, 15)},
             };
