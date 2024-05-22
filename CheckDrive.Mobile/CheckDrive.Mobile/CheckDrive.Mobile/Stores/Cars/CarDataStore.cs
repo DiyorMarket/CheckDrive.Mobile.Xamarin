@@ -55,7 +55,7 @@ namespace CheckDrive.Mobile.Stores.Cars
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error creating accounts.");
+                throw new Exception("Error creating cars.");
             }
 
             var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
@@ -80,11 +80,11 @@ namespace CheckDrive.Mobile.Stores.Cars
 
         public void DeleteCar(int id)
         {
-            var response = _api.DeleteAsync($"cars/{id}");
+            var response = _api.Delete($"cars/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Could not delete accounts with id: {id}.");
+                throw new Exception($"Could not delete cars with id: {id}.");
             }
         }
     }

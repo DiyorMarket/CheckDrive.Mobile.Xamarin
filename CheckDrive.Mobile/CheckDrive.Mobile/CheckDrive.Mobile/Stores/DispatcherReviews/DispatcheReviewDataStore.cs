@@ -21,7 +21,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = _api.Get("dispatcherreviews?" + query.ToString());
+            var response = _api.Get("dispatchers/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch dispatcherreviews.");
@@ -35,7 +35,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
 
         public DispatcherReviewDto GetDispatcherReview(int id)
         {
-            var response =  _api.Get($"dispatcherreviews/{id}");
+            var response =  _api.Get($"dispatchers/reviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -51,7 +51,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
         public DispatcherReviewDto CreateDispatcherReview(DispatcherReviewForCreateDto dispatcherReview)
         {
             var json = JsonConvert.SerializeObject(dispatcherReview);
-            var response = _api.Post("dispatcherreviews", json);
+            var response = _api.Post("dispatchers/reviews", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -66,7 +66,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
         public DispatcherReviewDto UpdateDispatcherReview(int id, DispatcherReviewForUpdateDto dispatcherReview)
         {
             var json = JsonConvert.SerializeObject(dispatcherReview);
-            var response = _api.Put($"dispatcherreviews/{dispatcherReview.Id}", json);
+            var response = _api.Put($"dispatchers/reviews/{dispatcherReview.Id}", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -80,7 +80,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
 
         public void DeleteDispatcherReview(int id)
         {
-            var response = _api.DeleteAsync($"dispatcherreviews/{id}");
+            var response = _api.Delete($"dispatchers/reviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {

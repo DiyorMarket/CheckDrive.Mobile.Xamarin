@@ -27,7 +27,7 @@ namespace CheckDrive.Mobile.ViewModels
         {
             DispatcherReviews.Clear();
 
-            var dipatcherItems =  _dispatcherDataStore.GetDispatcherReviewsAsync().Result;
+            var dipatcherItems =  _dispatcherDataStore.GetDispatcherReviews().Data;
             var doctorItems =  _doctorReviewDataStore.GetDoctorReviews().Data;
 
 

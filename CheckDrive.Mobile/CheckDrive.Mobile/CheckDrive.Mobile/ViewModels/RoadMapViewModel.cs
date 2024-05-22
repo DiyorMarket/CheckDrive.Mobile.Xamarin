@@ -108,12 +108,12 @@ namespace CheckDrive.Mobile.ViewModels
         public DateTime TodayDateForProgressBar { get; set; }
         public DateTime EndDateForProgressBar { get; set; }
 
-        public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore)
+        public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore, IMechanicAcceptanceDataStore mechanicAcceptanceDataStore, IOperatorReviewDataStore operatorReviewDataStore, IMechanicHandoverDataStore mechanicHandoverDataStore)
         {
             _doctorReviewDatastore = doctorReviewDataStore;
-            _mechanicAcceptanceDataStore = new MockMechanicAcceptanceDataStore();
-            _operatorReviewDataStore = new MockOperatorReviewDataStore();
-            _mechanicHandoverDataStore = new MockMechanicHandoverDataStore();
+            _mechanicAcceptanceDataStore = mechanicAcceptanceDataStore;
+            _operatorReviewDataStore = operatorReviewDataStore;
+            _mechanicHandoverDataStore = mechanicHandoverDataStore;
 
             LoadViewPage();
         }
@@ -129,7 +129,7 @@ namespace CheckDrive.Mobile.ViewModels
         {
             GetDateForProgressBar();
 
-            var driverhistoryForOil = _operatorReviewDataStore.GetOperatorReviews().Result.FindAll(x => x.DriverId == 1);
+            var driverhistoryForOil = _operatorReviewDataStore.GetOperatorReviews().Data.ToList().FindAll(x => x.DriverId == 1);
             foreach(var operatorReview in driverhistoryForOil)
             {
                 if (operatorReview.Date >= StartDateForProgressBar 
@@ -175,7 +175,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void CheckMechanicHandoverStatusValue()
         {
-            var mechanicHandover = _mechanicHandoverDataStore.GetMechanicHandovers().Result.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
+            var mechanicHandover = _mechanicHandoverDataStore.GetMechanicHandovers().Data.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
             
             if(mechanicHandover != null)
             {
@@ -197,7 +197,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private void CheckOperatorStatusValue()
         {
-            var operatorReview = _operatorReviewDataStore.GetOperatorReviews().Result.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
+            var operatorReview = _operatorReviewDataStore.GetOperatorReviews().Data.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
             
             if(operatorReview != null)
             {
@@ -218,7 +218,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private void CheckMechanicAcceptanceStatusValue()
         {
-            var mechanicAcceptance = _mechanicAcceptanceDataStore.GetMechanicAcceptances().Result.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
+            var mechanicAcceptance = _mechanicAcceptanceDataStore.GetMechanicAcceptances().Data.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
 
             if(mechanicAcceptance != null)
             {

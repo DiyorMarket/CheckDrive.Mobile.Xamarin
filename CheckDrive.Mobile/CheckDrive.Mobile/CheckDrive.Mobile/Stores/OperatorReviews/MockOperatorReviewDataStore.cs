@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.OperatorReviews
 {
-    public class MockOperatorReviewDataStore : IOperatorReviewDataStore
+    public class MockOperatorReviewDataStore
     {
         private readonly List<OperatorReviewDto> _operatorReviews;
 

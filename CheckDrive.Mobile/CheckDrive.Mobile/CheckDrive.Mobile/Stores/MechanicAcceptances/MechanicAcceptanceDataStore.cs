@@ -21,7 +21,7 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = _api.Get("accounts?" + query.ToString());
+            var response = _api.Get("mechanics/acceptances?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanicAcceptance.");
@@ -35,7 +35,7 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
 
         public MechanicAcceptanceDto GetMechanicAcceptance(int id)
         {
-            var response = _api.Get($"accounts/{id}");
+            var response = _api.Get($"mechanics/acceptances/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -51,7 +51,7 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
         public MechanicAcceptanceDto CreateMechanicAcceptance(MechanicAcceptanceForCreateDto mechanicAcceptance)
         {
             var json = JsonConvert.SerializeObject(mechanicAcceptance);
-            var response = _api.Post("accounts", json);
+            var response = _api.Post("mechanics/acceptances", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -66,7 +66,7 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
         public MechanicAcceptanceDto UpdateMechanicAcceptance(int id, MechanicAcceptanceForUpdateDto mechanicAcceptance)
         {
             var json = JsonConvert.SerializeObject(mechanicAcceptance);
-            var response = _api.Put($"accounts/{mechanicAcceptance.Id}", json);
+            var response = _api.Put($"mechanics/acceptances/{mechanicAcceptance.Id}", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -80,7 +80,7 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
 
         public void DeleteMechanicAcceptance(int id)
         {
-            var response = _api.DeleteAsync($"accounts/{id}");
+            var response = _api.Delete($"mechanics/acceptances/{id}");
 
             if (!response.IsSuccessStatusCode)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.DispatcherReviews
 {
-    public class MockDispatcherReviewDataStore : IDispatcherReviewDataStore
+    public class MockDispatcherReviewDataStore
     {
         private readonly List<DispatcherReviewDto> _reviews;
 
@@ -22,7 +22,7 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
             };
         }
 
-        async Task<List<DispatcherReviewDto>> IDispatcherReviewDataStore.GetDispatcherReviewsAsync()
+        async Task<List<DispatcherReviewDto>> GetDispatcherReviewsAsync()
         {
             return _reviews ;
         }

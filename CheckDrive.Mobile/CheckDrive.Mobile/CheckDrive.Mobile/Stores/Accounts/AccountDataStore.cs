@@ -85,7 +85,7 @@ namespace CheckDrive.Mobile.Stores.Accounts
 
         public void DeleteAccount(int id)
         {
-            var response = _api.DeleteAsync($"accounts/{id}");
+            var response = _api.Delete($"accounts/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
