@@ -13,9 +13,9 @@ namespace CheckDrive.Mobile.ViewModels
 
         public ObservableCollection<History> DispatcherReviews { get; private set; }
 
-        public HistoryViewModel(IDispatcherReviewDataStore dispatcherDataStore, IDoctorReviewDataStore doctorReviewDataStore)
+        public HistoryViewModel(IDispatcherReviewDataStore dispatcherReviewDataStore, IDoctorReviewDataStore doctorReviewDataStore)
         {
-            _dispatcherDataStore = dispatcherDataStore;
+            _dispatcherDataStore = dispatcherReviewDataStore;
             _doctorReviewDataStore = doctorReviewDataStore;
 
             DispatcherReviews = new ObservableCollection<History>();
@@ -27,7 +27,7 @@ namespace CheckDrive.Mobile.ViewModels
         {
             DispatcherReviews.Clear();
 
-            var dipatcherItems = await _dispatcherDataStore.GetDispatcherReviews();
+            var dipatcherItems = await _dispatcherDataStore.GetDispatcherReviewsAsync();
             var doctorItems = await _doctorReviewDataStore.GetDoctorReviews();
 
 

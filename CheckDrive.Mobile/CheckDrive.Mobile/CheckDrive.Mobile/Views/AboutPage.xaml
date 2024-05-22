@@ -7,7 +7,7 @@
     Title="{Binding Title}">
 
     <ContentPage.BindingContext>
-        <vm:RoadMapViewModel />
+        <vm:BaseViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Resources>
