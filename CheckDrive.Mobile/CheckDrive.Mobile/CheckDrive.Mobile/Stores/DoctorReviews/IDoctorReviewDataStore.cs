@@ -8,6 +8,7 @@ namespace CheckDrive.Web.Stores.DoctorReviews
     public interface IDoctorReviewDataStore
     {
         GetDoctorReviewResponse GetDoctorReviews();
+        GetDoctorReviewResponse GetDoctorReviewsByDriverId(int driverId);
         DoctorReviewDto GetDoctorReview(int id);
         DoctorReviewDto CreateDoctorReview(DoctorReviewForCreateDto review);
         DoctorReviewDto UpdateDoctorReview(int id, DoctorReviewForUpdateDto review);

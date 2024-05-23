@@ -33,6 +33,20 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
 
             return result;
         }
+        public GetMechanicHandoverResponse GetMechanicHandoversByDriverId(int driverId)
+        {
+
+            var response = _api.Get("mechanics/handovers?DriverId=" + driverId);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch mechanic handovers.");
+            }
+
+            var json = response.Content.ReadAsStringAsync().Result;
+            var result = JsonConvert.DeserializeObject<GetMechanicHandoverResponse>(json);
+
+            return result;
+        }
         public MechanicHandoverDto GetMechanicHandover(int id)
         {
             var response = _api.Get($"mechanics/handover/{id}");

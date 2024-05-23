@@ -1,10 +1,9 @@
 ﻿using CheckDrive.Mobile.Services;
-using CheckDrive.Mobile.Stores.DispatcherReviews;
 using CheckDrive.Mobile.Stores.DoctorReviews;
+using CheckDrive.Mobile.Stores.MechanicAcceptances;
+using CheckDrive.Mobile.Stores.MechanicHandovers;
+using CheckDrive.Mobile.Stores.OperatorReviews;
 using CheckDrive.Mobile.ViewModels;
-using CheckDrive.Web.Stores.DispatcherReviews;
-using CheckDrive.Web.Stores.Dispatchers;
-using CheckDrive.Web.Stores.DoctorReviews;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,10 +17,12 @@ namespace CheckDrive.Mobile.Views
             InitializeComponent();
 
             var client = new ApiClient();
-            var dispatcherreviewDS = new DispatcheReviewDataStore(client);
             var doctorReviewDS = new DoctorReviewDataStore(client);
+            var mechanicHandoverDS = new MechanicHandoverDataStore(client);
+            var operatorReviewDS = new OperatorReviewDataStore(client);
+            var mechanicAcceptenceDS = new MechanicAcceptanceDataStore(client);
 
-            BindingContext = new HistoryViewModel(dispatcherreviewDS, doctorReviewDS);
+            BindingContext = new HistoryViewModel(doctorReviewDS, mechanicHandoverDS, operatorReviewDS, mechanicAcceptenceDS);
         }
     }
 }

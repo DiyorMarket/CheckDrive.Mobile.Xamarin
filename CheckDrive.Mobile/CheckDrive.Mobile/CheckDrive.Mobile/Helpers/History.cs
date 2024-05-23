@@ -8,7 +8,60 @@ namespace CheckDrive.Mobile.Helpers
     {
         public DateTime Date { get; set; }
         public bool IsHealthy { get; set; }
+        public bool IsHanded { get; set; }
+        public bool IsGiven { get; set; }
         public bool IsAccepted { get; set; }
-        private bool IsHanded { get; set; }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

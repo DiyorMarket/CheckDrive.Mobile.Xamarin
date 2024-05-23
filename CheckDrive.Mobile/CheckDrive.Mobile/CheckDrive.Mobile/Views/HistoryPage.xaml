@@ -17,7 +17,7 @@
 
             <CollectionView
                 x:Name="HistoryList"
-                ItemsSource="{Binding DispatcherReviews}"
+                ItemsSource="{Binding Reviews}"
                 SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
