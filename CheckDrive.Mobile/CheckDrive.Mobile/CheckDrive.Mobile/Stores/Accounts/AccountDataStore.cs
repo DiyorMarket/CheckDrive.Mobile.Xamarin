@@ -17,13 +17,13 @@ namespace CheckDrive.Mobile.Stores.Accounts
             _api = apiClient;
         }
 
-        public GetAccountResponse GetAccounts(int roleId)
+        public GetAccountResponse GetAccounts(string login)
         {
             StringBuilder query = new StringBuilder("");
 
-            if (!roleId.Equals(0))
+            if(login != null)
             {
-                query.Append($"roleId={roleId}&");
+                query.Append("Login="+login.Trim());
             }
 
             var response = _api.Get("accounts?" + query.ToString());

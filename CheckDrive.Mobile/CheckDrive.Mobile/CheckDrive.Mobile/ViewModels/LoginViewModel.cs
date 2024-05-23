@@ -1,24 +1,93 @@
-﻿using CheckDrive.Mobile.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CheckDrive.ApiContracts.Account;
+using CheckDrive.Mobile.Services;
+using CheckDrive.Web.Stores.Accounts;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace CheckDrive.Mobile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        private readonly IAccountDataStore _accountDataStore;
+
+        private AccountDto Account {  get; set; }
+
+        private string _login;
+        public string Login
+        {
+            get { return _login; }
+            set { SetProperty(ref _login, value); }
+        }
+
+        private string _password;
+        public string Password
+        {
+            get { return _password; }
+            set { SetProperty(ref _password, value); }
+        }
+
         public Command LoginCommand { get; }
 
-        public LoginViewModel()
+        public LoginViewModel(IAccountDataStore accountDataStore)
         {
+            _accountDataStore = accountDataStore;
             LoginCommand = new Command(OnLoginClicked);
         }
 
-        private async void OnLoginClicked(object obj)
+        private void OnLoginClicked(object obj)
         {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(RoadMapPage)}");
+            if (string.IsNullOrWhiteSpace(Login))
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                return;
+            }
+
+            try
+            {
+                IsBusy = true;
+
+                var isSuccess = CheckingDriverLogin();
+
+                if (!isSuccess)
+                {
+                    Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
+
+                    return;
+                }
+
+                if(Account.Password != Password) 
+                {
+                    Application.Current.MainPage.DisplayAlert("Password Failed", "Please check your credentials and try again.", "OK");
+
+                    return;
+                }
+
+                Application.Current.MainPage = new AppShell();
+            }
+            catch
+            {
+                Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
+            }
+        }
+
+        private bool CheckingDriverLogin()
+        {
+            var drivers = _accountDataStore.GetAccounts(Login).Data.ToList();
+            var driver = drivers[0];
+
+
+            if (driver != null)
+            {
+                Account = driver;
+                DataService.SaveAccount(driver);
+                return true;
+            }
+
+            return false;
         }
     }
 }

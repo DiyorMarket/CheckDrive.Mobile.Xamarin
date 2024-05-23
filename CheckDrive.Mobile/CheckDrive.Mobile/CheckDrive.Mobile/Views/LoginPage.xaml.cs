@@ -1,9 +1,6 @@
-﻿using CheckDrive.Mobile.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.Stores.Accounts;
+using CheckDrive.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,15 +12,10 @@ namespace CheckDrive.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
-        }
 
-        private void Register_Clicked(object sender, EventArgs e)
-        {
-        }
-
-        private void Login_Clicked(object sender, EventArgs e)
-        {
+            var client = new ApiClient();
+            var accountDS = new AccountDataStore(client);
+            this.BindingContext = new LoginViewModel(accountDS);
         }
     }
 }

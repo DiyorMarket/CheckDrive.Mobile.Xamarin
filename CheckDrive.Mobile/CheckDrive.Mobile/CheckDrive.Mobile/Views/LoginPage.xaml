@@ -24,8 +24,8 @@
 
             <StackLayout
                 Grid.Row="1"
-                VerticalOptions="EndAndExpand"
-                Margin="10">
+                Margin="10"
+                VerticalOptions="EndAndExpand">
 
                 <Label
                     FontSize="Title"
@@ -40,8 +40,8 @@
             <StackLayout
                 Grid.Row="2"
                 HorizontalOptions="Center"
-                VerticalOptions="StartAndExpand"
-                Spacing="15">
+                Spacing="15"
+                VerticalOptions="StartAndExpand">
                 <StackLayout HorizontalOptions="Center" Spacing="5" />
 
                 <StackLayout HorizontalOptions="Center" Spacing="5">
@@ -64,7 +64,7 @@
                         PlaceholderColor="#00A3FF"
                         ReturnType="Next"
                         TabIndex="1"
-                        Text="{Binding Email}"
+                        Text="{Binding Login}"
                         TextColor="#00A3FF" />
                     <md:MaterialEntry
                         Margin="10"

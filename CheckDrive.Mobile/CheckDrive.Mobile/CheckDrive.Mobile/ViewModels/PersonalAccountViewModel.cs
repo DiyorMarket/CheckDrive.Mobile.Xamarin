@@ -1,6 +1,7 @@
 ﻿using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Views;
 using CheckDrive.Web.Stores.Drivers;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -22,7 +23,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         public void GetDriverData()
         {
-            var drivers  = _driverDataStore.GetDrivers().Result;
+            var drivers  = _driverDataStore.GetDrivers().Data.ToList();
             Driver = drivers[0];
         }
 

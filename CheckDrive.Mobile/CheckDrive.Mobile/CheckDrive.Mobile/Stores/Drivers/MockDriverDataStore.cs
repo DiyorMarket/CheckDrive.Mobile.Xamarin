@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.Drivers
 {
-    public class MockDriverDataStore : IDriverDataStore
+    public class MockDriverDataStore
     {
         private readonly List<DriverDto> _drivers;
 
