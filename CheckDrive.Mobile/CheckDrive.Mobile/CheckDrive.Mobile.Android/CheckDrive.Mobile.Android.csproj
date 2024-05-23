@@ -143,7 +143,7 @@
     <AndroidResource Include="Resources\drawable\down_arrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\CheckDriveLogo.png" />
+    <AndroidResource Include="Resources\drawable\checkDriveLogo.png" />
     <AndroidResource Include="Resources\drawable\icon_doctor.png" />
     <AndroidResource Include="Resources\drawable\Icon_fuel.png" />
     <AndroidResource Include="Resources\drawable\icon_mechanicAcception.png" />
@@ -151,6 +151,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\accountLayout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\mail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\padlock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

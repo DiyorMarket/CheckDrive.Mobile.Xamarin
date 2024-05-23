@@ -17,5 +17,13 @@ namespace CheckDrive.Mobile.Views
             InitializeComponent();
             this.BindingContext = new LoginViewModel();
         }
+
+        private void Register_Clicked(object sender, EventArgs e)
+        {
+        }
+
+        private void Login_Clicked(object sender, EventArgs e)
+        {
+        }
     }
 }

@@ -1,14 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="CheckDrive.Mobile.Views.LoginPage"
-             Shell.NavBarIsVisible="False">
-    <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
-        </StackLayout>
-    </ContentPage.Content>
+<ContentPage
+    x:Class="CheckDrive.Mobile.Views.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
+    FlowDirection="LeftToRight"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="6*" />
+            </Grid.RowDefinitions>
+
+            <Image
+                Grid.RowSpan="3"
+                Aspect="AspectFill"
+                Source="login.png" />
+
+            <StackLayout
+                Grid.Row="1"
+                VerticalOptions="EndAndExpand"
+                Margin="10">
+
+                <Label
+                    FontSize="Title"
+                    Text="Check drive mobile ilovasiga xush kelibsiz"
+                    TextColor="#00A3FF" />
+                <Label
+                    FontSize="Subtitle"
+                    Text="Designed By DevHub Group"
+                    TextColor="#00A3FF" />
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                VerticalOptions="StartAndExpand"
+                Spacing="15">
+                <StackLayout HorizontalOptions="Center" Spacing="5" />
+
+                <StackLayout HorizontalOptions="Center" Spacing="5">
+                    <md:MaterialEntry
+                        Margin="10"
+                        AnimateError="True"
+                        AnimatePlaceholder="True"
+                        BackgroundColor="#f7f7f7"
+                        BorderColor="#00A3FF"
+                        CornerRadius="10"
+                        FocusedBackgroundColor="#f7f7f7"
+                        FocusedBorderColor="#00A3FF"
+                        FocusedTextColor="#00A3FF"
+                        HasBorder="True"
+                        Keyboard="Text"
+                        LabelTextColor="#00A3FF"
+                        LeadingIcon="mail.png"
+                        MaxLength="300"
+                        Placeholder="Enter login"
+                        PlaceholderColor="#00A3FF"
+                        ReturnType="Next"
+                        TabIndex="1"
+                        Text="{Binding Email}"
+                        TextColor="#00A3FF" />
+                    <md:MaterialEntry
+                        Margin="10"
+                        AnimateError="True"
+                        AnimatePlaceholder="True"
+                        BackgroundColor="#f7f7f7"
+                        BorderColor="#00A3FF"
+                        CornerRadius="10"
+                        FocusedBackgroundColor="#f7f7f7"
+                        FocusedBorderColor="#00A3FF"
+                        FocusedTextColor="#00A3FF"
+                        HasBorder="True"
+                        HorizontalTextAlignment="End"
+                        IsPassword="True"
+                        LabelTextColor="#00A3FF"
+                        LeadingIcon="padlock.png"
+                        MaxLength="300"
+                        Placeholder="Enter your password"
+                        PlaceholderColor="#00A3FF"
+                        TabIndex="2"
+                        Text="{Binding Password}" />
+                    <md:MaterialButton
+                        Margin="10"
+                        BackgroundColor="#00A3FF"
+                        Command="{Binding LoginCommand}"
+                        CornerRadius="10"
+                        FontSize="18"
+                        HeightRequest="50"
+                        TabIndex="3"
+                        Text="Log in" />
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </Grid>
 </ContentPage>

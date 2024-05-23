@@ -1,3 +1,4 @@
+using CheckDrive.Mobile.Views;
 using Xamarin.Forms;
 
 namespace CheckDrive.Mobile
@@ -11,7 +12,7 @@ namespace CheckDrive.Mobile
 
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzI3MDgyNEAzMjM1MmUzMDJlMzBIU2RvbkFWNUp2R0FwNDBnYi9yUFFROExGcGVmc0c3NU56bDBhaU85SGZnPQ==");
 
-            MainPage = new AppShell();
+            MainPage = new LoginPage();
         }
 
         protected override void OnStart()
