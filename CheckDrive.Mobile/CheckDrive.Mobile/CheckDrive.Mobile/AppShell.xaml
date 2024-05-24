@@ -3,7 +3,7 @@
     x:Class="CheckDrive.Mobile.AppShell"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:CheckDrive.Mobile.Views"
+    xmlns:views="clr-namespace:CheckDrive.Mobile.Views"
     Title="CheckDrive.Mobile"
     NavBarIsVisible="False">
     <Shell.Resources>
@@ -73,18 +73,18 @@
     <TabBar>
         <ShellContent
             Title="Ishchi oynasi"
-            ContentTemplate="{DataTemplate local:RoadMapPage}"
+            ContentTemplate="{DataTemplate views:RoadMapPage}"
             Icon="icon_roadMap.png" />
         <ShellContent
             Title="Tarix"
-            ContentTemplate="{DataTemplate local:HistoryPage}"
+            ContentTemplate="{DataTemplate views:HistoryPage}"
             Icon="icon_history.png" />
         <ShellContent
             Title="Profil"
-            ContentTemplate="{DataTemplate local:PersonalAccountPage}"
+            ContentTemplate="{DataTemplate views:PersonalAccountPage}"
             Icon="icon_user.png" />
         <ShellContent
-            ContentTemplate="{DataTemplate local:RoadMapPage}"
+            ContentTemplate="{DataTemplate views:LoginPage}"
             IsVisible="False"
             Route="LoginPage" />
     </TabBar>

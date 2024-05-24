@@ -1,7 +1,5 @@
-﻿using CheckDrive.Mobile.ViewModels;
-using CheckDrive.Mobile.Views;
+﻿using CheckDrive.Mobile.Views;
 using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace CheckDrive.Mobile

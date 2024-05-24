@@ -27,11 +27,13 @@ namespace CheckDrive.Web.Stores.MechanicAcceptances
 
         public async Task<List<MechanicAcceptanceDto>> GetMechanicAcceptances()
         {
+            await Task.Delay(100);
             return _mechanicAcceptances.ToList();
         }
 
         public async Task<MechanicAcceptanceDto> GetMechanicAcceptance(int id)
         {
+            await Task.Delay(100);
             return _mechanicAcceptances.FirstOrDefault(ma => ma.Id == id);
         }
 
