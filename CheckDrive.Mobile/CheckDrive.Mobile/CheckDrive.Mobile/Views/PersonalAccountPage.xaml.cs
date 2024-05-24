@@ -14,9 +14,7 @@ namespace CheckDrive.Mobile.Views
         {
             InitializeComponent();
 
-            var client = new ApiClient();
-            var store = new DriverDataStore(client);
-            var viewModel = new PersonalAccountViewModel(store);
+            var viewModel = new PersonalAccountViewModel();
             BindingContext = viewModel;
         }
     }

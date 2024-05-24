@@ -14,7 +14,7 @@
             <Image
                 Grid.RowSpan="3"
                 Aspect="AspectFill"
-                Source="profilePage.png" />
+                Source="layout_profilePage.png" />
 
             <StackLayout
                 Grid.Row="1"
@@ -35,7 +35,7 @@
                     <md:MaterialLabel
                         Margin="10,0"
                         FontSize="Medium"
-                        Text="{Binding Driver.FirstName}"
+                        Text="{Binding FullName}"
                         TextColor="#00A3FF" />
                 </md:MaterialCard>
                 <md:MaterialCard
@@ -73,12 +73,12 @@
                     BackgroundColor="Transparent"
                     BorderColor="#00A3FF"
                     ButtonType="Outlined"
-                    Command="{Binding RegisterCommand}"
+                    Command="{Binding LogOutProfile}"
                     CornerRadius="10"
                     FontSize="18"
                     HeightRequest="50"
                     TabIndex="3"
-                    Text="Log out"
+                    Text="Profildan chiqish"
                     TextColor="#00A3FF" />
 
 
