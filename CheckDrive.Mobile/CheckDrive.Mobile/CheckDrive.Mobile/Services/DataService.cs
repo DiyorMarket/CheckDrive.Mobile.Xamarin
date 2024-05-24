@@ -64,14 +64,10 @@ namespace CheckDrive.Mobile.Services
         {
             try
             {
-                if (SecureStorage.GetAsync(securetyKey).GetAwaiter().GetResult() != null)
+                if (SecureStorage.GetAsync(securetyKey).GetAwaiter().GetResult() != null 
+                    && SecureStorage.GetAsync(securetyKeySavedDate).GetAwaiter().GetResult() != null)
                 {
                     SecureStorage.Remove(securetyKey);
-                    Console.WriteLine("file successfuly deleted");
-                    return;
-                }
-                if (SecureStorage.GetAsync(securetyKeySavedDate).GetAwaiter().GetResult() != null)
-                {
                     SecureStorage.Remove(securetyKeySavedDate);
                     Console.WriteLine("file successfuly deleted");
                     return;

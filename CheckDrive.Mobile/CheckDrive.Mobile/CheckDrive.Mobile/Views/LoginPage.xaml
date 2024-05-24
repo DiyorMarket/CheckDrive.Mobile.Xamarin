@@ -4,11 +4,20 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:local="clr-namespace:CheckDrive.Mobile.Converter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
     FlowDirection="LeftToRight"
     Shell.NavBarIsVisible="False"
     mc:Ignorable="d">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <local:PasswordVisibilityConverter x:Key="PasswordVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -29,10 +38,12 @@
 
                 <Label
                     FontSize="Title"
+                    HorizontalTextAlignment="Center"
                     Text="Check drive mobile ilovasiga xush kelibsiz"
                     TextColor="#00A3FF" />
                 <Label
                     FontSize="Subtitle"
+                    HorizontalTextAlignment="Center"
                     Text="Designed By DevHub Group"
                     TextColor="#00A3FF" />
             </StackLayout>
@@ -56,6 +67,7 @@
                         FocusedBorderColor="#00A3FF"
                         FocusedTextColor="#00A3FF"
                         HasBorder="True"
+                        IsPassword="{Binding IsLoginVisible, Converter={StaticResource InverseBooleanConverter}}"
                         Keyboard="Text"
                         LabelTextColor="#00A3FF"
                         LeadingIcon="mail.png"
@@ -65,8 +77,11 @@
                         ReturnType="Next"
                         TabIndex="1"
                         Text="{Binding Login}"
-                        TextColor="#00A3FF" />
+                        TextColor="#00A3FF"
+                        TrailingIcon="{Binding IsLoginVisible, Converter={StaticResource PasswordVisibilityConverter}}"
+                        TrailingIconCommand="{Binding ToggleLoginVisibilityCommand}" />
                     <md:MaterialEntry
+                        x:Name="PasswordEntry"
                         Margin="10"
                         AnimateError="True"
                         AnimatePlaceholder="True"
@@ -77,17 +92,20 @@
                         FocusedBorderColor="#00A3FF"
                         FocusedTextColor="#00A3FF"
                         HasBorder="True"
-                        HorizontalTextAlignment="End"
-                        IsPassword="True"
+                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
                         LabelTextColor="#00A3FF"
                         LeadingIcon="padlock.png"
                         MaxLength="300"
-                        Placeholder="Enter your password"
+                        Placeholder="Parolni kiriting"
                         PlaceholderColor="#00A3FF"
                         TabIndex="2"
-                        Text="{Binding Password}" />
+                        Text="{Binding Password}"
+                        TextColor="#00A3FF"
+                        TrailingIcon="{Binding IsPasswordVisible, Converter={StaticResource PasswordVisibilityConverter}}"
+                        TrailingIconCommand="{Binding TogglePasswordVisibilityCommand}" />
+
                     <md:MaterialButton
-                        Margin="10"
+                        Margin="10,40,10,0"
                         BackgroundColor="#00A3FF"
                         Command="{Binding LoginCommand}"
                         CornerRadius="10"
