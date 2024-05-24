@@ -28,16 +28,19 @@ namespace CheckDrive.Web.Stores.DoctorReviews
 
         public async Task<List<DoctorReviewDto>> GetDoctorReviews()
         {
+            await Task.Delay(100);
             return _reviews.ToList();
         }
 
         public async Task<DoctorReviewDto> GetDoctorReview(int id)
         {
+            await Task.Delay(100);
             return _reviews.FirstOrDefault(r => r.Id == id);
         }
 
         public async Task<DoctorReviewDto> CreateDoctorReview(DoctorReviewForCreateDto review)
         {
+            await Task.Delay(100);
             var newDoctorReview = new DoctorReviewDto
             {
                 Id = _reviews.Count + 1,
@@ -53,6 +56,7 @@ namespace CheckDrive.Web.Stores.DoctorReviews
 
         public async Task<DoctorReviewDto> UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
         {
+            await Task.Delay(100);
             var existingReview = _reviews.FirstOrDefault(r => r.Id == id);
             if (existingReview != null)
             {
@@ -66,6 +70,7 @@ namespace CheckDrive.Web.Stores.DoctorReviews
 
         public async Task DeleteDoctorReview(int id)
         {
+            await Task.Delay(100);
             var reviewToRemove = _reviews.FirstOrDefault(r => r.Id == id);
             if (reviewToRemove != null)
             {

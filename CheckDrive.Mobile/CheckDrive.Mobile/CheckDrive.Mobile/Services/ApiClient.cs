@@ -58,11 +58,11 @@ namespace CheckDrive.Mobile.Services
             }
             catch (HttpRequestException ex)
             {
-                throw;
+                throw new HttpRequestException(ex.Message);
             }
             catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.Message);
             }
 
         }
