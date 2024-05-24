@@ -151,9 +151,6 @@
     <AndroidResource Include="Resources\drawable\icon_mechanicHandover.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\accountLayout.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\login.png" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +162,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\eye.png" />
     <AndroidResource Include="Resources\drawable\eye_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\profilePage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\layout_profilePage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

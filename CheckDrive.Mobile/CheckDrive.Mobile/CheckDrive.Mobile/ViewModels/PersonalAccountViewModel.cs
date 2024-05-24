@@ -1,7 +1,6 @@
-﻿using CheckDrive.ApiContracts.Driver;
+﻿using CheckDrive.ApiContracts.Account;
+using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.Views;
-using CheckDrive.Web.Stores.Drivers;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -9,27 +8,27 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class PersonalAccountViewModel : BaseViewModel
     {
-        private readonly IDriverDataStore _driverDataStore;
-        public DriverDto Driver { get; set; }
+        public AccountDto Driver { get; set; }
+        public string FullName {  get; set; }
 
-        public ICommand RegisterCommand { get; }
+        public ICommand LogOutProfile { get; }
 
-        public PersonalAccountViewModel(IDriverDataStore driverDataStore)
+        public PersonalAccountViewModel()
         {
-            RegisterCommand = new Command(NavigationLoginPage);
-            _driverDataStore = driverDataStore;
+            LogOutProfile = new Command(NavigationLoginPage);
             GetDriverData();
         }
 
         public void GetDriverData()
         {
-            var drivers  = _driverDataStore.GetDrivers().Data.ToList();
-            Driver = drivers[0];
+            Driver = DataService.GetAccount();
+            FullName = Driver.FirstName + " " + Driver.LastName;
         }
 
         private void NavigationLoginPage()
         {
-             Application.Current.MainPage = new AppShell();
+             DataService.RemoveAcoountData();
+             Application.Current.MainPage = new LoginPage();
         }
     }
 }
