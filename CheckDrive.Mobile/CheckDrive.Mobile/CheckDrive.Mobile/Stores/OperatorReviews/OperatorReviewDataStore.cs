@@ -1,15 +1,10 @@
-﻿using CheckDrive.ApiContracts.DoctorReview;
-using CheckDrive.ApiContracts.Operator;
-using CheckDrive.ApiContracts.OperatorReview;
+﻿using CheckDrive.ApiContracts.OperatorReview;
 using CheckDrive.Mobile.Responses;
 using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.OperatorReviews;
-using CheckDrive.Web.Stores.Operators;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.OperatorReviews
 {
@@ -21,9 +16,14 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
         {
             _api = apiClient;
         }
-        public GetOperatorReviewResponse GetOperatorReviews()
+        public GetOperatorReviewResponse GetOperatorReviews(int driverId)
         {
             StringBuilder query = new StringBuilder("");
+
+            if (driverId > 0)
+            {
+                query.Append($"driverId={driverId}&");
+            }
 
             var response = _api.Get("operators/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)

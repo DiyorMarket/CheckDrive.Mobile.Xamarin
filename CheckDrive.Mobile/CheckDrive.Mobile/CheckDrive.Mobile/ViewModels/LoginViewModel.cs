@@ -1,6 +1,9 @@
 ﻿using CheckDrive.ApiContracts.Account;
+using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.Stores.Drivers;
 using CheckDrive.Web.Stores.Accounts;
+using CheckDrive.Web.Stores.Drivers;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -10,8 +13,9 @@ namespace CheckDrive.Mobile.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly IAccountDataStore _accountDataStore;
+        private readonly IDriverDataStore _driverDataStore;
 
-        private AccountDto Account {  get; set; }
+        private DriverDto Account {  get; set; }
 
         private string _login;
         public string Login
@@ -54,9 +58,10 @@ namespace CheckDrive.Mobile.ViewModels
 
         public Command LoginCommand { get; }
 
-        public LoginViewModel(IAccountDataStore accountDataStore)
+        public LoginViewModel(IAccountDataStore accountDataStore, IDriverDataStore driverDataStore)
         {
             _accountDataStore = accountDataStore;
+            _driverDataStore = driverDataStore;
             LoginCommand = new Command(OnLoginClicked);
             TogglePasswordVisibilityCommand = new Command(TogglePasswordVisibility);
             ToggleLoginVisibilityCommand = new Command(ToggleLoginVisibility);
@@ -104,9 +109,10 @@ namespace CheckDrive.Mobile.ViewModels
 
         private bool CheckingDriverLogin()
         {
-            var drivers = _accountDataStore.GetAccounts(Login).Data.ToList();
-            var driver = drivers[0];
+            var accounts = _accountDataStore.GetAccounts(Login).Data.ToList();
+            var account = accounts[0];
 
+            var driver = _driverDataStore.GetDrivers(account.Id).Data.ToList().First();
 
             if (driver != null)
             {
