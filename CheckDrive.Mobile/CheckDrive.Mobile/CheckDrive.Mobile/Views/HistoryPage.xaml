@@ -3,9 +3,16 @@
     x:Class="CheckDrive.Mobile.Views.HistoryPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls">
-    <ContentPage.Content>
+    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
+    xmlns:converters="clr-namespace:CheckDrive.Mobile.Converters">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanToImageConverter x:Key="BooleanToImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
         <StackLayout Margin="5">
             <md:MaterialLabel
                 Grid.Row="0"
@@ -32,22 +39,22 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <Label                                      
+                                    <Label
                                         Margin="5,5,0,0"
                                         FontSize="Large"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center"
                                         Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}"
                                         TextColor="Black" />
-
+                                    
                                     <Image
                                         Grid.Row="0"
                                         HeightRequest="50"
-                                        Source="icon_check.png"
-                                        WidthRequest="50" 
-                                        HorizontalOptions="End"/>
-                                    
-                                    <Label    
+                                        WidthRequest="50"
+                                        HorizontalOptions="End"
+                                        Source="{Binding IsAllTrue, Converter={StaticResource BooleanToImageConverter}}" />
+
+                                    <Label
                                         Grid.Row="1"
                                         Margin="5,5,0,0"
                                         FontSize="Medium"
@@ -60,28 +67,28 @@
                                         Grid.Row="1"
                                         Margin="0,0,10,0"
                                         HeightRequest="30"
-                                        Source="icon_check.png"
-                                        WidthRequest="30" 
-                                        HorizontalOptions="End"/>
-                                    
-                                    <Label    
+                                        WidthRequest="30"
+                                        HorizontalOptions="End"
+                                        Source="{Binding IsHealthy, Converter={StaticResource BooleanToImageConverter}}" />
+
+                                    <Label
                                         Grid.Row="2"
                                         Margin="5,5,0,0"
                                         FontSize="Medium"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center"
-                                        Text="Mexanik"
+                                        Text="Mexanik(Topshirish)"
                                         TextColor="Black" />
 
                                     <Image
                                         Grid.Row="2"
                                         Margin="0,0,10,0"
                                         HeightRequest="30"
-                                        Source="icon_check.png"
-                                        WidthRequest="30" 
-                                        HorizontalOptions="End"/>
-                                    
-                                    <Label    
+                                        WidthRequest="30"
+                                        HorizontalOptions="End"
+                                        Source="{Binding IsHanded, Converter={StaticResource BooleanToImageConverter}}" />
+
+                                    <Label
                                         Grid.Row="3"
                                         Margin="5,5,0,0"
                                         FontSize="Medium"
@@ -94,26 +101,26 @@
                                         Grid.Row="3"
                                         Margin="0,0,10,0"
                                         HeightRequest="30"
-                                        Source="icon_check.png"
-                                        WidthRequest="30" 
-                                        HorizontalOptions="End"/>
-                                    
-                                    <Label    
+                                        WidthRequest="30"
+                                        HorizontalOptions="End"
+                                        Source="{Binding IsGiven, Converter={StaticResource BooleanToImageConverter}}" />
+
+                                    <Label
                                         Grid.Row="4"
                                         Margin="5,5,0,0"
                                         FontSize="Medium"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center"
-                                        Text="Mexanik"
+                                        Text="Mexanik(Qabul qilish)"
                                         TextColor="Black" />
 
                                     <Image
                                         Grid.Row="4"
                                         Margin="0,0,10,0"
                                         HeightRequest="30"
-                                        Source="icon_check.png"
-                                        WidthRequest="30" 
-                                        HorizontalOptions="End"/>
+                                        WidthRequest="30"
+                                        HorizontalOptions="End"
+                                        Source="{Binding IsAccepted, Converter={StaticResource BooleanToImageConverter}}" />
                                 </Grid>
                             </Frame>
                         </StackLayout>
@@ -123,4 +130,3 @@
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
-

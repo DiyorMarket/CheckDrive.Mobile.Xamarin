@@ -1,11 +1,12 @@
-﻿using CheckDrive.Mobile.Helpers;
-using CheckDrive.Web.Stores.DispatcherReviews;
+﻿using CheckDrive.ApiContracts.MechanicHandover;
+using CheckDrive.Mobile.Helpers;
 using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
 using CheckDrive.Web.Stores.MechanicHandovers;
 using CheckDrive.Web.Stores.OperatorReviews;
+using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace CheckDrive.Mobile.ViewModels
 {
@@ -29,7 +30,6 @@ namespace CheckDrive.Mobile.ViewModels
 
             GetDispatcherReviews();
         }
-
         public void GetDispatcherReviews()
         {
             Reviews.Clear();
@@ -39,26 +39,21 @@ namespace CheckDrive.Mobile.ViewModels
             var operatorItems = _operatorReviewDataStore.GetOperatorReviewsByDriverId(2).Data;
             var mechanicAcceptence = _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverId(2).Data;
 
+            int itemCount = Math.Min(Math.Min(doctorItems.Count(), mechanicHandoverItems.Count()), Math.Min(operatorItems.Count(), mechanicAcceptence.Count()));
 
-            var historyItem = new History();
-            foreach (var item in doctorItems)
+            for (int i = 0; i < itemCount; i++)
             {
-                historyItem.Date = item.Date;
-                historyItem.IsHealthy = item.IsHealthy;
+                var historyItem = new History
+                {
+                    Date = doctorItems.ToList()[i].Date,
+                    IsHealthy = doctorItems.ToList()[i].IsHealthy,
+                    IsHanded = mechanicHandoverItems.ToList()[i].IsHanded,
+                    IsGiven = operatorItems.ToList()[i].IsGiven,
+                    IsAccepted = mechanicAcceptence.ToList()[i].IsAccepted
+                };
+
+                Reviews.Add(historyItem);
             }
-            foreach (var item in mechanicHandoverItems)
-            {
-                historyItem.IsHanded = item.IsHanded;
-            }
-            foreach (var item in operatorItems)
-            {
-                historyItem.IsGiven = item.IsGiven;
-            }
-            foreach (var item in mechanicAcceptence)
-            {
-                historyItem.IsAccepted = item.IsAccepted;
-            }
-            Reviews.Add(historyItem);
         }
     }
 }

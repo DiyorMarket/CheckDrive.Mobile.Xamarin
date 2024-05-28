@@ -36,7 +36,7 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
         public GetMechanicHandoverResponse GetMechanicHandoversByDriverId(int driverId)
         {
 
-            var response = _api.Get("mechanics/handovers?DriverId=" + driverId);
+            var response = _api.Get("mechanics/handovers?DriverId=" + driverId + "&OrderBy=datedesc");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic handovers.");

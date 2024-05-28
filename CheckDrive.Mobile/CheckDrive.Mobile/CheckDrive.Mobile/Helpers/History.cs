@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CheckDrive.Mobile.Helpers
 {
@@ -11,7 +9,10 @@ namespace CheckDrive.Mobile.Helpers
         public bool IsHanded { get; set; }
         public bool IsGiven { get; set; }
         public bool IsAccepted { get; set; }
+
+        public bool IsAllTrue => IsHealthy && IsHanded && IsGiven && IsAccepted;
     }
+
 }
 
 

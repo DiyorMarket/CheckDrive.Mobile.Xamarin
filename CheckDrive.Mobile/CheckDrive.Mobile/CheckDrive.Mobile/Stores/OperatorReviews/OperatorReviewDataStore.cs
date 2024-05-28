@@ -38,7 +38,7 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
         }
         public GetOperatorReviewResponse GetOperatorReviewsByDriverId(int driverId)
         {
-            var response = _api.Get("mechanics/handovers?DriverId=" + driverId);
+            var response = _api.Get("mechanics/handovers?DriverId=" + driverId + "&OrderBy=datedesc");
 
             if (!response.IsSuccessStatusCode)
             {

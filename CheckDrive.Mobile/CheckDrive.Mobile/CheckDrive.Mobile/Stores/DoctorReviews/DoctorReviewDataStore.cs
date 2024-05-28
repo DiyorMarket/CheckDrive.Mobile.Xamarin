@@ -34,7 +34,7 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
         }
         public GetDoctorReviewResponse GetDoctorReviewsByDriverId(int driverId)
         {
-            var response = _api.Get("doctors/reviews?DriverId=" + driverId);
+            var response = _api.Get("doctors/reviews?DriverId=" + driverId + "&OrderBy=datedesc");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch doctorreviews.");
