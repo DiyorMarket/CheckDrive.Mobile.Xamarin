@@ -22,7 +22,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         public void GetDriverData()
         {
-            var drivers  = _driverDataStore.GetDrivers().Result;
+            var drivers  = _driverDataStore.GetDrivers();
             Driver = drivers[0];
         }
 
