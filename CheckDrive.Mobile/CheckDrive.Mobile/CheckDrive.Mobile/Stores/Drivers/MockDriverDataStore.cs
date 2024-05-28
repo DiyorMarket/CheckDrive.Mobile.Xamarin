@@ -19,24 +19,24 @@ namespace CheckDrive.Web.Stores.Drivers
             };
         }
 
-        public async Task<List<DriverDto>> GetDrivers()
+        public List<DriverDto> GetDrivers()
         {
             return _drivers.ToList();
         }
 
-        public async Task<DriverDto> GetDriver(int id)
-        { 
+        public DriverDto GetDriver(int id)
+        {
             return _drivers.FirstOrDefault(d => d.Id == id);
         }
 
-        public async Task<DriverDto> CreateDriver(DriverDto driver)
+        public DriverDto CreateDriver(DriverDto driver)
         {
-            driver.Id = _drivers.Max(d => d.Id) + 1; 
+            driver.Id = _drivers.Max(d => d.Id) + 1;
             _drivers.Add(driver);
             return driver;
         }
 
-        public async Task DeleteDriver(int id)
+        public void DeleteDriver(int id)
         {
             var driverToRemove = _drivers.FirstOrDefault(d => d.Id == id);
             if (driverToRemove != null)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 
@@ -45,27 +46,32 @@ namespace CheckDrive.Mobile.Services
                 throw;
             }
         }
-
         public HttpResponseMessage Post(string resource, string body)
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, BaseUrl + "/" + resource);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response =  _client.SendAsync(request).Result;
+                var response = _client.SendAsync(request).Result;
 
                 return response;
             }
             catch (HttpRequestException ex)
             {
-                throw;
+                Console.WriteLine($"{ex.Message}");
             }
             catch (Exception ex)
             {
-                throw;
+                Console.WriteLine($"{ex.Message}");
             }
 
+            // Return a default HttpResponseMessage in case of an exception
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+            {
+                Content = new StringContent("An error occurred while processing the request.")
+            };
         }
+
 
         public HttpResponseMessage Put(string url, string data)
         {

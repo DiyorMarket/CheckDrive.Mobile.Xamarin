@@ -31,24 +31,24 @@ namespace CheckDrive.Web.Stores.OperatorReviews
             };
         }
 
-        public async Task<List<OperatorReviewDto>> GetOperatorReviews()
+        public List<OperatorReviewDto> GetOperatorReviews()
         {
             return _operatorReviews.ToList();
         }
 
-        public async Task<OperatorReviewDto> GetOperatorReview(int id)
+        public OperatorReviewDto GetOperatorReview(int id)
         {
             return _operatorReviews.FirstOrDefault(or => or.Id == id);
         }
 
-        public async Task<OperatorReviewDto> CreateOperatorReview(OperatorReviewDto operatorReview)
+        public OperatorReviewDto CreateOperatorReview(OperatorReviewDto operatorReview)
         {
             operatorReview.Id = _operatorReviews.Max(or => or.Id) + 1;
             _operatorReviews.Add(operatorReview);
             return operatorReview;
         }
 
-        public async Task<OperatorReviewDto> UpdateOperatorReview(int id, OperatorReviewDto operatorReview)
+        public OperatorReviewDto UpdateOperatorReview(int id, OperatorReviewDto operatorReview)
         { 
             var existingOperatorReview = _operatorReviews.FirstOrDefault(or => or.Id == id);
             if (existingOperatorReview != null)
@@ -63,7 +63,7 @@ namespace CheckDrive.Web.Stores.OperatorReviews
             return existingOperatorReview;
         }
 
-        public async Task DeleteOperatorReview(int id)
+        public void DeleteOperatorReview(int id)
         {
             var operatorReviewToRemove = _operatorReviews.FirstOrDefault(or => or.Id == id);
             if (operatorReviewToRemove != null)

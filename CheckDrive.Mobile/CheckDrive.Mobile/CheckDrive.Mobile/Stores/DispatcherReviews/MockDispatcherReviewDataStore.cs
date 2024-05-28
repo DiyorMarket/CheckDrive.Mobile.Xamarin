@@ -22,17 +22,17 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
             };
         }
 
-        async Task<List<DispatcherReviewDto>> GetDispatcherReviewsAsync()
+        List<DispatcherReviewDto> GetDispatcherReviews()
         {
-            return _reviews ;
+            return _reviews;
         }
 
-        public async Task<DispatcherReviewDto> GetDispatcherReviewAsync(int id)
+        public DispatcherReviewDto GetDispatcherReview(int id)
         {
             return _reviews.FirstOrDefault(r => r.Id == id);
         }
 
-        public async Task<DispatcherReviewDto> CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview)
+        public DispatcherReviewDto CreateDispatcherReview(DispatcherReviewForCreateDto dispatcherReview)
         {
             var newDispatcherReview = new DispatcherReviewDto
             {
@@ -49,7 +49,7 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
             return newDispatcherReview;
         }
 
-        public async Task<DispatcherReviewDto> UpdateDispatcherReviewAsync(int id, DispatcherReviewForUpdateDto dispatcherReview)
+        public DispatcherReviewDto UpdateDispatcherReview(int id, DispatcherReviewForUpdateDto dispatcherReview)
         {
             var existingReview = _reviews.FirstOrDefault(r => r.Id == id);
             if (existingReview != null)
@@ -65,7 +65,7 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
             return existingReview;
         }
 
-        public async Task DeleteDispatcherReviewAsync(int id)
+        public void DeleteDispatcherReview(int id)
         {
             var reviewToRemove = _reviews.FirstOrDefault(r => r.Id == id);
             if (reviewToRemove != null)

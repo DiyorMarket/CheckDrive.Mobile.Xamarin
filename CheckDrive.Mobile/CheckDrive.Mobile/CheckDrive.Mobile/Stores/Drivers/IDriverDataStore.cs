@@ -6,9 +6,9 @@ namespace CheckDrive.Web.Stores.Drivers
 {
     public interface IDriverDataStore
     {
-        Task<List<DriverDto>> GetDrivers();
-        Task<DriverDto> GetDriver(int id);
-        Task<DriverDto> CreateDriver(DriverDto driver);
-        Task DeleteDriver(int id);
+        List<DriverDto> GetDrivers();
+        DriverDto GetDriver(int id);
+        DriverDto CreateDriver(DriverDto driver);
+        void DeleteDriver(int id);
     }
 }

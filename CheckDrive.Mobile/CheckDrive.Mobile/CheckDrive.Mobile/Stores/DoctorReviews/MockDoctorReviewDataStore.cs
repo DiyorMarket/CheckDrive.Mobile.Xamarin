@@ -26,17 +26,17 @@ namespace CheckDrive.Web.Stores.DoctorReviews
             };
         }
 
-        public async Task<List<DoctorReviewDto>> GetDoctorReviews()
+        public List<DoctorReviewDto> GetDoctorReviews()
         {
             return _reviews.ToList();
         }
 
-        public async Task<DoctorReviewDto> GetDoctorReview(int id)
+        public DoctorReviewDto GetDoctorReview(int id)
         {
             return _reviews.FirstOrDefault(r => r.Id == id);
         }
 
-        public async Task<DoctorReviewDto> CreateDoctorReview(DoctorReviewForCreateDto review)
+        public DoctorReviewDto CreateDoctorReview(DoctorReviewForCreateDto review)
         {
             var newDoctorReview = new DoctorReviewDto
             {
@@ -46,12 +46,12 @@ namespace CheckDrive.Web.Stores.DoctorReviews
                 Date = review.Date,
                 DriverId = review.DriverId
             };
-            
+
             _reviews.Add(newDoctorReview);
             return newDoctorReview;
         }
 
-        public async Task<DoctorReviewDto> UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
+        public DoctorReviewDto UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
         {
             var existingReview = _reviews.FirstOrDefault(r => r.Id == id);
             if (existingReview != null)
@@ -64,7 +64,7 @@ namespace CheckDrive.Web.Stores.DoctorReviews
             return existingReview;
         }
 
-        public async Task DeleteDoctorReview(int id)
+        public void DeleteDoctorReview(int id)
         {
             var reviewToRemove = _reviews.FirstOrDefault(r => r.Id == id);
             if (reviewToRemove != null)

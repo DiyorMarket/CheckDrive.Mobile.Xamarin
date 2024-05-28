@@ -24,12 +24,12 @@ namespace CheckDrive.Web.Stores.MechanicHandovers
             };
         }
 
-        public async Task<List<MechanicHandoverDto>> GetMechanicHandovers()
+        public List<MechanicHandoverDto> GetMechanicHandovers()
         {
             return _mechanicHandovers.ToList();
         }
 
-        public async Task<MechanicHandoverDto> GetMechanicHandover(int id)
+        public MechanicHandoverDto GetMechanicHandover(int id)
         { 
             return _mechanicHandovers.FirstOrDefault(mh => mh.Id == id);
         }

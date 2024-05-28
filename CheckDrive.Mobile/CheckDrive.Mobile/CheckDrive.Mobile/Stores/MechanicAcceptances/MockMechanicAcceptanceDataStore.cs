@@ -25,12 +25,12 @@ namespace CheckDrive.Web.Stores.MechanicAcceptances
             };
         }
 
-        public async Task<List<MechanicAcceptanceDto>> GetMechanicAcceptances()
+        public List<MechanicAcceptanceDto> GetMechanicAcceptances()
         {
             return _mechanicAcceptances.ToList();
         }
 
-        public async Task<MechanicAcceptanceDto> GetMechanicAcceptance(int id)
+        public MechanicAcceptanceDto GetMechanicAcceptance(int id)
         {
             return _mechanicAcceptances.FirstOrDefault(ma => ma.Id == id);
         }
