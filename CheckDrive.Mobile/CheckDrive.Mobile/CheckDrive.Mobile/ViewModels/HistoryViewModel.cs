@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.ViewModels
 {
-    public class HistoryViewModel
+    public class HistoryViewModel : BaseViewModel
     {
         private readonly IDispatcherReviewDataStore _dispatcherDataStore;
         private readonly IDoctorReviewDataStore _doctorReviewDataStore;
@@ -20,11 +20,23 @@ namespace CheckDrive.Mobile.ViewModels
 
             DispatcherReviews = new ObservableCollection<History>();
 
-            GetDispatcherReviews();
+            LoadViewPage();
+        }
+
+        public async void LoadViewPage()
+        {
+
+            IsBusy = true;
+            await Task.Run(() => {
+                GetDispatcherReviews();
+            });
+            IsBusy = false;
         }
 
         public void GetDispatcherReviews()
         {
+            IsBusy = true;
+            
             DispatcherReviews.Clear();
 
             var dipatcherItems =  _dispatcherDataStore.GetDispatcherReviews().Data;
@@ -46,6 +58,8 @@ namespace CheckDrive.Mobile.ViewModels
                     DispatcherReviews.Add(historyItem);
                 }
             }
+
+            IsBusy = false;
         }
     }
 }

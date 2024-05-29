@@ -64,6 +64,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void OnLoginClicked(object obj)
         {
+            IsBusy = true;
             if (string.IsNullOrWhiteSpace(Login))
             {
                 return;
@@ -100,10 +101,12 @@ namespace CheckDrive.Mobile.ViewModels
             {
                 Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
             }
+            IsBusy = false;
         }
 
         private bool CheckingDriverLogin()
         {
+            IsBusy = true;
             var drivers = _accountDataStore.GetAccounts(Login).Data.ToList();
             var driver = drivers[0];
 
@@ -114,6 +117,8 @@ namespace CheckDrive.Mobile.ViewModels
                 DataService.SaveAccount(driver);
                 return true;
             }
+
+            IsBusy= false;
 
             return false;
         }

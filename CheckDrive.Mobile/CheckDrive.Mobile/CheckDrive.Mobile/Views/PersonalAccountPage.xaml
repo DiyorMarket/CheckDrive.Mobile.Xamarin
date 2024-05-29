@@ -1,95 +1,130 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+﻿<ContentPage
     x:Class="CheckDrive.Mobile.Views.PersonalAccountPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls">
+    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
+    xmlns:viewModels="clr-namespace:CheckDrive.Mobile.ViewModels">
+
+    <ContentPage.BindingContext>
+        <viewModels:PersonalAccountViewModel />
+    </ContentPage.BindingContext>
+
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="3*" />
-                <RowDefinition Height="4*" />
-            </Grid.RowDefinitions>
+        <AbsoluteLayout>
+            <!--  Main content grid  -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="4*" />
+                </Grid.RowDefinitions>
 
-            <Image
-                Grid.RowSpan="3"
-                Aspect="AspectFill"
-                Source="layout_profilePage.png" />
+                <Image
+                    Grid.RowSpan="3"
+                    Aspect="AspectFill"
+                    Source="layout_profilePage.png" />
 
-            <StackLayout
-                Grid.Row="1"
-                Margin="0,0,0,25"
-                HorizontalOptions="Center"
-                Spacing="15"
-                VerticalOptions="Start"
-                WidthRequest="1000">
-                <md:MaterialCard
-                    Margin="10"
-                    BackgroundColor="#f7f7f7"
-                    BorderColor="#00A3FF"
-                    CornerRadius="10"
-                    HasBorder="True"
-                    IsEnabled="True"
-                    TabIndex="1"
-                    Type="Filled">
-                    <md:MaterialLabel
-                        Margin="10,0"
-                        FontSize="Medium"
-                        Text="{Binding FullName}"
+                <StackLayout
+                    Grid.Row="1"
+                    Margin="0,0,0,25"
+                    HorizontalOptions="Center"
+                    Spacing="15"
+                    VerticalOptions="Start"
+                    WidthRequest="1000">
+                    <!--  Your existing content here  -->
+                    <md:MaterialCard
+                        Margin="10"
+                        BackgroundColor="#f7f7f7"
+                        BorderColor="#00A3FF"
+                        CornerRadius="10"
+                        HasBorder="True"
+                        IsEnabled="True"
+                        TabIndex="1"
+                        Type="Filled">
+                        <md:MaterialLabel
+                            Margin="10,0"
+                            FontSize="Medium"
+                            Text="{Binding FullName}"
+                            TextColor="#00A3FF" />
+                    </md:MaterialCard>
+                    <md:MaterialCard
+                        Margin="10"
+                        BackgroundColor="#f7f7f7"
+                        BorderColor="#00A3FF"
+                        CornerRadius="10"
+                        HasBorder="True"
+                        IsEnabled="True"
+                        TabIndex="1"
+                        Type="Filled">
+                        <md:MaterialLabel
+                            Margin="10,0"
+                            FontSize="Medium"
+                            Text="{Binding Driver.Login}"
+                            TextColor="#00A3FF" />
+                    </md:MaterialCard>
+                    <md:MaterialCard
+                        Margin="10"
+                        BackgroundColor="#f7f7f7"
+                        BorderColor="#00A3FF"
+                        CornerRadius="10"
+                        HasBorder="True"
+                        IsEnabled="True"
+                        TabIndex="1"
+                        Type="Filled">
+                        <md:MaterialLabel
+                            Margin="10,0"
+                            FontSize="Medium"
+                            Text="{Binding Driver.PhoneNumber}"
+                            TextColor="#00A3FF" />
+                    </md:MaterialCard>
+                    <md:MaterialButton
+                        Margin="10"
+                        BackgroundColor="Transparent"
+                        BorderColor="#00A3FF"
+                        ButtonType="Outlined"
+                        Command="{Binding LogOutProfile}"
+                        CornerRadius="10"
+                        FontSize="18"
+                        HeightRequest="50"
+                        TabIndex="3"
+                        Text="Profildan chiqish"
                         TextColor="#00A3FF" />
-                </md:MaterialCard>
-                <md:MaterialCard
-                    Margin="10"
-                    BackgroundColor="#f7f7f7"
-                    BorderColor="#00A3FF"
-                    CornerRadius="10"
-                    HasBorder="True"
-                    IsEnabled="True"
-                    TabIndex="1"
-                    Type="Filled">
-                    <md:MaterialLabel
-                        Margin="10,0"
+                </StackLayout>
+
+                <Label
+                    Grid.Row="1"
+                    FontSize="Small"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Application version: 1.30.27"
+                    VerticalOptions="EndAndExpand" />
+            </Grid>
+
+            <!--  Loading spinner  -->
+            <Frame
+                AbsoluteLayout.LayoutBounds="0.5,0.5,0.3,0.17"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="#80000000"
+                CornerRadius="30"
+                IsVisible="{Binding IsBusy}">
+
+                <Grid BackgroundColor="Transparent" Opacity="0.7">
+                    <ActivityIndicator
+                        HeightRequest="45"
+                        HorizontalOptions="Center"
+                        IsRunning="{Binding IsBusy}"
+                        VerticalOptions="Center"
+                        WidthRequest="35"
+                        Color="White" />
+
+                    <Label
+                        Margin="0,60,0,0"
                         FontSize="Medium"
-                        Text="{Binding Driver.Login}"
-                        TextColor="#00A3FF" />
-                </md:MaterialCard>
-                <md:MaterialCard
-                    Margin="10"
-                    BackgroundColor="#f7f7f7"
-                    BorderColor="#00A3FF"
-                    CornerRadius="10"
-                    HasBorder="True"
-                    IsEnabled="True"
-                    TabIndex="1"
-                    Type="Filled">
-                    <md:MaterialLabel
-                        Margin="10,0"
-                        FontSize="Medium"
-                        Text="{Binding Driver.PhoneNumber}"
-                        TextColor="#00A3FF" />
-                </md:MaterialCard>
-                <md:MaterialButton
-                    Margin="10"
-                    BackgroundColor="Transparent"
-                    BorderColor="#00A3FF"
-                    ButtonType="Outlined"
-                    Command="{Binding LogOutProfile}"
-                    CornerRadius="10"
-                    FontSize="18"
-                    HeightRequest="50"
-                    TabIndex="3"
-                    Text="Profildan chiqish"
-                    TextColor="#00A3FF" />
+                        HorizontalOptions="Center"
+                        Text="Loading..."
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Frame>
 
-
-            </StackLayout>
-
-            <Label
-                Grid.Row="1"
-                FontSize="Small"
-                HorizontalOptions="CenterAndExpand"
-                Text="Application version: 1.30.27"
-                VerticalOptions="EndAndExpand" />
-        </Grid>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
