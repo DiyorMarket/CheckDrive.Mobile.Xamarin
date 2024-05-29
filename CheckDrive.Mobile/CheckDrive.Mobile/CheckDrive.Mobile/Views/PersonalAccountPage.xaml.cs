@@ -1,6 +1,4 @@
-﻿using CheckDrive.Mobile.Services;
-using CheckDrive.Mobile.Stores.Drivers;
-using CheckDrive.Mobile.ViewModels;
+﻿using CheckDrive.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,8 +12,7 @@ namespace CheckDrive.Mobile.Views
         {
             InitializeComponent();
 
-            var viewModel = new PersonalAccountViewModel();
-            BindingContext = viewModel;
+            BindingContext = new PersonalAccountViewModel();
         }
     }
 }

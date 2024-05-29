@@ -15,200 +15,231 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="7*" />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Margin="20,25,20,0">
-                <Label HorizontalOptions="StartAndExpand" Text="{Binding StartDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
-                <Label
-                    FontSize="Body"
-                    HorizontalOptions="CenterAndExpand"
-                    Text="{Binding TodayDateForProgressBar, StringFormat='{0:MMMM dd}'}"
-                    TextColor="Black" />
-                <Label HorizontalOptions="EndAndExpand" Text="{Binding EndDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
-
-                <progressBars:DetailedProgressBar
-                    BackgroundColor="LightGray"
-                    BorderColor="Black"
-                    EndBackgroundColor="LightGray"
-                    EndProgressColor="#00BA00"
-                    HeightRequest="20"
-                    Orientation="Horizontal"
-                    PercentageValue="{Binding OilPercent}"
-                    ProgressTextOrientation="Center"
-                    ProgressTextPosition="Attached"
-                    StartBackgroundColor="LightGray"
-                    StartProgressColor="#00BA00"
-                    VerticalOptions="Center" />
-
-                <Label
-                    Margin="0,45,0,0"
-                    HorizontalOptions="StartAndExpand"
-                    Text="0" />
-                <Label
-                    Margin="0,45,0,0"
-                    FontSize="Body"
-                    HorizontalOptions="CenterAndExpand"
-                    Text="{Binding OilValueToString}"
-                    TextColor="Black" />
-                <Label
-                    Margin="0,45,0,0"
-                    HorizontalOptions="EndAndExpand"
-                    Text="450 L" />
-            </Grid>
-            <Grid Grid.Row="1">
+        <AbsoluteLayout>
+            <!--  Main Content  -->
+            <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="7*" />
                 </Grid.RowDefinitions>
-                <!--#region Doktor-->
-                <Grid Grid.Row="1">
-                    <Image
-                        Margin="10,0,0,0"
-                        HeightRequest="45"
+
+                <Grid Grid.Row="0" Margin="20,25,20,0">
+                    <Label HorizontalOptions="StartAndExpand" Text="{Binding StartDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
+                    <Label
+                        FontSize="Body"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding TodayDateForProgressBar, StringFormat='{0:MMMM dd}'}"
+                        TextColor="Black" />
+                    <Label HorizontalOptions="EndAndExpand" Text="{Binding EndDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
+
+                    <progressBars:DetailedProgressBar
+                        BackgroundColor="LightGray"
+                        BorderColor="Black"
+                        EndBackgroundColor="LightGray"
+                        EndProgressColor="#00BA00"
+                        HeightRequest="20"
+                        Orientation="Horizontal"
+                        PercentageValue="{Binding OilPercent}"
+                        ProgressTextOrientation="Center"
+                        ProgressTextPosition="Attached"
+                        StartBackgroundColor="LightGray"
+                        StartProgressColor="#00BA00"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Margin="0,45,0,0"
                         HorizontalOptions="StartAndExpand"
-                        Source="icon_doctor.png" />
+                        Text="0" />
                     <Label
-                        Margin="85,5,0,0"
-                        FontSize="Large"
-                        Text="Doktor"
+                        Margin="0,45,0,0"
+                        FontSize="Body"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding OilValueToString}"
                         TextColor="Black" />
-                    <Image
-                        Margin="0,0,100,0"
-                        HeightRequest="35"
-                        HorizontalOptions="End"
-                        Source="{Binding DoctorStatusCheck, Converter={StaticResource iconStatusConverter}}"
-                        WidthRequest="35" />
                     <Label
-                        Margin="0,5,20,0"
-                        FontSize="Medium"
-                        HorizontalOptions="End"
-                        Text="{Binding DoctorCheckTimeToString}"
-                        TextColor="Black" />
-                </Grid>
-                <!--#endregion-->
-                <Grid Grid.Row="2">
-                    <Image
-                        Margin="0,0,75,0"
-                        HorizontalOptions="End"
-                        Source="down_arrow.png" />
-                </Grid>
-                <!--#region Mexanik Q.q.-->
-                <Grid Grid.Row="3">
-                    <Image
-                        Margin="10,0,0,0"
-                        HeightRequest="45"
-                        HorizontalOptions="StartAndExpand"
-                        Source="icon_mechanicAcception.png" />
-                    <Label
-                        Margin="85,5,0,0"
-                        FontSize="Large"
-                        Text="Mexanik"
-                        TextColor="Black" />
-                    <Image
-                        Margin="0,0,100,0"
-                        HeightRequest="35"
-                        HorizontalOptions="End"
-                        Source="{Binding MechanicHandoverStatusCheck, Converter={StaticResource iconStatusConverter}}"
-                        WidthRequest="35" />
-                    <Label
-                        Margin="0,5,20,0"
-                        FontSize="Medium"
-                        HorizontalOptions="End"
-                        Text="{Binding MechanicHandoverCheckTime}"
-                        TextColor="Black" />
-                </Grid>
-                <!--#endregion-->
-                <Grid Grid.Row="4">
-                    <Image
-                        Margin="0,0,75,0"
-                        HorizontalOptions="End"
-                        Source="down_arrow.png" />
-                </Grid>
-                <!--#region Operator-->
-                <Grid Grid.Row="5">
-                    <Image
-                        Margin="10,0,0,0"
-                        HeightRequest="45"
-                        HorizontalOptions="StartAndExpand"
-                        Source="icon_fuel.png" />
-                    <Label
-                        Margin="85,5,0,0"
-                        FontSize="Large"
-                        Text="Operator"
-                        TextColor="Black" />
-                    <Image
-                        Margin="0,0,100,0"
-                        HeightRequest="35"
-                        HorizontalOptions="End"
-                        Source="{Binding OperatorStatusCheck, Converter={StaticResource iconStatusConverter}}"
-                        WidthRequest="35" />
-                    <Label
-                        Margin="0,5,20,0"
-                        FontSize="Medium"
-                        HorizontalOptions="End"
-                        Text="{Binding OperatorCheckTime}"
-                        TextColor="Black" />
-                </Grid>
-                <!--#endregion-->
-                <Grid Grid.Row="6">
-                    <Image
-                        Margin="0,0,75,0"
-                        HorizontalOptions="End"
-                        Source="down_arrow.png" />
-                </Grid>
-                <!--#region Mexanik T.-->
-                <Grid Grid.Row="7">
-                    <Image
-                        Margin="10,0,0,0"
-                        HeightRequest="45"
-                        HorizontalOptions="StartAndExpand"
-                        Source="icon_mechanicHandover.png" />
-                    <Label
-                        Margin="85,5,0,0"
-                        FontSize="Large"
-                        Text="Mexanik"
-                        TextColor="Black" />
-                    <Image
-                        Margin="0,0,100,0"
-                        HeightRequest="35"
-                        HorizontalOptions="End"
-                        Source="{Binding MechanicAcceptanceStatusCheck, Converter={StaticResource iconStatusConverter}}"
-                        WidthRequest="35" />
-                    <Label
-                        Margin="0,5,20,0"
-                        FontSize="Medium"
-                        HorizontalOptions="End"
-                        Text="{Binding MechanicAcceptenceCheckTime}"
-                        TextColor="Black" />
-                </Grid>
-                <!--#endregion-->
-                <!--#region PoPup Button-->
-                <Grid Grid.Row="8">
-                    <Button
-                        x:Name="clickToShowPopup"
-                        Margin="10,10,10,0"
-                        BackgroundColor="#00a3ff"
-                        Clicked="ClickToShowPopup_Clicked"
-                        CornerRadius="30"
-                        HeightRequest="35"
+                        Margin="0,45,0,0"
                         HorizontalOptions="EndAndExpand"
-                        Text="Popup"
-                        VerticalOptions="Start"
-                        WidthRequest="85" />
+                        Text="450 L" />
                 </Grid>
-                <!--#endregion-->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <!--#region Doktor-->
+                    <Grid Grid.Row="1">
+                        <Image
+                            Margin="10,0,0,0"
+                            HeightRequest="45"
+                            HorizontalOptions="StartAndExpand"
+                            Source="icon_doctor.png" />
+                        <Label
+                            Margin="85,5,0,0"
+                            FontSize="Large"
+                            Text="Doktor"
+                            TextColor="Black" />
+                        <Image
+                            Margin="0,0,100,0"
+                            HeightRequest="35"
+                            HorizontalOptions="End"
+                            Source="{Binding DoctorStatusCheck, Converter={StaticResource iconStatusConverter}}"
+                            WidthRequest="35" />
+                        <Label
+                            Margin="0,5,20,0"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            Text="{Binding DoctorCheckTimeToString}"
+                            TextColor="Black" />
+                    </Grid>
+                    <!--#endregion-->
+                    <Grid Grid.Row="2">
+                        <Image
+                            Margin="0,0,75,0"
+                            HorizontalOptions="End"
+                            Source="down_arrow.png" />
+                    </Grid>
+                    <!--#region Mexanik Q.q.-->
+                    <Grid Grid.Row="3">
+                        <Image
+                            Margin="10,0,0,0"
+                            HeightRequest="45"
+                            HorizontalOptions="StartAndExpand"
+                            Source="icon_mechanicAcception.png" />
+                        <Label
+                            Margin="85,5,0,0"
+                            FontSize="Large"
+                            Text="Mexanik"
+                            TextColor="Black" />
+                        <Image
+                            Margin="0,0,100,0"
+                            HeightRequest="35"
+                            HorizontalOptions="End"
+                            Source="{Binding MechanicHandoverStatusCheck, Converter={StaticResource iconStatusConverter}}"
+                            WidthRequest="35" />
+                        <Label
+                            Margin="0,5,20,0"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            Text="{Binding MechanicHandoverCheckTime}"
+                            TextColor="Black" />
+                    </Grid>
+                    <!--#endregion-->
+                    <Grid Grid.Row="4">
+                        <Image
+                            Margin="0,0,75,0"
+                            HorizontalOptions="End"
+                            Source="down_arrow.png" />
+                    </Grid>
+                    <!--#region Operator-->
+                    <Grid Grid.Row="5">
+                        <Image
+                            Margin="10,0,0,0"
+                            HeightRequest="45"
+                            HorizontalOptions="StartAndExpand"
+                            Source="icon_fuel.png" />
+                        <Label
+                            Margin="85,5,0,0"
+                            FontSize="Large"
+                            Text="Operator"
+                            TextColor="Black" />
+                        <Image
+                            Margin="0,0,100,0"
+                            HeightRequest="35"
+                            HorizontalOptions="End"
+                            Source="{Binding OperatorStatusCheck, Converter={StaticResource iconStatusConverter}}"
+                            WidthRequest="35" />
+                        <Label
+                            Margin="0,5,20,0"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            Text="{Binding OperatorCheckTime}"
+                            TextColor="Black" />
+                    </Grid>
+                    <!--#endregion-->
+                    <Grid Grid.Row="6">
+                        <Image
+                            Margin="0,0,75,0"
+                            HorizontalOptions="End"
+                            Source="down_arrow.png" />
+                    </Grid>
+                    <!--#region Mexanik T.-->
+                    <Grid Grid.Row="7">
+                        <Image
+                            Margin="10,0,0,0"
+                            HeightRequest="45"
+                            HorizontalOptions="StartAndExpand"
+                            Source="icon_mechanicHandover.png" />
+                        <Label
+                            Margin="85,5,0,0"
+                            FontSize="Large"
+                            Text="Mexanik"
+                            TextColor="Black" />
+                        <Image
+                            Margin="0,0,100,0"
+                            HeightRequest="35"
+                            HorizontalOptions="End"
+                            Source="{Binding MechanicAcceptanceStatusCheck, Converter={StaticResource iconStatusConverter}}"
+                            WidthRequest="35" />
+                        <Label
+                            Margin="0,5,20,0"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+                            Text="{Binding MechanicAcceptenceCheckTime}"
+                            TextColor="Black" />
+                    </Grid>
+                    <!--#endregion-->
+                    <!--#region PoPup Button-->
+                    <Grid Grid.Row="8">
+                        <Button
+                            x:Name="clickToShowPopup"
+                            Margin="10,10,10,0"
+                            BackgroundColor="#00a3ff"
+                            Clicked="ClickToShowPopup_Clicked"
+                            CornerRadius="30"
+                            HeightRequest="35"
+                            HorizontalOptions="EndAndExpand"
+                            Text="Popup"
+                            VerticalOptions="Start"
+                            WidthRequest="85" />
+                    </Grid>
+                    <!--#endregion-->
+                </Grid>
             </Grid>
-        </Grid>
+
+            <Frame
+                AbsoluteLayout.LayoutBounds="0.5,0.5,0.3,0.17"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="#80000000"
+                CornerRadius="30"
+                IsVisible="{Binding IsBusy}">
+
+                <Grid 
+                    Opacity="0.7">
+                    <ActivityIndicator
+                        HeightRequest="45"
+                        HorizontalOptions="Center"
+                        IsRunning="{Binding IsBusy}"
+                        VerticalOptions="Center"
+                        WidthRequest="35"
+                        Color="White" />
+
+                    <Label
+                        Margin="0,60,0,0"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        Text="Loading..."
+                        TextColor="White"
+                        VerticalOptions="Center" />
+                </Grid>
+            </Frame>
+
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
