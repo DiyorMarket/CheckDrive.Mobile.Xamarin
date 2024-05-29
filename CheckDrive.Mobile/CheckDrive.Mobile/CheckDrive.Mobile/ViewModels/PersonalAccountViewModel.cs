@@ -28,7 +28,7 @@ namespace CheckDrive.Mobile.ViewModels
         public PersonalAccountViewModel()
         {
             LogOutProfile = new Command(NavigationLoginPage);
-            InitializeDataAsync();
+            InitializeDataAsync().ConfigureAwait(false);
         }
 
         private async Task InitializeDataAsync()
@@ -43,7 +43,7 @@ namespace CheckDrive.Mobile.ViewModels
             IsBusy = false;
         }
 
-        private async Task GetDriverData()
+        private void  GetDriverData()
         {
             Driver = DataService.GetAccount();
             FullName = $"{Driver.FirstName} {Driver.LastName}";
