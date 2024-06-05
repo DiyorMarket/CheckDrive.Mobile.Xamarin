@@ -8,11 +8,18 @@ namespace CheckDrive.Mobile.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool booleanValue)
+            if (parameter != null && parameter.ToString() == "IsAllTrue")
             {
-                return booleanValue ? "icon_check.png" : "icon_incorrect.png";
+                if (value is bool isAllTrue)
+                {
+                    return isAllTrue ? "icon_check.png" : "icon_incorrect.png";
+                }
             }
-            return "icon_incorrect.png"; // Default fallback
+            else if (value is bool booleanValue)
+            {
+                return booleanValue ? "icon_correct_for_history.png" : "icon_incorrect_for_history.png";
+            }
+            return "icon_incorrect.png"; 
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
