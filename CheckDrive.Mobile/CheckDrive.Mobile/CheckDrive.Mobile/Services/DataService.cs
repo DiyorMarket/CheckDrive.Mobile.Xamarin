@@ -33,7 +33,7 @@ namespace CheckDrive.Mobile.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error saving token");
+                Console.WriteLine($"Error saving token. {ex.Message}");
             }
         }
         public static AccountDto GetAccount()
