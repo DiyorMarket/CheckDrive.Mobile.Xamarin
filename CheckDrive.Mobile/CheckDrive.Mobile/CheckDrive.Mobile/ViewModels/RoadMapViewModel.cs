@@ -7,6 +7,7 @@ using CheckDrive.Web.Stores.MechanicHandovers;
 using CheckDrive.Web.Stores.OperatorReviews;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.ViewModels
 {
@@ -112,7 +113,10 @@ namespace CheckDrive.Mobile.ViewModels
         public DateTime TodayDateForProgressBar { get; set; }
         public DateTime EndDateForProgressBar { get; set; }
 
-        public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore, IMechanicAcceptanceDataStore mechanicAcceptanceDataStore, IOperatorReviewDataStore operatorReviewDataStore, IMechanicHandoverDataStore mechanicHandoverDataStore)
+        public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore,
+            IMechanicAcceptanceDataStore mechanicAcceptanceDataStore,
+            IOperatorReviewDataStore operatorReviewDataStore, 
+            IMechanicHandoverDataStore mechanicHandoverDataStore)
         {
             _doctorReviewDatastore = doctorReviewDataStore;
             _mechanicAcceptanceDataStore = mechanicAcceptanceDataStore;
@@ -122,12 +126,30 @@ namespace CheckDrive.Mobile.ViewModels
 
             LoadViewPage();
         }
-
-        public void LoadViewPage()
+         public async void LoadViewPage()
         {
-            GetOilResult();
-            GetMessage();
-            CheckDoctorStatusValue();
+            IsBusy = true;
+            await Task.Run(() => {
+                //CheckStatusForBeforeDay();
+                GetOilResult();
+                GetMessage();
+                CheckDoctorStatusValue();
+            });
+            IsBusy = false;
+        }
+
+        private void CheckStatusForBeforeDay()
+        {
+            var mechanicAccep = _mechanicAcceptanceDataStore.GetMechanicAcceptances(_driver.Id, "dateDesc").Data.First();
+
+            if(mechanicAccep != null && mechanicAccep.Status == StatusForDto.Pending)
+            {
+                _doctorStatus = StatusForDto.Pending;
+                _mechanicHandoverStatus = StatusForDto.Pending;
+                _operatorStatus = StatusForDto.Pending;
+                _mechanicAcceptanceStatus = StatusForDto.Pending;
+            }
+            
         }
 
         private void GetOilResult()
@@ -146,9 +168,18 @@ namespace CheckDrive.Mobile.ViewModels
             oilPercent = (float)(OilPresentValue / 450);
         }
 
+        private void GetMessage()
+        {
+            IsBusy = true;
+
+            Message = "Siz davlat raqami 'P333MB' bo'lgan Malibu avtomobilini qabul qilasizmi";
+
+            IsBusy = false;
+        }
+
         private void CheckDoctorStatusValue()
         {
-            var doctorReviews = _doctorReviewDatastore.GetDoctorReviews().Data;
+            var doctorReviews = _doctorReviewDatastore.GetDoctorReviews(DateTime.Now).Data;
 
             var doctorReview = doctorReviews.FirstOrDefault(x => x.DriverId == _driver.Id && x.Date.Day == TodayDateForProgressBar.Day);
 
@@ -295,10 +326,5 @@ namespace CheckDrive.Mobile.ViewModels
             MechanicHandoverCheckTime = "";
         }
 
-
-        private void GetMessage()
-        {
-            Message = "Siz davlat raqami 'P333MB' bo'lgan Malibu avtomobilini qabul qilasizmi";
-        }
     }
 }

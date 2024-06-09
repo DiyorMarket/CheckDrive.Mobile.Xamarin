@@ -1,7 +1,5 @@
-﻿using CheckDrive.ApiContracts.Account;
-using CheckDrive.ApiContracts.Driver;
+﻿using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
-using CheckDrive.Mobile.Stores.Drivers;
 using CheckDrive.Web.Stores.Accounts;
 using CheckDrive.Web.Stores.Drivers;
 using System.Linq;
@@ -69,6 +67,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void OnLoginClicked(object obj)
         {
+            IsBusy = true;
             if (string.IsNullOrWhiteSpace(Login))
             {
                 return;
@@ -105,6 +104,7 @@ namespace CheckDrive.Mobile.ViewModels
             {
                 Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
             }
+            IsBusy = false;
         }
 
         private bool CheckingDriverLogin()
@@ -120,6 +120,8 @@ namespace CheckDrive.Mobile.ViewModels
                 DataService.SaveAccount(driver);
                 return true;
             }
+
+            IsBusy= false;
 
             return false;
         }
