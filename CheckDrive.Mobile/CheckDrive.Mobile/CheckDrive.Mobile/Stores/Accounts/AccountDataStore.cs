@@ -55,7 +55,6 @@ namespace CheckDrive.Mobile.Stores.Accounts
 
             return token;
         }
-
         public AccountDto GetAccount(int id)
         {
             var response = _api.Get($"accounts/{id}");

@@ -25,7 +25,6 @@ namespace CheckDrive.Mobile.Services
                 Console.WriteLine($"Error saving {securetyKey}: {ex.Message}");
             }
         }
-
         public static void SaveToken(string token)
         {
             try
