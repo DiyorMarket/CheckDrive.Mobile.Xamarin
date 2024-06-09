@@ -31,25 +31,29 @@ namespace CheckDrive.Web.Stores.OperatorReviews
             };
         }
 
-        public List<OperatorReviewDto> GetOperatorReviews()
+        public async Task<List<OperatorReviewDto>> GetOperatorReviews()
         {
+            await Task.Delay(100);
             return _operatorReviews.ToList();
         }
 
-        public OperatorReviewDto GetOperatorReview(int id)
+        public async Task<OperatorReviewDto> GetOperatorReview(int id)
         {
+            await Task.Delay(100);
             return _operatorReviews.FirstOrDefault(or => or.Id == id);
         }
 
-        public OperatorReviewDto CreateOperatorReview(OperatorReviewDto operatorReview)
+        public async Task<OperatorReviewDto> CreateOperatorReview(OperatorReviewDto operatorReview)
         {
+            await Task.Delay(100);
             operatorReview.Id = _operatorReviews.Max(or => or.Id) + 1;
             _operatorReviews.Add(operatorReview);
             return operatorReview;
         }
 
-        public OperatorReviewDto UpdateOperatorReview(int id, OperatorReviewDto operatorReview)
-        { 
+        public async Task<OperatorReviewDto> UpdateOperatorReview(int id, OperatorReviewDto operatorReview)
+        {
+            await Task.Delay(100);
             var existingOperatorReview = _operatorReviews.FirstOrDefault(or => or.Id == id);
             if (existingOperatorReview != null)
             {
@@ -63,8 +67,9 @@ namespace CheckDrive.Web.Stores.OperatorReviews
             return existingOperatorReview;
         }
 
-        public void DeleteOperatorReview(int id)
+        public async void DeleteOperatorReview(int id)
         {
+            await Task.Delay(100);
             var operatorReviewToRemove = _operatorReviews.FirstOrDefault(or => or.Id == id);
             if (operatorReviewToRemove != null)
             {

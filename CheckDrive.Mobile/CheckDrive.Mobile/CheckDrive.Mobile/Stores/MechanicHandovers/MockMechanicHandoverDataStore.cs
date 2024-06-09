@@ -1,5 +1,5 @@
-﻿using CheckDrive.ApiContracts.MechanicHandover;
-using CheckDrive.ApiContracts;
+﻿using CheckDrive.ApiContracts;
+using CheckDrive.ApiContracts.MechanicHandover;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +24,15 @@ namespace CheckDrive.Web.Stores.MechanicHandovers
             };
         }
 
-        public List<MechanicHandoverDto> GetMechanicHandovers()
+        public async Task<List<MechanicHandoverDto>> GetMechanicHandovers()
         {
+            await Task.Delay(100);
             return _mechanicHandovers.ToList();
         }
 
-        public MechanicHandoverDto GetMechanicHandover(int id)
-        { 
+        public async Task<MechanicHandoverDto> GetMechanicHandover(int id)
+        {
+            await Task.Delay(100);
             return _mechanicHandovers.FirstOrDefault(mh => mh.Id == id);
         }
 

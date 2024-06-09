@@ -5,6 +5,7 @@ using CheckDrive.Web.Stores.MechanicHandovers;
 using CheckDrive.Web.Stores.OperatorReviews;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.ViewModels
 {
@@ -117,12 +118,15 @@ namespace CheckDrive.Mobile.ViewModels
 
             LoadViewPage();
         }
-
-        public void LoadViewPage()
+         public async void LoadViewPage()
         {
-            GetOilResult();
-            GetMessage();
-            CheckDoctorStatusValue();
+            IsBusy = true;
+            await Task.Run(() => {
+                GetOilResult();
+                GetMessage();
+                CheckDoctorStatusValue();
+            });
+            IsBusy = false;
         }
 
         private void GetOilResult()
@@ -145,7 +149,11 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void GetMessage()
         {
+            IsBusy = true;
+
             Message = "Siz davlat raqami 'P333MB' bo'lgan Malibu avtomobilini qabul qilasizmi";
+
+            IsBusy = false;
         }
 
         private void CheckDoctorStatusValue()

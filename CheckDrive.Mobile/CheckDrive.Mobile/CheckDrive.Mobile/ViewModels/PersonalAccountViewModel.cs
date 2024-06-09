@@ -1,6 +1,7 @@
-﻿using CheckDrive.ApiContracts.Driver;
+﻿using CheckDrive.ApiContracts.Account;
+using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.Views;
-using CheckDrive.Web.Stores.Drivers;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -8,27 +9,51 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class PersonalAccountViewModel : BaseViewModel
     {
-        private readonly IDriverDataStore _driverDataStore;
-        public DriverDto Driver { get; set; }
-
-        public ICommand RegisterCommand { get; }
-
-        public PersonalAccountViewModel(IDriverDataStore driverDataStore)
+        private AccountDto driver;
+        public AccountDto Driver
         {
-            RegisterCommand = new Command(NavigationLoginPage);
-            _driverDataStore = driverDataStore;
-            GetDriverData();
+            get => driver;
+            set => SetProperty(ref driver, value);
         }
 
-        public void GetDriverData()
+        private string fullName;
+        public string FullName
         {
-            var drivers  = _driverDataStore.GetDrivers();
-            Driver = drivers[0];
+
+            get => fullName;
+            set => SetProperty(ref fullName, value);
+        }
+
+        public ICommand LogOutProfile { get; }
+
+        public PersonalAccountViewModel()
+        {
+            LogOutProfile = new Command(NavigationLoginPage);
+            InitializeDataAsync().ConfigureAwait(false);
+        }
+
+        private async Task InitializeDataAsync()
+        {
+            if(IsBusy) return;
+            IsBusy = true;
+
+            await Task.Run(() => {
+                GetDriverData();    
+            });
+
+            IsBusy = false;
+        }
+
+        private void  GetDriverData()
+        {
+            Driver = DataService.GetAccount();
+            FullName = $"{Driver.FirstName} {Driver.LastName}";
         }
 
         private void NavigationLoginPage()
         {
-             Application.Current.MainPage = new AppShell();
+            DataService.RemoveAcoountData();
+            Application.Current.MainPage = new LoginPage();
         }
     }
 }

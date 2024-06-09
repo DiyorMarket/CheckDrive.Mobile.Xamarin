@@ -1,14 +1,11 @@
-﻿using CheckDrive.ApiContracts.Driver;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿﻿using CheckDrive.ApiContracts.Driver;
+using CheckDrive.Mobile.Responses;
 
 namespace CheckDrive.Web.Stores.Drivers
 {
     public interface IDriverDataStore
     {
-        List<DriverDto> GetDrivers();
+        GetDriverResponse GetDrivers(int accountId);
         DriverDto GetDriver(int id);
-        DriverDto CreateDriver(DriverDto driver);
-        void DeleteDriver(int id);
     }
 }

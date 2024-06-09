@@ -7,10 +7,11 @@ using CheckDrive.Web.Stores.OperatorReviews;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.ViewModels
 {
-    public class HistoryViewModel
+    public class HistoryViewModel : BaseViewModel
     {
         private readonly IDoctorReviewDataStore _doctorReviewDataStore;
         private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
@@ -28,11 +29,22 @@ namespace CheckDrive.Mobile.ViewModels
 
             Reviews = new ObservableCollection<History>();
 
-            GetDispatcherReviews();
+            LoadViewPage();
+        }
+
+        public async void LoadViewPage()
+        {
+
+            IsBusy = true;
+            await Task.Run(() => {
+                GetDispatcherReviews();
+            });
+            IsBusy = false;
         }
         public void GetDispatcherReviews()
         {
             Reviews.Clear();
+            IsBusy = true;
 
             var doctorItems = _doctorReviewDataStore.GetDoctorReviewsByDriverId(2).Data;
             var mechanicHandoverItems = _mechanicHandoverDataStore.GetMechanicHandoversByDriverId(2).Data;
@@ -54,6 +66,8 @@ namespace CheckDrive.Mobile.ViewModels
 
                 Reviews.Add(historyItem);
             }
+
+            IsBusy = false;
         }
     }
 }

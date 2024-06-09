@@ -22,9 +22,10 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
             };
         }
 
-        List<DispatcherReviewDto> GetDispatcherReviews()
+        public async Task<List<DispatcherReviewDto>> GetDispatcherReviewsAsync()
         {
-            return _reviews;
+            await Task.Delay(100);
+            return _reviews ;
         }
 
         public DispatcherReviewDto GetDispatcherReview(int id)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.Drivers
 {
-    public class MockDriverDataStore : IDriverDataStore
+    public class MockDriverDataStore
     {
         private readonly List<DriverDto> _drivers;
 
@@ -19,25 +19,29 @@ namespace CheckDrive.Web.Stores.Drivers
             };
         }
 
-        public List<DriverDto> GetDrivers()
+        public async Task<List<DriverDto>> GetDrivers()
         {
+            await Task.Delay(100);
             return _drivers.ToList();
         }
 
-        public DriverDto GetDriver(int id)
+        public async Task<DriverDto> GetDriver(int id)
         {
+            await Task.Delay(100);
             return _drivers.FirstOrDefault(d => d.Id == id);
         }
 
-        public DriverDto CreateDriver(DriverDto driver)
+        public async Task<DriverDto> CreateDriver(DriverDto driver)
         {
-            driver.Id = _drivers.Max(d => d.Id) + 1;
+            await Task.Delay(100);
+            driver.Id = _drivers.Max(d => d.Id) + 1; 
             _drivers.Add(driver);
             return driver;
         }
 
-        public void DeleteDriver(int id)
+        public async void DeleteDriver(int id)
         {
+            await Task.Delay(100);
             var driverToRemove = _drivers.FirstOrDefault(d => d.Id == id);
             if (driverToRemove != null)
             {
