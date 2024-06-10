@@ -80,21 +80,6 @@ namespace CheckDrive.Mobile.ViewModels
                 IsBusy = true;
 
                 var isSuccess = CheckingDriverLogin();
-
-                if (!isSuccess)
-                {
-                    Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
-
-                    return;
-                }
-
-                if(Account.Password != Password) 
-                {
-                    Application.Current.MainPage.DisplayAlert("Password Failed", "Please check your credentials and try again.", "OK");
-
-                    return;
-                }
-
                 Application.Current.MainPage = new AppShell();
             }
             catch
@@ -107,6 +92,14 @@ namespace CheckDrive.Mobile.ViewModels
         private bool CheckingDriverLogin()
         {
             IsBusy = true;
+
+            var token = _accountDataStore.CreateToken(Login, Password);
+
+            if (token != null)
+            {
+                DataService.SaveToken(token);
+            }
+
             var drivers = _accountDataStore.GetAccounts(Login).Data.ToList();
             var driver = drivers[0];
 

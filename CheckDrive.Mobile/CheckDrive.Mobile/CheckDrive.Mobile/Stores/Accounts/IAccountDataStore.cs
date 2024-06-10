@@ -5,6 +5,7 @@ namespace CheckDrive.Web.Stores.Accounts
 {
     public interface IAccountDataStore
     {
+        string CreateToken(string login, string password);
         GetAccountResponse GetAccounts(string login);
         AccountDto GetAccount(int id);
         AccountDto CreateAccount(AccountDto account);

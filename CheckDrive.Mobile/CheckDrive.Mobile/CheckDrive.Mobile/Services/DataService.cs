@@ -25,7 +25,17 @@ namespace CheckDrive.Mobile.Services
                 Console.WriteLine($"Error saving {securetyKey}: {ex.Message}");
             }
         }
-
+        public static void SaveToken(string token)
+        {
+            try
+            {
+            SecureStorage.SetAsync("tasty-cookies", token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving token. {ex.Message}");
+            }
+        }
         public static AccountDto GetAccount()
         {
             try
