@@ -39,7 +39,7 @@ namespace CheckDrive.Web.Stores.Drivers
             return driver;
         }
 
-        public async Task DeleteDriver(int id)
+        public async void DeleteDriver(int id)
         {
             await Task.Delay(100);
             var driverToRemove = _drivers.FirstOrDefault(d => d.Id == id);

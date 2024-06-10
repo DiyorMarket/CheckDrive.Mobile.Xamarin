@@ -1,5 +1,5 @@
-﻿using CheckDrive.ApiContracts.MechanicHandover;
-using CheckDrive.ApiContracts;
+﻿using CheckDrive.ApiContracts;
+using CheckDrive.ApiContracts.MechanicHandover;
 using System;
 using System.Collections.Generic;
 using System.Linq;

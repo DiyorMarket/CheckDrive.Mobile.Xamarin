@@ -1,12 +1,11 @@
 ﻿using Android.Content;
-using Android.Graphics.Drawables;
+using Android.Content.Res;
+using Android.Widget;
 using AndroidX.Core.Content;
-using CheckDrive.Mobile.Droid.Renderers;
 using CheckDrive.Mobile.Controls;
+using CheckDrive.Mobile.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using Android.Widget;
-using Android.Content.Res;
 
 [assembly: ExportRenderer(typeof(CustomMaterialEntry), typeof(MaterialEntryRenderer))]
 namespace CheckDrive.Mobile.Droid.Renderers

@@ -7,6 +7,7 @@ namespace CheckDrive.Web.Stores.MechanicAcceptances
     public interface IMechanicAcceptanceDataStore
     {
         GetMechanicAcceptanceResponse GetMechanicAcceptances();
+        GetMechanicAcceptanceResponse GetMechanicAcceptancesByDriverId(int driverId);
         MechanicAcceptanceDto GetMechanicAcceptance(int id);
         MechanicAcceptanceDto CreateMechanicAcceptance(MechanicAcceptanceForCreateDto mechanicAcceptance);
         MechanicAcceptanceDto UpdateMechanicAcceptance(int id, MechanicAcceptanceForUpdateDto mechanicAcceptance);

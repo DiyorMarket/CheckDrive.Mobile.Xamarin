@@ -36,6 +36,20 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
 
             return result;
         }
+        public GetOperatorReviewResponse GetOperatorReviewsByDriverId(int driverId)
+        {
+            var response = _api.Get("mechanics/handovers?DriverId=" + driverId + "&OrderBy=datedesc");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch operator reviews.");
+            }
+
+            var json = response.Content.ReadAsStringAsync().Result;
+            var result = JsonConvert.DeserializeObject<GetOperatorReviewResponse>(json);
+
+            return result;
+        }
         public OperatorReviewDto GetOperatorReview(int id)
         {
             var response = _api.Get($"operators/review/{id}");

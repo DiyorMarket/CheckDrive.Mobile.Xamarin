@@ -32,6 +32,20 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
 
             return result;
         }
+        public GetMechanicAcceptanceResponse GetMechanicAcceptancesByDriverId(int driverId)
+        {
+
+            var response = _api.Get("mechanics/acceptances?DriverId" + driverId + "&OrderBy=datedesc");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch mechanicAcceptance.");
+            }
+
+            var json = response.Content.ReadAsStringAsync().Result;
+            var result = JsonConvert.DeserializeObject<GetMechanicAcceptanceResponse>(json);
+
+            return result;
+        }
 
         public MechanicAcceptanceDto GetMechanicAcceptance(int id)
         {

@@ -19,6 +19,7 @@ namespace CheckDrive.Mobile.ViewModels
         private string fullName;
         public string FullName
         {
+
             get => fullName;
             set => SetProperty(ref fullName, value);
         }
