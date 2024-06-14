@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.DoctorReviews
 {
@@ -26,21 +25,18 @@ namespace CheckDrive.Web.Stores.DoctorReviews
             };
         }
 
-        public async Task<List<DoctorReviewDto>> GetDoctorReviews()
+        public List<DoctorReviewDto> GetDoctorReviews()
         {
-            await Task.Delay(100);
             return _reviews.ToList();
         }
 
-        public async Task<DoctorReviewDto> GetDoctorReview(int id)
+        public DoctorReviewDto GetDoctorReview(int id)
         {
-            await Task.Delay(100);
             return _reviews.FirstOrDefault(r => r.Id == id);
         }
 
-        public async Task<DoctorReviewDto> CreateDoctorReview(DoctorReviewForCreateDto review)
+        public DoctorReviewDto CreateDoctorReview(DoctorReviewForCreateDto review)
         {
-            await Task.Delay(100);
             var newDoctorReview = new DoctorReviewDto
             {
                 Id = _reviews.Count + 1,
@@ -49,14 +45,13 @@ namespace CheckDrive.Web.Stores.DoctorReviews
                 Date = review.Date,
                 DriverId = review.DriverId
             };
-            
+
             _reviews.Add(newDoctorReview);
             return newDoctorReview;
         }
 
-        public async Task<DoctorReviewDto> UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
+        public DoctorReviewDto UpdateDoctorReview(int id, DoctorReviewForUpdateDto review)
         {
-            await Task.Delay(100);
             var existingReview = _reviews.FirstOrDefault(r => r.Id == id);
             if (existingReview != null)
             {
@@ -68,9 +63,8 @@ namespace CheckDrive.Web.Stores.DoctorReviews
             return existingReview;
         }
 
-        public async Task DeleteDoctorReview(int id)
+        public void DeleteDoctorReview(int id)
         {
-            await Task.Delay(100);
             var reviewToRemove = _reviews.FirstOrDefault(r => r.Id == id);
             if (reviewToRemove != null)
             {

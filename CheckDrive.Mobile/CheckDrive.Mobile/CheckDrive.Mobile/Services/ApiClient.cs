@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "https://x60ngf6c-7111.euw.devtunnels.ms/api";
+        private const string BaseUrl = "https://2bvq12nl-7111.euw.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 
@@ -45,27 +46,32 @@ namespace CheckDrive.Mobile.Services
                 throw;
             }
         }
-
         public HttpResponseMessage Post(string resource, string body)
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, BaseUrl + "/" + resource);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response =  _client.SendAsync(request).Result;
+                var response = _client.SendAsync(request).Result;
 
                 return response;
             }
             catch (HttpRequestException ex)
             {
-                throw new HttpRequestException(ex.Message);
+                Console.WriteLine($"{ex.Message}");
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
 
+            // Return a default HttpResponseMessage in case of an exception
+            return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+            {
+                Content = new StringContent("An error occurred while processing the request.")
+            };
         }
+
 
         public HttpResponseMessage Put(string url, string data)
         {

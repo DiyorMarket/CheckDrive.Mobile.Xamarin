@@ -1,24 +1,33 @@
-﻿using CheckDrive.Mobile.Helpers;
-using CheckDrive.Web.Stores.DispatcherReviews;
+﻿using CheckDrive.ApiContracts.MechanicHandover;
+using CheckDrive.Mobile.Helpers;
 using CheckDrive.Web.Stores.DoctorReviews;
+using CheckDrive.Web.Stores.MechanicAcceptances;
+using CheckDrive.Web.Stores.MechanicHandovers;
+using CheckDrive.Web.Stores.OperatorReviews;
+using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.ViewModels
 {
     public class HistoryViewModel : BaseViewModel
     {
-        private readonly IDispatcherReviewDataStore _dispatcherDataStore;
         private readonly IDoctorReviewDataStore _doctorReviewDataStore;
+        private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
+        private readonly IOperatorReviewDataStore _operatorReviewDataStore;
+        private readonly IMechanicAcceptanceDataStore _mechanicAcceptanceDataStore;
 
-        public ObservableCollection<History> DispatcherReviews { get; private set; }
+        public ObservableCollection<History> Reviews { get; private set; }
 
-        public HistoryViewModel(IDispatcherReviewDataStore dispatcherReviewDataStore, IDoctorReviewDataStore doctorReviewDataStore)
+        public HistoryViewModel(IDoctorReviewDataStore doctorReviewDataStore, IMechanicHandoverDataStore mechanicHandoverDataStore, IOperatorReviewDataStore operatorReviewDataStore, IMechanicAcceptanceDataStore mechanicAcceptanceDataStore)
         {
-            _dispatcherDataStore = dispatcherReviewDataStore;
             _doctorReviewDataStore = doctorReviewDataStore;
+            _mechanicHandoverDataStore = mechanicHandoverDataStore;
+            _operatorReviewDataStore = operatorReviewDataStore;
+            _mechanicAcceptanceDataStore = mechanicAcceptanceDataStore;
 
-            DispatcherReviews = new ObservableCollection<History>();
+            Reviews = new ObservableCollection<History>();
 
             LoadViewPage();
         }
@@ -32,31 +41,30 @@ namespace CheckDrive.Mobile.ViewModels
             });
             IsBusy = false;
         }
-
         public void GetDispatcherReviews()
         {
+            Reviews.Clear();
             IsBusy = true;
-            
-            DispatcherReviews.Clear();
 
-            var dipatcherItems =  _dispatcherDataStore.GetDispatcherReviews().Data;
-            var doctorItems =  _doctorReviewDataStore.GetDoctorReviews().Data;
+            var doctorItems = _doctorReviewDataStore.GetDoctorReviewsByDriverId(2).Data;
+            var mechanicHandoverItems = _mechanicHandoverDataStore.GetMechanicHandoversByDriverId(2).Data;
+            var operatorItems = _operatorReviewDataStore.GetOperatorReviewsByDriverId(2).Data;
+            var mechanicAcceptence = _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverId(2).Data;
 
+            int itemCount = Math.Min(Math.Min(doctorItems.Count(), mechanicHandoverItems.Count()), Math.Min(operatorItems.Count(), mechanicAcceptence.Count()));
 
-            foreach (var item in dipatcherItems)
+            for (int i = 0; i < itemCount; i++)
             {
-                if (item.DriverId == 2)
+                var historyItem = new History
                 {
-                    var historyItem = new History
-                    {
-                        Date = item.Date,
-                    };
-                    foreach (var doctoritem in doctorItems)
-                    {
-                        historyItem.IsHealthy = doctoritem.IsHealthy;
-                    }
-                    DispatcherReviews.Add(historyItem);
-                }
+                    Date = doctorItems.ToList()[i].Date,
+                    IsHealthy = doctorItems.ToList()[i].IsHealthy,
+                    IsHanded = mechanicHandoverItems.ToList()[i].IsHanded,
+                    IsGiven = operatorItems.ToList()[i].IsGiven,
+                    IsAccepted = mechanicAcceptence.ToList()[i].IsAccepted
+                };
+
+                Reviews.Add(historyItem);
             }
 
             IsBusy = false;

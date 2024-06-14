@@ -4,6 +4,7 @@ using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.Accounts;
 using Newtonsoft.Json;
 using System;
+using System.Net.Http;
 using System.Text;
 
 namespace CheckDrive.Mobile.Stores.Accounts
@@ -37,7 +38,23 @@ namespace CheckDrive.Mobile.Stores.Accounts
 
             return result;
         }
+        public string CreateToken(string login, string password)
+        {
+            var json = JsonConvert.SerializeObject(new { login, password });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            var response = _api.Post("login/login", json);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch accounts.");
+            }
+
+            var tokenJson =  response.Content.ReadAsStringAsync().Result;
+            var token = JsonConvert.DeserializeObject<string>(tokenJson);
+
+            return token;
+        }
         public AccountDto GetAccount(int id)
         {
             var response = _api.Get($"accounts/{id}");

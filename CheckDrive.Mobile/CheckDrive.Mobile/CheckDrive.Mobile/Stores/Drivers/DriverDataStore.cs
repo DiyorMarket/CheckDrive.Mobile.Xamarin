@@ -21,7 +21,7 @@ namespace CheckDrive.Mobile.Stores.Drivers
         {
             StringBuilder query = new StringBuilder("");
 
-            if(!accountId.Equals(0))
+            if (!accountId.Equals(0))
             {
                 query.Append($"accountId={accountId}");
             }

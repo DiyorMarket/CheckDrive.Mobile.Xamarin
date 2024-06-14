@@ -32,10 +32,23 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
 
             return result;
         }
-
-        public  DoctorReviewDto GetDoctorReview(int id)
+        public GetDoctorReviewResponse GetDoctorReviewsByDriverId(int driverId)
         {
-            var response =  _api.Get($"doctors/reviews/{id}");
+            var response = _api.Get("doctors/reviews?DriverId=" + driverId + "&OrderBy=datedesc");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch doctorreviews.");
+            }
+
+            var json = response.Content.ReadAsStringAsync().Result;
+            var result = JsonConvert.DeserializeObject<GetDoctorReviewResponse>(json);
+
+            return result;
+        }
+
+        public DoctorReviewDto GetDoctorReview(int id)
+        {
+            var response = _api.Get($"doctors/reviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -48,10 +61,10 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
             return result;
         }
 
-        public  DoctorReviewDto CreateDoctorReview(DoctorReviewForCreateDto review)
+        public DoctorReviewDto CreateDoctorReview(DoctorReviewForCreateDto review)
         {
             var json = JsonConvert.SerializeObject(review);
-            var response =  _api.Post("doctors/reviews", json);
+            var response = _api.Post("doctors/reviews", json);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -78,7 +91,7 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
             return JsonConvert.DeserializeObject<DoctorReviewDto>(jsonResponse);
         }
 
-        public  void DeleteDoctorReview(int id)
+        public void DeleteDoctorReview(int id)
         {
             var response = _api.Delete($"doctors/reviews/{id}");
 

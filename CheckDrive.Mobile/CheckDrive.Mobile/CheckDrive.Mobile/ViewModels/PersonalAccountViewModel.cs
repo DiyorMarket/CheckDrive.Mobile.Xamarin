@@ -10,8 +10,14 @@ namespace CheckDrive.Mobile.ViewModels
     public class PersonalAccountViewModel : BaseViewModel
     {
         public DriverDto Driver { get; set; }
-        public string FullName {  get; set; }
+        
+        private string fullName;
+        public string FullName
+        {
 
+            get => fullName;
+            set => SetProperty(ref fullName, value);
+        }
 
         public ICommand LogOutProfile { get; }
 

@@ -67,7 +67,7 @@ namespace CheckDrive.Web.Stores.OperatorReviews
             return existingOperatorReview;
         }
 
-        public async Task DeleteOperatorReview(int id)
+        public async void DeleteOperatorReview(int id)
         {
             await Task.Delay(100);
             var operatorReviewToRemove = _operatorReviews.FirstOrDefault(or => or.Id == id);
