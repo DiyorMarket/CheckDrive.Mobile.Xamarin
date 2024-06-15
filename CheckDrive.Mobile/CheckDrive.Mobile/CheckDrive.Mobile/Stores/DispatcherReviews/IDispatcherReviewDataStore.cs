@@ -1,14 +1,13 @@
 ﻿using CheckDrive.ApiContracts.DispatcherReview;
 using CheckDrive.Mobile.Responses;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.DispatcherReviews
 {
     public interface IDispatcherReviewDataStore
     {
-        GetDispatcherReviewResponse GetDispatcherReviews();
-        DispatcherReviewDto GetDispatcherReview(int id);
-        DispatcherReviewDto CreateDispatcherReview(DispatcherReviewForCreateDto dispatcherReview);
-        DispatcherReviewDto UpdateDispatcherReview(int id, DispatcherReviewForUpdateDto dispatcherReview);
-        void DeleteDispatcherReview(int id);
+        Task<GetDispatcherReviewResponse> GetDispatcherReviewsAsync();
+        Task<DispatcherReviewDto> GetDispatcherReviewAsync(int id);
+        Task<DispatcherReviewDto> CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview);
     }
 }

@@ -5,6 +5,7 @@ using CheckDrive.Web.Stores.Drivers;
 using Newtonsoft.Json;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.Drivers
 {
@@ -17,7 +18,7 @@ namespace CheckDrive.Mobile.Stores.Drivers
             _api = apiClient;
         }
 
-        public GetDriverResponse GetDrivers(int accountId)
+        public async Task<GetDriverResponse> GetDriversAsync(int accountId)
         {
             StringBuilder query = new StringBuilder("");
 
@@ -26,29 +27,29 @@ namespace CheckDrive.Mobile.Stores.Drivers
                 query.Append($"accountId={accountId}");
             }
 
-            var response = _api.Get("drivers?" + query.ToString());
+            var response = await _api.GetAsync("drivers?" + query.ToString());
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch drivers.");
             }
 
-            var json = response.Content.ReadAsStringAsync().Result;
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetDriverResponse>(json);
 
             return result;
         }
 
-        public DriverDto GetDriver(int id)
+        public async Task<DriverDto> GetDriverAsync(int id)
         {
-            var response = _api.Get($"drivers?AccountId={id}");
+            var response = await _api.GetAsync($"drivers?AccountId={id}");
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch drivers.");
             }
 
-            var json = response.Content.ReadAsStringAsync().Result;
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<DriverDto>(json);
 
             return result;

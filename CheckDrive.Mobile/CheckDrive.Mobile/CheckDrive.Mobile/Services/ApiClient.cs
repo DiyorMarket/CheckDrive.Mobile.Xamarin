@@ -2,12 +2,14 @@
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "https://2bvq12nl-7111.euw.devtunnels.ms/api";
+        private const string BaseUrl = "https://s4vnbqgq-7111.euw.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 
@@ -18,15 +20,22 @@ namespace CheckDrive.Mobile.Services
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
-        public HttpResponseMessage Get(string resource, bool isFullUrl = false)
+        public async Task<HttpResponseMessage> GetAsync(string resource, bool isFullUrl = false)
         {
-            string url = isFullUrl ?
-                resource :
-                BaseUrl + "/" + resource;
+            string url = isFullUrl ? resource : BaseUrl + "/" + resource;
 
             try
             {
-                HttpResponseMessage response =  _client.GetAsync(url).Result;
+                var token = await SecureStorage.GetAsync("tasty-cookies");
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    throw new Exception("Token is empty.");
+                }
+
+                var request = new HttpRequestMessage(HttpMethod.Get, new Uri(_client.BaseAddress, url));
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                var response = await _client.SendAsync(request);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -46,63 +55,98 @@ namespace CheckDrive.Mobile.Services
                 throw;
             }
         }
-        public HttpResponseMessage Post(string resource, string body)
+
+        public async Task<HttpResponseMessage> PostAsync(string resource, string body)
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, BaseUrl + "/" + resource);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
-                var response = _client.SendAsync(request).Result;
+                var response = await _client.SendAsync(request);
 
                 return response;
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"{ex.Message}");
+                throw;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
             }
-
-            // Return a default HttpResponseMessage in case of an exception
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError)
-            {
-                Content = new StringContent("An error occurred while processing the request.")
-            };
         }
 
-
-        public HttpResponseMessage Put(string url, string data)
+        public HttpResponseMessage PutAsync(string url, string data)
         {
-            var token = string.Empty;
-            var request = new HttpRequestMessage(HttpMethod.Put, _client.BaseAddress?.AbsolutePath + "/" + url)
+            try
             {
-                Content = new StringContent(data, Encoding.UTF8, "application/json")
-            };
-            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = _client.SendAsync(request).Result;
+                var token = SecureStorage.GetAsync("tasty-cookies").Result;
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException("");
+                if (string.IsNullOrEmpty(token))
+                {
+                    throw new Exception("Token is empty.");
+                }
+
+                var request = new HttpRequestMessage(HttpMethod.Put, _client.BaseAddress?.AbsolutePath + "/" + url)
+                {
+                    Content = new StringContent(data, Encoding.UTF8, "application/json")
+                };
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                var response = _client.SendAsync(request).Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Failed to put data to {url}. Status code: {response.StatusCode}");
+                }
+
+                return response;
             }
-
-            return response;
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP request failed: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
+            }
         }
 
-        public  HttpResponseMessage Delete(string url)
+        public HttpResponseMessage DeleteAsync(string url)
         {
-            string token = string.Empty;
-            var request = new HttpRequestMessage(HttpMethod.Delete, _client.BaseAddress?.AbsolutePath + "/" + url);
-            var response = _client.SendAsync(request).Result;
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                throw new HttpRequestException($"Error fetching url: {url}. Status code: {response.StatusCode}");
-            }
+                var token = SecureStorage.GetAsync("tasty-cookies").Result;
 
-            return response;
+                if (string.IsNullOrEmpty(token))
+                {
+                    throw new Exception("Token is empty.");
+                }
+
+                var request = new HttpRequestMessage(HttpMethod.Delete, _client.BaseAddress?.AbsolutePath + "/" + url);
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                var response = _client.SendAsync(request).Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Error fetching url: {url}. Status code: {response.StatusCode}");
+                }
+
+                return response;
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP request failed: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
+            }
         }
     }
 }

@@ -1,16 +1,17 @@
 ﻿using CheckDrive.ApiContracts.MechanicAcceptance;
 using CheckDrive.Mobile.Responses;
-using System.Collections.Generic;
+using System;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.MechanicAcceptances
 {
     public interface IMechanicAcceptanceDataStore
     {
-        GetMechanicAcceptanceResponse GetMechanicAcceptances();
-        GetMechanicAcceptanceResponse GetMechanicAcceptancesByDriverId(int driverId);
-        MechanicAcceptanceDto GetMechanicAcceptance(int id);
-        MechanicAcceptanceDto CreateMechanicAcceptance(MechanicAcceptanceForCreateDto mechanicAcceptance);
-        MechanicAcceptanceDto UpdateMechanicAcceptance(int id, MechanicAcceptanceForUpdateDto mechanicAcceptance);
-        void DeleteMechanicAcceptance(int id);
+        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(int driverId, string sortString);
+        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(DateTime date);
+        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync();
+        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesByDriverIdAsync(int driverId);
+        Task<MechanicAcceptanceDto> GetMechanicAcceptanceAsync(int id);
+        Task<MechanicAcceptanceDto> CreateMechanicAcceptanceAsync(MechanicAcceptanceForCreateDto mechanicAcceptance);
     }
 }
