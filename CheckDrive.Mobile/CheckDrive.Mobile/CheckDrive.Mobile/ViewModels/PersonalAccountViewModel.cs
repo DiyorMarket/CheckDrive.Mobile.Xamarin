@@ -9,7 +9,15 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class PersonalAccountViewModel : BaseViewModel
     {
-        public DriverDto Driver { get; set; }
+        private DriverDto _driver;
+        public DriverDto Driver {
+            get => _driver;
+            set
+            {
+               SetProperty(ref _driver, value);
+               OnPropertyChanged(nameof(_driver));
+            }
+        }
         
         private string fullName;
         public string FullName
@@ -41,8 +49,8 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void  GetDriverData()
         {
-            Driver = DataService.GetAccount();
-            FullName = $"{Driver.FirstName} {Driver.LastName}";
+            _driver = DataService.GetAccount();
+            FullName = $"{_driver.FirstName} {_driver.LastName}";
         }
 
         private void NavigationLoginPage()

@@ -9,6 +9,7 @@ namespace CheckDrive.Mobile.Services
     {
         private const string securetyKey = "accountData";
         private const string securetyKeySavedDate = "savedDate";
+        private const string securetyKeyToken = "tasty-cookies";
 
         public static void SaveAccount(DriverDto account)
         {
@@ -29,14 +30,14 @@ namespace CheckDrive.Mobile.Services
         {
             try
             {
-            SecureStorage.SetAsync("tasty-cookies", token);
+            SecureStorage.SetAsync(securetyKeyToken, token);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error saving token. {ex.Message}");
             }
         }
-        public static AccountDto GetAccount()
+        public static DriverDto GetAccount()
         {
             try
             {
@@ -79,6 +80,7 @@ namespace CheckDrive.Mobile.Services
                 {
                     SecureStorage.Remove(securetyKey);
                     SecureStorage.Remove(securetyKeySavedDate);
+                    SecureStorage.Remove(securetyKeyToken);
                     Console.WriteLine("file successfuly deleted");
                     return;
                 }
