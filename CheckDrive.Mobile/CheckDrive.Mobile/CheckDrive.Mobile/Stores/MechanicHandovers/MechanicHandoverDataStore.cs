@@ -1,12 +1,11 @@
 ﻿using CheckDrive.ApiContracts.MechanicHandover;
-using CheckDrive.ApiContracts.OperatorReview;
 using CheckDrive.Mobile.Responses;
 using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.MechanicHandovers;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.MechanicHandovers
 {
@@ -18,85 +17,82 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
         {
             _api = apiClient;
         }
-        public GetMechanicHandoverResponse GetMechanicHandovers()
+
+        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync()
+        {
+            var response = await _api.GetAsync("mechanics/handovers");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch mechanic handovers.");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<GetMechanicHandoverResponse>(json);
+
+            return result;
+        }
+
+        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync(DateTime date)
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = _api.Get("mechanics/handovers?" + query.ToString());
+            if (date != DateTime.MinValue)
+            {
+                query.Append($"Date={date.Date}&");
+            }
+
+            var response = await _api.GetAsync("mechanics/handovers?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic handovers.");
             }
 
-            var json = response.Content.ReadAsStringAsync().Result;
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetMechanicHandoverResponse>(json);
 
             return result;
         }
-        public GetMechanicHandoverResponse GetMechanicHandoversByDriverId(int driverId)
-        {
 
-            var response = _api.Get("mechanics/handovers?DriverId=" + driverId + "&OrderBy=datedesc");
+        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversByDriverIdAsync(int driverId)
+        {
+            var response = await _api.GetAsync("mechanics/handovers?DriverId=" + driverId + "&OrderBy=datedesc");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic handovers.");
             }
 
-            var json = response.Content.ReadAsStringAsync().Result;
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetMechanicHandoverResponse>(json);
 
             return result;
         }
-        public MechanicHandoverDto GetMechanicHandover(int id)
-        {
-            var response = _api.Get($"mechanics/handover/{id}");
 
+        public async Task<MechanicHandoverDto> GetMechanicHandoverAsync(int id)
+        {
+            var response = await _api.GetAsync($"mechanics/handover/{id}");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Could not fetch mechanic handover with id: {id}.");
             }
 
-            var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var json = await
+            response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<MechanicHandoverDto>(json);
 
             return result;
         }
-        public MechanicHandoverDto CreateMechanicHandover(MechanicHandoverForCreateDto mechanicHandover)
+
+        public async Task<MechanicHandoverDto> CreateMechanicHandoverAsync(MechanicHandoverForCreateDto mechanicHandover)
         {
             var json = JsonConvert.SerializeObject(mechanicHandover);
-            var response = _api.Post("mechanics/handover", json);
-
+            var response = await _api.PostAsync("mechanics/handover", json);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error creating mechanic handover.");
             }
 
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
+            var jsonResponse = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<MechanicHandoverDto>(jsonResponse);
-        }
-        public MechanicHandoverDto UpdateMechanicHandover(int id, MechanicHandoverForUpdateDto mechanicHandover)
-        {
-            var json = JsonConvert.SerializeObject(mechanicHandover);
-            var response = _api.Put($"mechanis/handover/{mechanicHandover.Id}", json);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception("Error updating mechanic handover.");
-            }
-
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-            return JsonConvert.DeserializeObject<MechanicHandoverDto>(jsonResponse);
-        }
-        public void DeleteMechanicHandover(int id)
-        {
-            var response = _api.Delete($"mechanics/handover/{id}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Could not delete mechanic handover with id: {id}.");
-            }
         }
     }
 }

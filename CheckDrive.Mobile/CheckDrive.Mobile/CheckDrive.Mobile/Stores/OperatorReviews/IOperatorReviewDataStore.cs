@@ -1,15 +1,16 @@
 ﻿using CheckDrive.ApiContracts.OperatorReview;
 using CheckDrive.Mobile.Responses;
+using System;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.OperatorReviews
 {
     public interface IOperatorReviewDataStore
     {
-        GetOperatorReviewResponse GetOperatorReviews();
-        GetOperatorReviewResponse GetOperatorReviewsByDriverId(int driverId);
-        OperatorReviewDto GetOperatorReview(int id);
-        OperatorReviewDto CreateOperatorReview(OperatorReviewForCreateDto operatorReview);
-        OperatorReviewDto UpdateOperatorReview(int id, OperatorReviewForUpdateDto operatorReview);
-        void DeleteOperatorReview(int id);
+        Task<GetOperatorReviewResponse> GetOperatorReviewsAsync();
+        Task<GetOperatorReviewResponse> GetOperatorReviewsByDriverIdAsync(int driverId);
+        Task<GetOperatorReviewResponse> GetOperatorReviewsAsync(DateTime date);
+        Task<OperatorReviewDto> GetOperatorReviewAsync(int id);
+        Task<OperatorReviewDto> CreateOperatorReviewAsync(OperatorReviewForCreateDto operatorReview);
     }
 }
