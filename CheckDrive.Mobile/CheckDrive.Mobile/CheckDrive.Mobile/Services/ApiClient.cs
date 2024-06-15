@@ -57,11 +57,16 @@ namespace CheckDrive.Mobile.Services
         }
 
         public async Task<HttpResponseMessage> PostAsync(string resource, string body)
+
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, BaseUrl + "/" + resource);
+                string token = SecureStorage.GetAsync("tasty-cookies").Result;
+
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{BaseUrl}/{resource}");
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
+
                 var response = await _client.SendAsync(request);
 
                 return response;
@@ -114,7 +119,6 @@ namespace CheckDrive.Mobile.Services
                 throw;
             }
         }
-
         public HttpResponseMessage DeleteAsync(string url)
         {
             try
@@ -134,7 +138,6 @@ namespace CheckDrive.Mobile.Services
                 {
                     throw new HttpRequestException($"Error fetching url: {url}. Status code: {response.StatusCode}");
                 }
-
                 return response;
             }
             catch (HttpRequestException ex)
