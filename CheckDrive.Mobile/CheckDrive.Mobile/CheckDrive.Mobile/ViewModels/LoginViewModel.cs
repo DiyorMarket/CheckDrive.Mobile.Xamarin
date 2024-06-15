@@ -3,6 +3,7 @@ using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.Accounts;
 using CheckDrive.Web.Stores.Drivers;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -92,21 +93,22 @@ namespace CheckDrive.Mobile.ViewModels
             IsBusy = false;
         }
 
-        private bool CheckingDriverLogin()
+        private async Task<bool> CheckingDriverLogin()
         {
             IsBusy = true;
 
-            var token = _accountDataStore.CreateToken(Login, Password);
+            var token = await _accountDataStore.CreateTokenAsync(Login, Password);
 
             if (token != null)
             {
                 DataService.SaveToken(token);
             }
 
-            var drivers = _accountDataStore.GetAccounts(Login).Data.ToList();
-            var driver = drivers[0];
+            var accountsResponse = await _accountDataStore.GetAccountsAsync(Login);
+            var account = accountsResponse.Data.ToList().First();
 
-            var driver = _driverDataStore.GetDrivers(account.Id).Data.ToList().First();
+            var driverResponse = await _driverDataStore.GetDriversAsync(account.Id);
+            var driver = driverResponse.Data.ToList().First();
 
             if (driver != null)
             {
