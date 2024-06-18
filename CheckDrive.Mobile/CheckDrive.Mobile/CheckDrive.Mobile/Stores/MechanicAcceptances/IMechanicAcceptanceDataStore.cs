@@ -7,11 +7,11 @@ namespace CheckDrive.Web.Stores.MechanicAcceptances
 {
     public interface IMechanicAcceptanceDataStore
     {
-        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(int driverId, string sortString);
-        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(DateTime date);
-        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync();
-        Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesByDriverIdAsync(int driverId);
-        Task<MechanicAcceptanceDto> GetMechanicAcceptanceAsync(int id);
-        Task<MechanicAcceptanceDto> CreateMechanicAcceptanceAsync(MechanicAcceptanceForCreateDto mechanicAcceptance);
+        GetMechanicAcceptanceResponse GetMechanicAcceptancesAsync(int driverId, string sortString);
+        GetMechanicAcceptanceResponse GetMechanicAcceptancesAsync(DateTime date);
+        GetMechanicAcceptanceResponse GetMechanicAcceptancesAsync();
+        GetMechanicAcceptanceResponse GetMechanicAcceptancesByDriverIdAsync(int driverId);
+        MechanicAcceptanceDto  GetMechanicAcceptanceAsync(int id);
+        MechanicAcceptanceDto CreateMechanicAcceptanceAsync(MechanicAcceptanceForCreateDto mechanicAcceptance);
     }
 }

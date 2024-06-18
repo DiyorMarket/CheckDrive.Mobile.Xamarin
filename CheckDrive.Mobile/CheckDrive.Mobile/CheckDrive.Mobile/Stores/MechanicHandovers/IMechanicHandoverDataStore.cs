@@ -7,10 +7,10 @@ namespace CheckDrive.Web.Stores.MechanicHandovers
 {
     public interface IMechanicHandoverDataStore
     {
-        Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync();
-        Task<GetMechanicHandoverResponse> GetMechanicHandoversByDriverIdAsync(int driverId);
-        Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync(DateTime date);
-        Task<MechanicHandoverDto> GetMechanicHandoverAsync(int id);
-        Task<MechanicHandoverDto> CreateMechanicHandoverAsync(MechanicHandoverForCreateDto mechanicHandover);
+        GetMechanicHandoverResponse GetMechanicHandoversAsync();
+        GetMechanicHandoverResponse GetMechanicHandoversByDriverIdAsync(int driverId);
+        GetMechanicHandoverResponse GetMechanicHandoversAsync(DateTime date);
+        MechanicHandoverDto GetMechanicHandoverAsync(int id);
+        MechanicHandoverDto CreateMechanicHandoverAsync(MechanicHandoverForCreateDto mechanicHandover);
     }
 }

@@ -18,48 +18,48 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
             _api = apiClient;
         }
 
-        public async Task<GetDispatcherReviewResponse> GetDispatcherReviewsAsync()
+        public GetDispatcherReviewResponse GetDispatcherReviewsAsync()
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = await _api.GetAsync("dispatchers/reviews?" + query.ToString());
+            var response = _api.GetAsync("dispatchers/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch dispatcher reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetDispatcherReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<DispatcherReviewDto> GetDispatcherReviewAsync(int id)
+        public DispatcherReviewDto GetDispatcherReviewAsync(int id)
         {
-            var response = await _api.GetAsync($"dispatchers/reviews/{id}");
+            var response = _api.GetAsync($"dispatchers/reviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Could not fetch dispatcher review with id: {id}.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<DispatcherReviewDto>(json);
 
             return result;
         }
 
-        public async Task<DispatcherReviewDto> CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview)
+        public DispatcherReviewDto CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview)
         {
             var json = JsonConvert.SerializeObject(dispatcherReview);
-            var response = await _api.PostAsync("dispatchers/reviews", json);
+            var response =  _api.PostAsync("dispatchers/reviews", json);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error creating dispatcher review.");
             }
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var jsonResponse =  response.Content.ReadAsStringAsync().Result;
             return JsonConvert.DeserializeObject<DispatcherReviewDto>(jsonResponse);
         }
     }

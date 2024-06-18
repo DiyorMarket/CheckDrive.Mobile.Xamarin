@@ -18,21 +18,21 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
             _api = apiClient;
         }
 
-        public async Task<GetOperatorReviewResponse> GetOperatorReviewsAsync()
+        public GetOperatorReviewResponse GetOperatorReviewsAsync()
         {
-            var response = await _api.GetAsync("operators/reviews");
+            var response = _api.GetAsync("operators/reviews");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch operator reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json =  response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetOperatorReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<GetOperatorReviewResponse> GetOperatorReviewsAsync(DateTime date)
+        public GetOperatorReviewResponse GetOperatorReviewsAsync(DateTime date)
         {
             StringBuilder query = new StringBuilder("");
 
@@ -41,19 +41,19 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
                 query.Append($"Date={date.Date}&");
             }
 
-            var response = await _api.GetAsync("operators/reviews?" + query.ToString());
+            var response = _api.GetAsync("operators/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch operator reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetOperatorReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<GetOperatorReviewResponse> GetOperatorReviewsByDriverIdAsync(int driverId)
+        public GetOperatorReviewResponse GetOperatorReviewsByDriverIdAsync(int driverId)
         {
             StringBuilder query = new StringBuilder("");
 
@@ -62,42 +62,42 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
                 query.Append($"driverId={driverId}");
             }
 
-            var response = await _api.GetAsync("operators/reviews?" + query.ToString());
+            var response = _api.GetAsync("operators/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch operator reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetOperatorReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<OperatorReviewDto> GetOperatorReviewAsync(int id)
+        public OperatorReviewDto GetOperatorReviewAsync(int id)
         {
-            var response = await _api.GetAsync($"operators/review/{id}");
+            var response = _api.GetAsync($"operators/review/{id}");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Could not fetch operator reviews with id: {id}.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<OperatorReviewDto>(json);
 
             return result;
         }
 
-        public async Task<OperatorReviewDto> CreateOperatorReviewAsync(OperatorReviewForCreateDto operatorReview)
+        public OperatorReviewDto CreateOperatorReviewAsync(OperatorReviewForCreateDto operatorReview)
         {
             var json = JsonConvert.SerializeObject(operatorReview);
-            var response = await _api.PostAsync("operators/review", json);
+            var response = _api.PostAsync("operators/review", json);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error creating operator reviews.");
             }
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var jsonResponse = response.Content.ReadAsStringAsync().Result;
             return JsonConvert.DeserializeObject<OperatorReviewDto>(jsonResponse);
         }
     }

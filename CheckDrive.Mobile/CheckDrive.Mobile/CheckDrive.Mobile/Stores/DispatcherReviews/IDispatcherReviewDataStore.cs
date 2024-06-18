@@ -6,8 +6,8 @@ namespace CheckDrive.Web.Stores.DispatcherReviews
 {
     public interface IDispatcherReviewDataStore
     {
-        Task<GetDispatcherReviewResponse> GetDispatcherReviewsAsync();
-        Task<DispatcherReviewDto> GetDispatcherReviewAsync(int id);
-        Task<DispatcherReviewDto> CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview);
+        GetDispatcherReviewResponse GetDispatcherReviewsAsync();
+        DispatcherReviewDto GetDispatcherReviewAsync(int id);
+        DispatcherReviewDto CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview);
     }
 }

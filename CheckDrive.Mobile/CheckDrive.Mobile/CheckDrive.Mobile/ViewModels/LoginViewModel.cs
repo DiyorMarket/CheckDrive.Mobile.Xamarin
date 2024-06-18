@@ -97,17 +97,17 @@ namespace CheckDrive.Mobile.ViewModels
         {
             IsBusy = true;
 
-            var token = await _accountDataStore.CreateTokenAsync(Login, Password);
+            var token = _accountDataStore.CreateTokenAsync(Login, Password);
 
             if (token != null)
             {
                 DataService.SaveToken(token);
             }
 
-            var accountsResponse = await _accountDataStore.GetAccountsAsync(Login);
+            var accountsResponse = _accountDataStore.GetAccountsAsync(Login);
             var account = accountsResponse.Data.ToList().First();
 
-            var driverResponse = await _driverDataStore.GetDriversAsync(account.Id);
+            var driverResponse = _driverDataStore.GetDriversAsync(account.Id);
             var driver = driverResponse.Data.ToList().First();
 
             if (driver != null)

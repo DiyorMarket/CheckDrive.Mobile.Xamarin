@@ -149,7 +149,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task CheckStatusForBeforeDay()
         {
-            var mechanicAccepDS = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesAsync(_driver.Id, "dateDesc");
+            var mechanicAccepDS =  _mechanicAcceptanceDataStore.GetMechanicAcceptancesAsync(_driver.Id, "dateDesc");
             var mechanicAccep = mechanicAccepDS.Data.First();
 
             if(mechanicAccep != null && mechanicAccep.Status == StatusForDto.Pending)
@@ -167,7 +167,7 @@ namespace CheckDrive.Mobile.ViewModels
             GetDateForProgressBar();
             try
             {
-                var operatorReviewResponse = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
+                var operatorReviewResponse = _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
                 var driverhistoryForOil = operatorReviewResponse.Data.ToList();
 
                 foreach (var operatorReview in driverhistoryForOil)
@@ -200,7 +200,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task CheckDoctorStatusValue()
         {
-            var doctorReviewsResponse = await _doctorReviewDatastore.GetDoctorReviewsAsync(DateTime.Now);
+            var doctorReviewsResponse = _doctorReviewDatastore.GetDoctorReviewsAsync(DateTime.Now);
             var doctorReviews = doctorReviewsResponse.Data;
 
             var doctorReview = doctorReviews.FirstOrDefault(x => x.DriverId == _driver.Id);
@@ -226,7 +226,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async void CheckMechanicHandoverStatusValue()
         {
-            var mechanicHandovers = await _mechanicHandoverDataStore.GetMechanicHandoversAsync(DateTime.Now);
+            var mechanicHandovers = _mechanicHandoverDataStore.GetMechanicHandoversAsync(DateTime.Now);
             var mechanicHandover = mechanicHandovers.Data.FirstOrDefault(x => x.DriverId == _driver.Id);
             
             if(mechanicHandover != null)
@@ -249,7 +249,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private async void CheckOperatorStatusValue()
         {
-            var operatorReviewResponse = await _operatorReviewDataStore
+            var operatorReviewResponse = _operatorReviewDataStore
                 .GetOperatorReviewsAsync(TodayDateForProgressBar);
 
             var operatorReview = operatorReviewResponse.Data
@@ -274,7 +274,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private async void CheckMechanicAcceptanceStatusValue()
         {
-            var mechanicAcceptanceResponse = await _mechanicAcceptanceDataStore
+            var mechanicAcceptanceResponse = _mechanicAcceptanceDataStore
                 .GetMechanicAcceptancesAsync(TodayDateForProgressBar);
 
             var mechanicAcceptance = mechanicAcceptanceResponse

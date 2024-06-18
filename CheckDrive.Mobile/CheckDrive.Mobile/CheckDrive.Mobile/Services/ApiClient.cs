@@ -19,13 +19,13 @@ namespace CheckDrive.Mobile.Services
             _client.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
-        public async Task<HttpResponseMessage> GetAsync(string resource, bool isFullUrl = false)
+        public HttpResponseMessage GetAsync(string resource, bool isFullUrl = false)
         {
             string url = isFullUrl ? resource : BaseUrl + "/" + resource;
 
             try
             {
-                var token = await SecureStorage.GetAsync("tasty-cookies");
+                var token =  SecureStorage.GetAsync("tasty-cookies").Result;
 
                 if (string.IsNullOrEmpty(token))
                 {
@@ -34,7 +34,7 @@ namespace CheckDrive.Mobile.Services
 
                 var request = new HttpRequestMessage(HttpMethod.Get, new Uri(_client.BaseAddress, url));
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                var response = await _client.SendAsync(request);
+                var response =  _client.SendAsync(request).Result;
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -55,7 +55,7 @@ namespace CheckDrive.Mobile.Services
             }
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string resource, string body)
+        public HttpResponseMessage PostAsync(string resource, string body)
 
         {
             try
@@ -66,7 +66,7 @@ namespace CheckDrive.Mobile.Services
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
 
-                var response = await _client.SendAsync(request);
+                var response = _client.SendAsync(request).Result;
 
                 return response;
             }

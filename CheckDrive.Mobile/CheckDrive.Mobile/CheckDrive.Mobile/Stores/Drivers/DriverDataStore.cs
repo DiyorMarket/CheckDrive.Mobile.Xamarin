@@ -18,7 +18,7 @@ namespace CheckDrive.Mobile.Stores.Drivers
             _api = apiClient;
         }
 
-        public async Task<GetDriverResponse> GetDriversAsync(int accountId)
+        public GetDriverResponse GetDriversAsync(int accountId)
         {
             StringBuilder query = new StringBuilder("");
 
@@ -27,29 +27,29 @@ namespace CheckDrive.Mobile.Stores.Drivers
                 query.Append($"accountId={accountId}");
             }
 
-            var response = await _api.GetAsync("drivers?" + query.ToString());
+            var response = _api.GetAsync("drivers?" + query.ToString());
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch drivers.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetDriverResponse>(json);
 
             return result;
         }
 
-        public async Task<DriverDto> GetDriverAsync(int id)
+        public DriverDto GetDriverAsync(int id)
         {
-            var response = await _api.GetAsync($"drivers?AccountId={id}");
+            var response = _api.GetAsync($"drivers?AccountId={id}");
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch drivers.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<DriverDto>(json);
 
             return result;

@@ -43,18 +43,18 @@ namespace CheckDrive.Mobile.ViewModels
             });
             IsBusy = false;
         }
-        public async void GetDispatcherReviews()
+        public void GetDispatcherReviews()
         {
             Reviews.Clear();
             IsBusy = true;
 
-            var doctorItemsResponse = await _doctorReviewDataStore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
+            var doctorItemsResponse =  _doctorReviewDataStore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
             var doctorItems = doctorItemsResponse.Data;
-            var mechanicHandoverItemsResponse = await _mechanicHandoverDataStore.GetMechanicHandoversByDriverIdAsync(2);
+            var mechanicHandoverItemsResponse = _mechanicHandoverDataStore.GetMechanicHandoversByDriverIdAsync(2);
             var mechanicHandoverItems = mechanicHandoverItemsResponse.Data;
-            var operatorItemsResponse = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(2);
+            var operatorItemsResponse = _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(2);
             var operatorItems = operatorItemsResponse.Data;
-            var mechanicAcceptenceResponse = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverIdAsync(2);
+            var mechanicAcceptenceResponse = _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverIdAsync(2);
             var mechanicAcceptence = mechanicAcceptenceResponse.Data;
 
             int itemCount = Math.Min(Math.Min(doctorItems.Count(), mechanicHandoverItems.Count()), Math.Min(operatorItems.Count(), mechanicAcceptence.Count()));

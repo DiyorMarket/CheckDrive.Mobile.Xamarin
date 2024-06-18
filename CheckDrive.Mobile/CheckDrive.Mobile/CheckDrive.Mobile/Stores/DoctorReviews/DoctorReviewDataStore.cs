@@ -18,21 +18,21 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
             _api = apiClient;
         }
 
-        public async Task<GetDoctorReviewResponse> GetDoctorReviewsAsync()
+        public GetDoctorReviewResponse GetDoctorReviewsAsync()
         {
-            var response = await _api.GetAsync("doctors/reviews");
+            var response = _api.GetAsync("doctors/reviews");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch doctor reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetDoctorReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<GetDoctorReviewResponse> GetDoctorReviewsAsync(DateTime date)
+        public GetDoctorReviewResponse GetDoctorReviewsAsync(DateTime date)
         {
             StringBuilder query = new StringBuilder("");
 
@@ -41,57 +41,57 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
                 query = query.Append($"Date={date.Date}&");
             }
 
-            var response = await _api.GetAsync("doctors/reviews?" + query.ToString());
+            var response =  _api.GetAsync("doctors/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch doctor reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetDoctorReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<GetDoctorReviewResponse> GetDoctorReviewsByDriverIdAsync(int driverId)
+        public GetDoctorReviewResponse GetDoctorReviewsByDriverIdAsync(int driverId)
         {
-            var response = await _api.GetAsync("doctors/reviews?DriverId=" + driverId + "&OrderBy=datedesc");
+            var response = _api.GetAsync("doctors/reviews?DriverId=" + driverId + "&OrderBy=datedesc");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch doctor reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetDoctorReviewResponse>(json);
 
             return result;
         }
 
-        public async Task<DoctorReviewDto> GetDoctorReviewAsync(int id)
+        public DoctorReviewDto GetDoctorReviewAsync(int id)
         {
-            var response = await _api.GetAsync("doctors/reviews?Id=" + id);
+            var response = _api.GetAsync("doctors/reviews?Id=" + id);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch doctor reviews.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<DoctorReviewDto>(json);
 
             return result;
         }
 
-        public async Task<DoctorReviewDto> CreateDoctorReviewAsync(DoctorReviewForCreateDto review)
+        public DoctorReviewDto CreateDoctorReviewAsync(DoctorReviewForCreateDto review)
         {
             var json = JsonConvert.SerializeObject(review);
-            var response = await _api.PostAsync("doctors/reviews", json);
+            var response =  _api.PostAsync("doctors/reviews", json);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error creating doctor reviews.");
             }
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var jsonResponse = response.Content.ReadAsStringAsync().Result;
             return JsonConvert.DeserializeObject<DoctorReviewDto>(jsonResponse);
         }
     }

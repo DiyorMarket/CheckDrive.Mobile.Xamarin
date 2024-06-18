@@ -18,21 +18,21 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
             _api = apiClient;
         }
 
-        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync()
+        public GetMechanicHandoverResponse GetMechanicHandoversAsync()
         {
-            var response = await _api.GetAsync("mechanics/handovers");
+            var response = _api.GetAsync("mechanics/handovers");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic handovers.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetMechanicHandoverResponse>(json);
 
             return result;
         }
 
-        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync(DateTime date)
+        public GetMechanicHandoverResponse GetMechanicHandoversAsync(DateTime date)
         {
             StringBuilder query = new StringBuilder("");
 
@@ -41,57 +41,57 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
                 query.Append($"Date={date.Date}&");
             }
 
-            var response = await _api.GetAsync("mechanics/handovers?" + query.ToString());
+            var response = _api.GetAsync("mechanics/handovers?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic handovers.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetMechanicHandoverResponse>(json);
 
             return result;
         }
 
-        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversByDriverIdAsync(int driverId)
+        public GetMechanicHandoverResponse GetMechanicHandoversByDriverIdAsync(int driverId)
         {
-            var response = await _api.GetAsync("mechanics/handovers?DriverId=" + driverId + "&OrderBy=datedesc");
+            var response = _api.GetAsync("mechanics/handovers?DriverId=" + driverId + "&OrderBy=datedesc");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic handovers.");
             }
 
-            var json = await response.Content.ReadAsStringAsync();
+            var json = response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<GetMechanicHandoverResponse>(json);
 
             return result;
         }
 
-        public async Task<MechanicHandoverDto> GetMechanicHandoverAsync(int id)
+        public MechanicHandoverDto GetMechanicHandoverAsync(int id)
         {
-            var response = await _api.GetAsync($"mechanics/handover/{id}");
+            var response = _api.GetAsync($"mechanics/handover/{id}");
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Could not fetch mechanic handover with id: {id}.");
             }
 
-            var json = await
-            response.Content.ReadAsStringAsync();
+            var json = 
+            response.Content.ReadAsStringAsync().Result;
             var result = JsonConvert.DeserializeObject<MechanicHandoverDto>(json);
 
             return result;
         }
 
-        public async Task<MechanicHandoverDto> CreateMechanicHandoverAsync(MechanicHandoverForCreateDto mechanicHandover)
+        public MechanicHandoverDto CreateMechanicHandoverAsync(MechanicHandoverForCreateDto mechanicHandover)
         {
             var json = JsonConvert.SerializeObject(mechanicHandover);
-            var response = await _api.PostAsync("mechanics/handover", json);
+            var response = _api.PostAsync("mechanics/handover", json);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error creating mechanic handover.");
             }
 
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var jsonResponse = response.Content.ReadAsStringAsync().Result;
             return JsonConvert.DeserializeObject<MechanicHandoverDto>(jsonResponse);
         }
     }

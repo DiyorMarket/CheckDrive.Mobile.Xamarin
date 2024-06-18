@@ -7,8 +7,8 @@ namespace CheckDrive.Web.Stores.Cars
 {
     public interface ICarDataStore
     {
-        Task<GetCarResponse> GetCarsAsync();
-        Task<CarDto> GetCarAsync(int id);
-        Task<CarDto> CreateCarAsync(CarForCreateDto Car);
+        GetCarResponse GetCarsAsync();
+        CarDto GetCarAsync(int id);
+        CarDto CreateCarAsync(CarForCreateDto Car);
     }
 }
