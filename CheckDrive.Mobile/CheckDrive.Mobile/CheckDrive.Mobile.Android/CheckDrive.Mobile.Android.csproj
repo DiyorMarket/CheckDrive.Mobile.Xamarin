@@ -178,6 +178,10 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_correct_for_history.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\logo.ico" />
+    <Content Include="Resources\drawable\LogoForMobile.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
