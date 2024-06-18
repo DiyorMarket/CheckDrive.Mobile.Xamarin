@@ -5,6 +5,7 @@ using CheckDrive.Web.Stores.DispatcherReviews;
 using Newtonsoft.Json;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.DispatcherReviews
 {
@@ -17,76 +18,49 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviews
             _api = apiClient;
         }
 
-        public GetDispatcherReviewResponse GetDispatcherReviews()
+        public async Task<GetDispatcherReviewResponse> GetDispatcherReviewsAsync()
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = _api.Get("dispatchers/reviews?" + query.ToString());
+            var response = await _api.GetAsync("dispatchers/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Could not fetch dispatcherreviews.");
+                throw new Exception("Could not fetch dispatcher reviews.");
             }
 
-            var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetDispatcherReviewResponse>(json);
 
             return result;
         }
 
-        public DispatcherReviewDto GetDispatcherReview(int id)
+        public async Task<DispatcherReviewDto> GetDispatcherReviewAsync(int id)
         {
-            var response =  _api.Get($"dispatchers/reviews/{id}");
+            var response = await _api.GetAsync($"dispatchers/reviews/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Could not fetch dispatcherreview with id: {id}.");
+                throw new Exception($"Could not fetch dispatcher review with id: {id}.");
             }
 
-            var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<DispatcherReviewDto>(json);
 
             return result;
         }
 
-        public DispatcherReviewDto CreateDispatcherReview(DispatcherReviewForCreateDto dispatcherReview)
+        public async Task<DispatcherReviewDto> CreateDispatcherReviewAsync(DispatcherReviewForCreateDto dispatcherReview)
         {
             var json = JsonConvert.SerializeObject(dispatcherReview);
-            var response = _api.Post("dispatchers/reviews", json);
+            var response = await _api.PostAsync("dispatchers/reviews", json);
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error creating dispatcherReview.");
+                throw new Exception("Error creating dispatcher review.");
             }
 
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
+            var jsonResponse = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<DispatcherReviewDto>(jsonResponse);
         }
-
-        public DispatcherReviewDto UpdateDispatcherReview(int id, DispatcherReviewForUpdateDto dispatcherReview)
-        {
-            var json = JsonConvert.SerializeObject(dispatcherReview);
-            var response = _api.Put($"dispatchers/reviews/{dispatcherReview.Id}", json);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception("Error updating dispatcherReview.");
-            }
-
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-            return JsonConvert.DeserializeObject<DispatcherReviewDto>(jsonResponse);
-        }
-
-        public void DeleteDispatcherReview(int id)
-        {
-            var response = _api.Delete($"dispatchers/reviews/{id}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Could not delete dispatcherReview with id: {id}.");
-            }
-        }
-
     }
 }

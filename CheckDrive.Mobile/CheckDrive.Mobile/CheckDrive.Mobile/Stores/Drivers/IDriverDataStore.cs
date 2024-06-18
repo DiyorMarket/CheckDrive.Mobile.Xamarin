@@ -1,11 +1,12 @@
 ﻿﻿using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Responses;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Web.Stores.Drivers
 {
     public interface IDriverDataStore
     {
-        GetDriverResponse GetDrivers(int accountId);
-        DriverDto GetDriver(int id);
+        Task<GetDriverResponse> GetDriversAsync(int accountId);
+        Task<DriverDto> GetDriverAsync(int id);
     }
 }

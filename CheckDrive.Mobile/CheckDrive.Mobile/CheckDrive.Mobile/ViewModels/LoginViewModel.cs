@@ -1,7 +1,9 @@
-﻿using CheckDrive.ApiContracts.Account;
+﻿using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.Accounts;
+using CheckDrive.Web.Stores.Drivers;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -10,8 +12,9 @@ namespace CheckDrive.Mobile.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly IAccountDataStore _accountDataStore;
+        private readonly IDriverDataStore _driverDataStore;
 
-        private AccountDto Account {  get; set; }
+        private DriverDto Account {  get; set; }
 
         private string _login;
         public string Login
@@ -54,9 +57,10 @@ namespace CheckDrive.Mobile.ViewModels
 
         public Command LoginCommand { get; }
 
-        public LoginViewModel(IAccountDataStore accountDataStore)
+        public LoginViewModel(IAccountDataStore accountDataStore, IDriverDataStore driverDataStore)
         {
             _accountDataStore = accountDataStore;
+            _driverDataStore = driverDataStore;
             LoginCommand = new Command(OnLoginClicked);
             TogglePasswordVisibilityCommand = new Command(TogglePasswordVisibility);
             ToggleLoginVisibilityCommand = new Command(ToggleLoginVisibility);
@@ -89,20 +93,22 @@ namespace CheckDrive.Mobile.ViewModels
             IsBusy = false;
         }
 
-        private bool CheckingDriverLogin()
+        private async Task<bool> CheckingDriverLogin()
         {
             IsBusy = true;
 
-            var token = _accountDataStore.CreateToken(Login, Password);
+            var token = await _accountDataStore.CreateTokenAsync(Login, Password);
 
             if (token != null)
             {
                 DataService.SaveToken(token);
             }
 
-            var drivers = _accountDataStore.GetAccounts(Login).Data.ToList();
-            var driver = drivers[0];
+            var accountsResponse = await _accountDataStore.GetAccountsAsync(Login);
+            var account = accountsResponse.Data.ToList().First();
 
+            var driverResponse = await _driverDataStore.GetDriversAsync(account.Id);
+            var driver = driverResponse.Data.ToList().First();
 
             if (driver != null)
             {

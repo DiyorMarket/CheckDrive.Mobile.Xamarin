@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.Accounts
 {
@@ -18,96 +19,72 @@ namespace CheckDrive.Mobile.Stores.Accounts
             _api = apiClient;
         }
 
-        public GetAccountResponse GetAccounts(string login)
+        public async Task<GetAccountResponse> GetAccountsAsync(string login)
         {
             StringBuilder query = new StringBuilder("");
 
-            if(login != null)
+            if (login != null)
             {
-                query.Append("Login="+login.Trim());
+                query.Append("Login=" + login.Trim());
             }
 
-            var response = _api.Get("accounts?" + query.ToString());
-            if(!response.IsSuccessStatusCode)
-            {
-                throw new Exception("Could not fetch accounts.");
-            }
-
-            var json = response.Content.ReadAsStringAsync().Result;
-            var result = JsonConvert.DeserializeObject<GetAccountResponse>(json);
-
-            return result;
-        }
-        public string CreateToken(string login, string password)
-        {
-            var json = JsonConvert.SerializeObject(new { login, password });
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = _api.Post("login/login", json);
-
+            var response = await _api.GetAsync("accounts?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch accounts.");
             }
 
-            var tokenJson =  response.Content.ReadAsStringAsync().Result;
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<GetAccountResponse>(json);
+
+            return result;
+        }
+
+        public async Task<string> CreateTokenAsync(string login, string password)
+        {
+            var json = JsonConvert.SerializeObject(new { login, password });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _api.PostAsync("login/login", json);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch token.");
+            }
+
+            var tokenJson = await response.Content.ReadAsStringAsync();
             var token = JsonConvert.DeserializeObject<string>(tokenJson);
 
             return token;
         }
-        public AccountDto GetAccount(int id)
+
+        public async Task<AccountDto> GetAccountAsync(int id)
         {
-            var response = _api.Get($"accounts/{id}");
+            var response = await _api.GetAsync($"accounts/{id}");
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception($"Could not fetch accounts with id: {id}.");
             }
 
-            var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<AccountDto>(json);
 
             return result;
         }
 
-        public AccountDto CreateAccount(AccountDto account)
+        public async Task<AccountDto> CreateAccountAsync(AccountDto account)
         {
             var json = JsonConvert.SerializeObject(account);
-            var response = _api.Post("accounts", json);
+            var response = await _api.PostAsync("accounts", json);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Error creating accounts.");
             }
 
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
+            var jsonResponse = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<AccountDto>(jsonResponse);
-        }
-
-        public AccountDto UpdateAccount(int id, AccountDto account)
-        {
-            var json = JsonConvert.SerializeObject(account);
-            var response = _api.Put($"accounts/{account.Id}", json);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception("Error updating accounts.");
-            }
-
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-            return JsonConvert.DeserializeObject<AccountDto>(jsonResponse);
-        }
-
-        public void DeleteAccount(int id)
-        {
-            var response = _api.Delete($"accounts/{id}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Could not delete accounts with id: {id}.");
-            }
         }
     }
 }

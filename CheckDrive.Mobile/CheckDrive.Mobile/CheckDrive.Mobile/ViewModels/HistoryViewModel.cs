@@ -1,5 +1,6 @@
-﻿using CheckDrive.ApiContracts.MechanicHandover;
+﻿using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Helpers;
+using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
 using CheckDrive.Web.Stores.MechanicHandovers;
@@ -17,6 +18,7 @@ namespace CheckDrive.Mobile.ViewModels
         private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
         private readonly IOperatorReviewDataStore _operatorReviewDataStore;
         private readonly IMechanicAcceptanceDataStore _mechanicAcceptanceDataStore;
+        private readonly DriverDto _driver = DataService.GetAccount();
 
         public ObservableCollection<History> Reviews { get; private set; }
 
@@ -41,15 +43,19 @@ namespace CheckDrive.Mobile.ViewModels
             });
             IsBusy = false;
         }
-        public void GetDispatcherReviews()
+        public async void GetDispatcherReviews()
         {
             Reviews.Clear();
             IsBusy = true;
 
-            var doctorItems = _doctorReviewDataStore.GetDoctorReviewsByDriverId(2).Data;
-            var mechanicHandoverItems = _mechanicHandoverDataStore.GetMechanicHandoversByDriverId(2).Data;
-            var operatorItems = _operatorReviewDataStore.GetOperatorReviewsByDriverId(2).Data;
-            var mechanicAcceptence = _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverId(2).Data;
+            var doctorItemsResponse = await _doctorReviewDataStore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
+            var doctorItems = doctorItemsResponse.Data;
+            var mechanicHandoverItemsResponse = await _mechanicHandoverDataStore.GetMechanicHandoversByDriverIdAsync(2);
+            var mechanicHandoverItems = mechanicHandoverItemsResponse.Data;
+            var operatorItemsResponse = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(2);
+            var operatorItems = operatorItemsResponse.Data;
+            var mechanicAcceptenceResponse = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverIdAsync(2);
+            var mechanicAcceptence = mechanicAcceptenceResponse.Data;
 
             int itemCount = Math.Min(Math.Min(doctorItems.Count(), mechanicHandoverItems.Count()), Math.Min(operatorItems.Count(), mechanicAcceptence.Count()));
 

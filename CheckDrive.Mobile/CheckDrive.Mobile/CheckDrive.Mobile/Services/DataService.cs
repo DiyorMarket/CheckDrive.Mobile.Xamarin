@@ -1,7 +1,6 @@
-﻿using CheckDrive.ApiContracts.Account;
+﻿using CheckDrive.ApiContracts.Driver;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using Xamarin.Essentials;
 
 namespace CheckDrive.Mobile.Services
@@ -10,8 +9,9 @@ namespace CheckDrive.Mobile.Services
     {
         private const string securetyKey = "accountData";
         private const string securetyKeySavedDate = "savedDate";
+        private const string securetyKeyToken = "tasty-cookies";
 
-        public static void SaveAccount(AccountDto account)
+        public static void SaveAccount(DriverDto account)
         {
             try
             {
@@ -25,32 +25,33 @@ namespace CheckDrive.Mobile.Services
                 Console.WriteLine($"Error saving {securetyKey}: {ex.Message}");
             }
         }
+
         public static void SaveToken(string token)
         {
             try
             {
-            SecureStorage.SetAsync("tasty-cookies", token);
+            SecureStorage.SetAsync(securetyKeyToken, token);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error saving token. {ex.Message}");
             }
         }
-        public static AccountDto GetAccount()
+        public static DriverDto GetAccount()
         {
             try
             {
                 if (SecureStorage.GetAsync(securetyKey).GetAwaiter().GetResult() != null)
                 {
                     var json = SecureStorage.GetAsync(securetyKey).GetAwaiter().GetResult();
-                    return JsonConvert.DeserializeObject<AccountDto>(json);
+                    return JsonConvert.DeserializeObject<DriverDto>(json);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting {securetyKey}: {ex.Message}");
             }
-            return new AccountDto();
+            return new DriverDto();
         }
 
         public static DateTime GetCreationDate()
@@ -79,6 +80,7 @@ namespace CheckDrive.Mobile.Services
                 {
                     SecureStorage.Remove(securetyKey);
                     SecureStorage.Remove(securetyKeySavedDate);
+                    SecureStorage.Remove(securetyKeyToken);
                     Console.WriteLine("file successfuly deleted");
                     return;
                 }

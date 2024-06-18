@@ -1,4 +1,6 @@
 ﻿using CheckDrive.ApiContracts;
+using CheckDrive.ApiContracts.Driver;
+using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
 using CheckDrive.Web.Stores.MechanicHandovers;
@@ -16,7 +18,9 @@ namespace CheckDrive.Mobile.ViewModels
         private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
         private readonly IOperatorReviewDataStore _operatorReviewDataStore;
 
-        private StatusForDto _doctorStatus = StatusForDto.Pending;
+        private DriverDto _driver;
+
+        private StatusForDto _doctorStatus;
         public StatusForDto DoctorStatusCheck
         {
             get { return _doctorStatus; }
@@ -26,7 +30,7 @@ namespace CheckDrive.Mobile.ViewModels
                 OnPropertyChanged(nameof(_doctorStatus));            }
         }
 
-        private StatusForDto _mechanicAcceptanceStatus = StatusForDto.Pending;
+        private StatusForDto _mechanicAcceptanceStatus;
         public StatusForDto MechanicAcceptanceStatusCheck
         {
             get { return _mechanicAcceptanceStatus; }
@@ -37,7 +41,7 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
-        private StatusForDto _operatorStatus = StatusForDto.Pending;
+        private StatusForDto _operatorStatus;
         public StatusForDto OperatorStatusCheck
         {
             get { return _operatorStatus; }
@@ -48,7 +52,7 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
-        private StatusForDto _mechanicHandoverStatus = StatusForDto.Pending;
+        private StatusForDto _mechanicHandoverStatus;
         public StatusForDto MechanicHandoverStatusCheck
         {
             get { return _mechanicHandoverStatus; }
@@ -59,16 +63,16 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
-        private double oilPresentValue;
+        private double _oilPresentValue;
         public double OilPresentValue
         {
-            get => oilPresentValue;
+            get => _oilPresentValue;
             set
             {
-                if (oilPresentValue != value)
+                if (_oilPresentValue != value)
                 {
-                    oilPresentValue = value;
-                    OnPropertyChanged(nameof(oilPresentValue));
+                    _oilPresentValue = value;
+                    OnPropertyChanged(nameof(_oilPresentValue));
                 }
             }
         }
@@ -88,8 +92,8 @@ namespace CheckDrive.Mobile.ViewModels
                 }
             }
         }
-        private string message;
 
+        private string message;
         public string Message
         {
             get => message;
@@ -100,7 +104,19 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
-        public string DoctorCheckTimeToString { get; set; } 
+        private string _doctorCheckTime;
+        public string DoctorCheckTime
+        {
+            get => _doctorCheckTime;
+            set
+            {
+                if (_doctorCheckTime != value)
+                {
+                    _doctorCheckTime = value;
+                    OnPropertyChanged(nameof(_doctorCheckTime));
+                }
+            }
+        }
         public string MechanicAcceptenceCheckTime { get; set; }
         public string OperatorCheckTime { get; set; }
         public string MechanicHandoverCheckTime { get; set; }
@@ -109,42 +125,68 @@ namespace CheckDrive.Mobile.ViewModels
         public DateTime TodayDateForProgressBar { get; set; }
         public DateTime EndDateForProgressBar { get; set; }
 
-        public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore, IMechanicAcceptanceDataStore mechanicAcceptanceDataStore, IOperatorReviewDataStore operatorReviewDataStore, IMechanicHandoverDataStore mechanicHandoverDataStore)
+        public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore,
+            IMechanicAcceptanceDataStore mechanicAcceptanceDataStore,
+            IOperatorReviewDataStore operatorReviewDataStore, 
+            IMechanicHandoverDataStore mechanicHandoverDataStore)
         {
             _doctorReviewDatastore = doctorReviewDataStore;
             _mechanicAcceptanceDataStore = mechanicAcceptanceDataStore;
             _operatorReviewDataStore = operatorReviewDataStore;
             _mechanicHandoverDataStore = mechanicHandoverDataStore;
+            _driver = DataService.GetAccount();
 
             LoadViewPage();
         }
          public async void LoadViewPage()
-        {
+         {
             IsBusy = true;
-            await Task.Run(() => {
-                GetOilResult();
-                GetMessage();
-                CheckDoctorStatusValue();
-            });
+            await GetOilResult();
+            await CheckDoctorStatusValue();
+            GetMessage();
             IsBusy = false;
+         }
+
+        private async Task CheckStatusForBeforeDay()
+        {
+            var mechanicAccepDS = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesAsync(_driver.Id, "dateDesc");
+            var mechanicAccep = mechanicAccepDS.Data.First();
+
+            if(mechanicAccep != null && mechanicAccep.Status == StatusForDto.Pending)
+            {
+                _doctorStatus = StatusForDto.Pending;
+                _mechanicHandoverStatus = StatusForDto.Pending;
+                _operatorStatus = StatusForDto.Pending;
+                _mechanicAcceptanceStatus = StatusForDto.Pending;
+            }
+            
         }
 
-        private void GetOilResult()
+        private async Task GetOilResult()
         {
             GetDateForProgressBar();
-
-            var driverhistoryForOil = _operatorReviewDataStore.GetOperatorReviews().Data.ToList().FindAll(x => x.DriverId == 1);
-            foreach(var operatorReview in driverhistoryForOil)
+            try
             {
-                if (operatorReview.Date >= StartDateForProgressBar 
-                    && operatorReview.Date <= TodayDateForProgressBar
-                    && operatorReview.Status == StatusForDto.Completed)
+                var operatorReviewResponse = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
+                var driverhistoryForOil = operatorReviewResponse.Data.ToList();
+
+                foreach (var operatorReview in driverhistoryForOil)
                 {
-                    oilPresentValue += operatorReview.OilAmount;
+                    if (operatorReview.Date >= StartDateForProgressBar
+                        && operatorReview.Date <= DateTime.Now)
+                    {
+                        _oilPresentValue += operatorReview.OilAmount;
+                    }
                 }
+                OilValueToString = $"{_oilPresentValue} L";
+                oilPercent = (float)(OilPresentValue / 450);
             }
-            OilValueToString = $"{oilPresentValue} L";
-            oilPercent = (float)(OilPresentValue / 450);
+            catch (Exception ex)
+            {
+
+                throw new Exception("", ex);
+            }
+            
         }
 
         private void GetMessage()
@@ -156,17 +198,18 @@ namespace CheckDrive.Mobile.ViewModels
             IsBusy = false;
         }
 
-        private void CheckDoctorStatusValue()
+        private async Task CheckDoctorStatusValue()
         {
-            var doctorReviews = _doctorReviewDatastore.GetDoctorReviews().Data;
+            var doctorReviewsResponse = await _doctorReviewDatastore.GetDoctorReviewsAsync(DateTime.Now);
+            var doctorReviews = doctorReviewsResponse.Data;
 
-            var doctorReview = doctorReviews.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
+            var doctorReview = doctorReviews.FirstOrDefault(x => x.DriverId == _driver.Id);
 
             if (doctorReview != null)
             {
                 if (doctorReview.IsHealthy)
                 {
-                    _doctorStatus = StatusForDto.Completed;
+                    DoctorStatusCheck = StatusForDto.Completed;
                     CheckMechanicHandoverStatusValue();
                 }
                 else
@@ -181,9 +224,10 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
-        private void CheckMechanicHandoverStatusValue()
+        private async void CheckMechanicHandoverStatusValue()
         {
-            var mechanicHandover = _mechanicHandoverDataStore.GetMechanicHandovers().Data.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
+            var mechanicHandovers = await _mechanicHandoverDataStore.GetMechanicHandoversAsync(DateTime.Now);
+            var mechanicHandover = mechanicHandovers.Data.FirstOrDefault(x => x.DriverId == _driver.Id);
             
             if(mechanicHandover != null)
             {
@@ -203,11 +247,15 @@ namespace CheckDrive.Mobile.ViewModels
             }
 
         }
-        private void CheckOperatorStatusValue()
+        private async void CheckOperatorStatusValue()
         {
-            var operatorReview = _operatorReviewDataStore.GetOperatorReviews().Data.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
-            
-            if(operatorReview != null)
+            var operatorReviewResponse = await _operatorReviewDataStore
+                .GetOperatorReviewsAsync(TodayDateForProgressBar);
+
+            var operatorReview = operatorReviewResponse.Data
+                .FirstOrDefault(x => x.DriverId == _driver.Id);
+
+            if (operatorReview != null)
             {
                 if (operatorReview.IsGiven)
                 {
@@ -224,9 +272,13 @@ namespace CheckDrive.Mobile.ViewModels
             }
 
         }
-        private void CheckMechanicAcceptanceStatusValue()
+        private async void CheckMechanicAcceptanceStatusValue()
         {
-            var mechanicAcceptance = _mechanicAcceptanceDataStore.GetMechanicAcceptances().Data.FirstOrDefault(x => x.DriverId == 1 && x.Date.Day == TodayDateForProgressBar.Day);
+            var mechanicAcceptanceResponse = await _mechanicAcceptanceDataStore
+                .GetMechanicAcceptancesAsync(TodayDateForProgressBar);
+
+            var mechanicAcceptance = mechanicAcceptanceResponse
+                .Data.FirstOrDefault(x => x.DriverId == _driver.Id);
 
             if(mechanicAcceptance != null)
             {
@@ -260,14 +312,14 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void ChangedDoctorCheckTime()
         {
-            if(_doctorStatus == StatusForDto.Completed
-                 || _doctorStatus == StatusForDto.Rejected)
+            if(DoctorStatusCheck == StatusForDto.Completed
+                 || DoctorStatusCheck == StatusForDto.Rejected)
             {
-                DoctorCheckTimeToString = DateTime.Now.ToString("HH : mm");
+                DoctorCheckTime = DateTime.Now.ToString("HH : mm");
                 return;
             }
 
-            DoctorCheckTimeToString = "";
+            DoctorCheckTime = "";
         }
         private void ChangedMechanicAccCheckTime()
         {
@@ -302,5 +354,6 @@ namespace CheckDrive.Mobile.ViewModels
 
             MechanicHandoverCheckTime = "";
         }
+
     }
 }

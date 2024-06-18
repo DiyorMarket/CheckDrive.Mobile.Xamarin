@@ -1,4 +1,4 @@
-﻿using CheckDrive.ApiContracts.Account;
+﻿using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.Views;
 using System.Threading.Tasks;
@@ -9,13 +9,16 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class PersonalAccountViewModel : BaseViewModel
     {
-        private AccountDto driver;
-        public AccountDto Driver
-        {
-            get => driver;
-            set => SetProperty(ref driver, value);
+        private DriverDto _driver;
+        public DriverDto Driver {
+            get => _driver;
+            set
+            {
+               SetProperty(ref _driver, value);
+               OnPropertyChanged(nameof(_driver));
+            }
         }
-
+        
         private string fullName;
         public string FullName
         {
@@ -46,8 +49,8 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void  GetDriverData()
         {
-            Driver = DataService.GetAccount();
-            FullName = $"{Driver.FirstName} {Driver.LastName}";
+            _driver = DataService.GetAccount();
+            FullName = $"{_driver.FirstName} {_driver.LastName}";
         }
 
         private void NavigationLoginPage()

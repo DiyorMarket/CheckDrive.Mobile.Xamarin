@@ -5,6 +5,7 @@ using CheckDrive.Web.Stores.MechanicAcceptances;
 using Newtonsoft.Json;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CheckDrive.Mobile.Stores.MechanicAcceptances
 {
@@ -17,89 +18,106 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
             _api = apiClient;
         }
 
-        public GetMechanicAcceptanceResponse GetMechanicAcceptances()
+        public async Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(int driverId, string sortString)
         {
             StringBuilder query = new StringBuilder("");
 
-            var response = _api.Get("mechanics/acceptances?" + query.ToString());
-            if (!response.IsSuccessStatusCode)
+            if (!driverId.Equals(0))
             {
-                throw new Exception("Could not fetch mechanicAcceptance.");
+                query = query.Append($"DriverId={driverId}&");
             }
 
-            var json = response.Content.ReadAsStringAsync().Result;
+            if (!string.IsNullOrEmpty(sortString))
+            {
+                query = query.Append($"Sort={sortString}&");
+            }
+
+            var response = await _api.GetAsync("mechanics/acceptances?" + query.ToString());
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch mechanic acceptance.");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetMechanicAcceptanceResponse>(json);
 
             return result;
         }
-        public GetMechanicAcceptanceResponse GetMechanicAcceptancesByDriverId(int driverId)
-        {
 
-            var response = _api.Get("mechanics/acceptances?DriverId" + driverId + "&OrderBy=datedesc");
+        public async Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesByDriverIdAsync(int driverId)
+        {
+            var response = await _api.GetAsync("mechanics/acceptances?DriverId=" + driverId + "&OrderBy=datedesc");
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Could not fetch mechanicAcceptance.");
+                throw new Exception("Could not fetch mechanic acceptance.");
             }
 
-            var json = response.Content.ReadAsStringAsync().Result;
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetMechanicAcceptanceResponse>(json);
 
             return result;
         }
 
-        public MechanicAcceptanceDto GetMechanicAcceptance(int id)
+        public async Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(DateTime date)
         {
-            var response = _api.Get($"mechanics/acceptances/{id}");
+            StringBuilder query = new StringBuilder("");
 
-            if (!response.IsSuccessStatusCode)
+            if (date > DateTime.MinValue)
             {
-                throw new Exception($"Could not fetch mechanicAcceptance with id: {id}.");
+                query = query.Append($"Date={date.Date}");
             }
 
-            var json = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var response = await _api.GetAsync("mechanics/acceptances?" + query.ToString());
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch mechanic acceptance.");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<GetMechanicAcceptanceResponse>(json);
+
+            return result;
+        }
+
+        public async Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync()
+        {
+            var response = await _api.GetAsync("mechanics/acceptances");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch mechanic acceptance.");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<GetMechanicAcceptanceResponse>(json);
+
+            return result;
+        }
+
+        public async Task<MechanicAcceptanceDto> GetMechanicAcceptanceAsync(int id)
+        {
+            var response = await _api.GetAsync($"mechanics/acceptances/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Could not fetch mechanic acceptance with id: {id}.");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<MechanicAcceptanceDto>(json);
 
             return result;
         }
 
-        public MechanicAcceptanceDto CreateMechanicAcceptance(MechanicAcceptanceForCreateDto mechanicAcceptance)
+        public async Task<MechanicAcceptanceDto> CreateMechanicAcceptanceAsync(MechanicAcceptanceForCreateDto mechanicAcceptance)
         {
             var json = JsonConvert.SerializeObject(mechanicAcceptance);
-            var response = _api.Post("mechanics/acceptances", json);
-
+            var response = await _api.PostAsync("mechanics/acceptances", json);
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("Error creating mechanicAcceptance.");
+                throw new Exception("Error creating mechanic acceptance.");
             }
 
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
+            var jsonResponse = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<MechanicAcceptanceDto>(jsonResponse);
-        }
-
-        public MechanicAcceptanceDto UpdateMechanicAcceptance(int id, MechanicAcceptanceForUpdateDto mechanicAcceptance)
-        {
-            var json = JsonConvert.SerializeObject(mechanicAcceptance);
-            var response = _api.Put($"mechanics/acceptances/{mechanicAcceptance.Id}", json);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception("Error updating mechanicAcceptance.");
-            }
-
-            var jsonResponse = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-            return JsonConvert.DeserializeObject<MechanicAcceptanceDto>(jsonResponse);
-        }
-
-        public void DeleteMechanicAcceptance(int id)
-        {
-            var response = _api.Delete($"mechanics/acceptances/{id}");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception($"Could not delete mechanicAcceptance with id: {id}.");
-            }
         }
     }
 }
