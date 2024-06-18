@@ -29,7 +29,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         public ICommand LogOutProfile { get; }
 
-        public PersonalAccountViewModel()
+        public PersonalAccountViewModel( )
         {
             LogOutProfile = new Command(NavigationLoginPage);
             InitializeDataAsync().ConfigureAwait(false);

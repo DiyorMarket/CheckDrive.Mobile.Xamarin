@@ -7,12 +7,11 @@ namespace CheckDrive.Mobile
 {
     public partial class App : Application
     {
+        
 
         public App()
         {
             InitializeComponent();
-
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzI3MDgyNEAzMjM1MmUzMDJlMzBIU2RvbkFWNUp2R0FwNDBnYi9yUFFROExGcGVmc0c3NU56bDBhaU85SGZnPQ==");
 
             var isChecked = CheckloginDate();
 
@@ -21,7 +20,6 @@ namespace CheckDrive.Mobile
                 MainPage = new AppShell();
                 return;
             }
-
             MainPage = new LoginPage();
         }
 
@@ -39,6 +37,7 @@ namespace CheckDrive.Mobile
 
             return false;
         }
+
 
         protected override void OnStart()
         {

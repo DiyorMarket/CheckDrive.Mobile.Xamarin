@@ -1,18 +1,25 @@
 ﻿using CheckDrive.ApiContracts;
 using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.Views;
 using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
 using CheckDrive.Web.Stores.MechanicHandovers;
 using CheckDrive.Web.Stores.OperatorReviews;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace CheckDrive.Mobile.ViewModels
 {
     public class RoadMapViewModel : BaseViewModel
     {
+        public ICommand AcceptButtonCommand { get; set; }
+        public ICommand RejectButtonCommand { get; set; }
+
         private readonly IDoctorReviewDataStore _doctorReviewDatastore;
         private readonly IMechanicAcceptanceDataStore _mechanicAcceptanceDataStore;
         private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
@@ -93,6 +100,7 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
+        private readonly SignalRService _signalRService;
         private string message;
         public string Message
         {
@@ -135,15 +143,18 @@ namespace CheckDrive.Mobile.ViewModels
             _operatorReviewDataStore = operatorReviewDataStore;
             _mechanicHandoverDataStore = mechanicHandoverDataStore;
             _driver = DataService.GetAccount();
+            _signalRService = new SignalRService();
+            AcceptButtonCommand = new Command(AcceptButton);
+            RejectButtonCommand = new Command(RejectButton);
 
             LoadViewPage();
         }
          public async void LoadViewPage()
          {
             IsBusy = true;
-            await GetOilResult();
-            await CheckDoctorStatusValue();
-            GetMessage();
+             await GetOilResult();
+             await CheckDoctorStatusValue();
+             await CheckNotification();
             IsBusy = false;
          }
 
@@ -179,7 +190,7 @@ namespace CheckDrive.Mobile.ViewModels
                     }
                 }
                 OilValueToString = $"{_oilPresentValue} L";
-                oilPercent = (float)(OilPresentValue / 450);
+                OilPercent = (float)(OilPresentValue / 450);
             }
             catch (Exception ex)
             {
@@ -189,13 +200,9 @@ namespace CheckDrive.Mobile.ViewModels
             
         }
 
-        private void GetMessage()
+        private async Task CheckNotification()
         {
-            IsBusy = true;
-
-            Message = "Siz davlat raqami 'P333MB' bo'lgan Malibu avtomobilini qabul qilasizmi";
-
-            IsBusy = false;
+            await _signalRService.StartConnectionAsync();
         }
 
         private async Task CheckDoctorStatusValue()
@@ -223,7 +230,6 @@ namespace CheckDrive.Mobile.ViewModels
                 ChangedCheckTimeByStatus();
             }
         }
-
         private async void CheckMechanicHandoverStatusValue()
         {
             var mechanicHandovers = await _mechanicHandoverDataStore.GetMechanicHandoversAsync(DateTime.Now);
@@ -353,6 +359,25 @@ namespace CheckDrive.Mobile.ViewModels
             }
 
             MechanicHandoverCheckTime = "";
+        }
+
+
+
+        private void AcceptButton()
+        {
+            _signalRService.SendResponse(true);
+            ClosePopup();
+        }
+
+        private void RejectButton()
+        {
+            _signalRService.SendResponse(false);
+            ClosePopup();
+        }
+
+        private async void ClosePopup()
+        {
+            await PopupNavigation.Instance.PopAsync(true);
         }
 
     }

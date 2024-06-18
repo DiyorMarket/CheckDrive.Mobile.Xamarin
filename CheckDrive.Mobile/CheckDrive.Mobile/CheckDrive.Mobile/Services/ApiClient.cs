@@ -9,7 +9,7 @@ namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "https://s4vnbqgq-7111.euw.devtunnels.ms/api";
+        private const string BaseUrl = "https://2bvq12nl-7111.euw.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 
@@ -57,7 +57,6 @@ namespace CheckDrive.Mobile.Services
         }
 
         public async Task<HttpResponseMessage> PostAsync(string resource, string body)
-
         {
             try
             {
@@ -67,7 +66,7 @@ namespace CheckDrive.Mobile.Services
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
 
-                var response = await _client.SendAsync(request);
+                var response = _client.SendAsync(request).Result;
 
                 return response;
             }
