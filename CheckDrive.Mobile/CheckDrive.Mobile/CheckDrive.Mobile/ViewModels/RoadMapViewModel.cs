@@ -1,7 +1,6 @@
 ﻿using CheckDrive.ApiContracts;
 using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
-using CheckDrive.Mobile.Views;
 using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
 using CheckDrive.Web.Stores.MechanicHandovers;

@@ -1,4 +1,6 @@
+using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.Stores.Accounts;
 using CheckDrive.Mobile.Views;
 using System;
 using Xamarin.Forms;
@@ -7,8 +9,6 @@ namespace CheckDrive.Mobile
 {
     public partial class App : Application
     {
-        
-
         public App()
         {
             InitializeComponent();
@@ -30,12 +30,31 @@ namespace CheckDrive.Mobile
 
             if (creationDate != null && driver != null && DateTime.Now.Date.AddDays(-30) <= creationDate.Date)
             {
+                CheckTokenDate(driver);
                 return true;
             }
 
-            DataService.RemoveAcoountData();
+            DataService.RemoveAllAcoountData();
 
             return false;
+        }
+
+        private void CheckTokenDate(DriverDto driver)
+        {
+            var creationTokenDate = DataService.GetTokenCreationDate();
+            var summHours = DateTime.Now - creationTokenDate;
+
+            if (summHours.TotalHours >= 12)
+            {
+                var accaountDS = new AccountDataStore(new ApiClient());
+
+                var token = accaountDS.CreateTokenAsync(driver.Login, driver.Password).Result;
+
+                if (token != null)
+                {
+                    DataService.SaveToken(token);
+                }
+            }
         }
 
 

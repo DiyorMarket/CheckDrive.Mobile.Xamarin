@@ -9,6 +9,7 @@ namespace CheckDrive.Mobile.Services
     {
         private const string securetyKey = "accountData";
         private const string securetyKeySavedDate = "savedDate";
+        private const string securetyKeySavedTokenDate = "savedTokenDate";
         private const string securetyKeyToken = "tasty-cookies";
 
         public static void SaveAccount(DriverDto account)
@@ -17,8 +18,9 @@ namespace CheckDrive.Mobile.Services
             {
                 var jsonDateTime = JsonConvert.SerializeObject(DateTime.Now);
                 var json = JsonConvert.SerializeObject(account);
-                SecureStorage.SetAsync(securetyKeySavedDate, jsonDateTime);
+                
                 SecureStorage.SetAsync(securetyKey, json);
+                SecureStorage.SetAsync(securetyKeySavedDate, jsonDateTime);
             }
             catch (Exception ex)
             {
@@ -28,9 +30,11 @@ namespace CheckDrive.Mobile.Services
 
         public static void SaveToken(string token)
         {
+            var jsonDateTime = JsonConvert.SerializeObject(DateTime.Now);
             try
             {
-            SecureStorage.SetAsync(securetyKeyToken, token);
+                SecureStorage.SetAsync(securetyKeyToken, token);
+                SecureStorage.SetAsync(securetyKeySavedTokenDate, jsonDateTime);
             }
             catch (Exception ex)
             {
@@ -71,7 +75,24 @@ namespace CheckDrive.Mobile.Services
             return new DateTime();
         }
 
-        public static void RemoveAcoountData()
+        public static DateTime GetTokenCreationDate()
+        {
+            try
+            {
+                if (SecureStorage.GetAsync(securetyKeySavedTokenDate).GetAwaiter().GetResult() != null)
+                {
+                    var json = SecureStorage.GetAsync(securetyKeySavedTokenDate).GetAwaiter().GetResult();
+                    return JsonConvert.DeserializeObject<DateTime>(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting {securetyKeySavedTokenDate}: {ex.Message}");
+            }
+            return new DateTime();
+        }
+
+        public static void RemoveAllAcoountData()
         {
             try
             {
@@ -81,6 +102,7 @@ namespace CheckDrive.Mobile.Services
                     SecureStorage.Remove(securetyKey);
                     SecureStorage.Remove(securetyKeySavedDate);
                     SecureStorage.Remove(securetyKeyToken);
+                    SecureStorage.Remove(securetyKeySavedTokenDate);
                     Console.WriteLine("file successfuly deleted");
                     return;
                 }
