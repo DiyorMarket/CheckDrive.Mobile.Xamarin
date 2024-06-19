@@ -45,7 +45,7 @@ namespace CheckDrive.Mobile.Stores.Accounts
             var json = JsonConvert.SerializeObject(new { login, password });
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _api.PostAsync("login/login", json);
+            var response = _api.PostAsync("login/login", json).Result;
 
             if (!response.IsSuccessStatusCode)
             {

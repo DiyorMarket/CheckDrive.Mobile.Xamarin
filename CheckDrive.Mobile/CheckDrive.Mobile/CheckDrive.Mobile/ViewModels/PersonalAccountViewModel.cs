@@ -26,6 +26,20 @@ namespace CheckDrive.Mobile.ViewModels
             get => fullName;
             set => SetProperty(ref fullName, value);
         }
+        private string _phone;
+        public string PhoneNumber
+        {
+
+            get => _phone;
+            set => SetProperty(ref _phone, value);
+        }
+        private string _login;
+        public string Login
+        {
+
+            get => _login;
+            set => SetProperty(ref _login, value);
+        }
 
         public ICommand LogOutProfile { get; }
 
@@ -51,6 +65,8 @@ namespace CheckDrive.Mobile.ViewModels
         {
             _driver = DataService.GetAccount();
             FullName = $"{_driver.FirstName} {_driver.LastName}";
+            Login = _driver.Login;
+            PhoneNumber = _driver.PhoneNumber;
         }
 
         private void NavigationLoginPage()
