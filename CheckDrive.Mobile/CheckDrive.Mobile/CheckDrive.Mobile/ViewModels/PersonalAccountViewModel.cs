@@ -9,22 +9,27 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class PersonalAccountViewModel : BaseViewModel
     {
-        private DriverDto _driver;
-        public DriverDto Driver {
-            get => _driver;
-            set
-            {
-               SetProperty(ref _driver, value);
-               OnPropertyChanged(nameof(_driver));
-            }
-        }
         
-        private string fullName;
+        private string _fullName;
         public string FullName
         {
 
-            get => fullName;
-            set => SetProperty(ref fullName, value);
+            get => _fullName;
+            set => SetProperty(ref _fullName, value);
+        }
+        private string _phoneNumber;
+        public string PhoneNumber
+        {
+
+            get => _phoneNumber;
+            set => SetProperty(ref _phoneNumber, value);
+        }
+        private string _login;
+        public string Login
+        {
+
+            get => _login;
+            set => SetProperty(ref _login, value);
         }
 
         public ICommand LogOutProfile { get; }
@@ -49,13 +54,15 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void  GetDriverData()
         {
-            _driver = DataService.GetAccount();
+            var _driver = DataService.GetAccount();
             FullName = $"{_driver.FirstName} {_driver.LastName}";
+            PhoneNumber = _driver.PhoneNumber;
+            Login = _driver.Login;
         }
 
         private void NavigationLoginPage()
         {
-            DataService.RemoveAcoountData();
+            DataService.RemoveAllAcoountData();
             Application.Current.MainPage = new LoginPage();
         }
     }
