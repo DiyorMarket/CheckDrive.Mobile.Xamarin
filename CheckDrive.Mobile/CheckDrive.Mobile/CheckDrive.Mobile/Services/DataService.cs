@@ -1,6 +1,7 @@
 ﻿using CheckDrive.ApiContracts.Driver;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using Xamarin.Essentials;
 
 namespace CheckDrive.Mobile.Services
@@ -11,6 +12,8 @@ namespace CheckDrive.Mobile.Services
         private const string securetyKeySavedDate = "savedDate";
         private const string securetyKeySavedTokenDate = "savedTokenDate";
         private const string securetyKeyToken = "tasty-cookies";
+        private const string signalRKeyStatus = "signalRSatusdataurl";
+        private const string signalRKeyReviewId = "signalRdataurl";
 
         public static void SaveAccount(DriverDto account)
         {
@@ -109,6 +112,82 @@ namespace CheckDrive.Mobile.Services
 
                 Console.WriteLine("file with this name cannot fined");
                 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting: {ex.Message}");
+            }
+        }
+
+        public static void SaveSignalRDataFOrStatus(int status)
+        {
+            try
+            {
+                SecureStorage.SetAsync(signalRKeyStatus, status.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving token. {ex.Message}");
+            }
+        }
+
+        public static void SaveSignalRDataForReviewID(int reviewid)
+        {
+            try
+            {
+                SecureStorage.SetAsync(signalRKeyReviewId, reviewid.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving token. {ex.Message}");
+            }
+        }
+
+        public static (int, int) GetSignalRData()
+        {
+            try
+            {
+                int status = 0;
+                int reviewId = 0;
+
+                if (SecureStorage.GetAsync(signalRKeyStatus).GetAwaiter().GetResult() != null)
+                {
+                    var json = SecureStorage.GetAsync(signalRKeyStatus).GetAwaiter().GetResult();
+                    status = JsonConvert.DeserializeObject<int>(json);
+                }
+                if (SecureStorage.GetAsync(signalRKeyReviewId).GetAwaiter().GetResult() != null)
+                {
+                    var json = SecureStorage.GetAsync(signalRKeyReviewId).GetAwaiter().GetResult();
+                    reviewId = JsonConvert.DeserializeObject<int>(json);
+                }
+                return (status, reviewId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting {securetyKeySavedTokenDate}: {ex.Message}");
+            }
+            return (0, 0);
+        } 
+
+        public static void RemoveSignalRData()
+        {
+            try
+            {
+                if (SecureStorage.GetAsync(signalRKeyStatus).GetAwaiter().GetResult() != null)
+                {
+                    SecureStorage.Remove(signalRKeyStatus);
+                    Console.WriteLine("file successfuly deleted");
+                    return;
+                }
+                if (SecureStorage.GetAsync(signalRKeyReviewId).GetAwaiter().GetResult() != null)
+                {
+                    SecureStorage.Remove(signalRKeyReviewId);
+                    Console.WriteLine("file successfuly deleted");
+                    return;
+                }
+
+                Console.WriteLine("file with this name cannot fined");
+
             }
             catch (Exception ex)
             {
