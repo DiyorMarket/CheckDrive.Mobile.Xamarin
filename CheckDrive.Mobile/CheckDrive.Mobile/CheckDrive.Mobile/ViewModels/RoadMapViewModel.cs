@@ -341,14 +341,14 @@ namespace CheckDrive.Mobile.ViewModels
         #endregion
 
         #region Notification methods
-        private void AcceptButton()
+        private async void AcceptButton()
         {
-            _signalRService.SendResponse(true);
+            await _signalRService.SendResponse(true);
             ClosePopup();
         }
-        private void RejectButton()
+        private async void RejectButton()
         {
-            _signalRService.SendResponse(false);
+            await _signalRService.SendResponse(false);
             ClosePopup();
         }
         private async void ClosePopup()

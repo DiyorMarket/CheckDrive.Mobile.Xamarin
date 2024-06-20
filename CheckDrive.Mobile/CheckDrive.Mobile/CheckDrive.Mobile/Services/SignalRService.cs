@@ -40,7 +40,7 @@ namespace CheckDrive.Mobile.Services
             int reviewId = signalRData.Item2;
             try
             {
-                _hubConnection.SendAsync("ReceivePrivateResponse",status, reviewId, isAccepted);
+                await _hubConnection.SendAsync("ReceivePrivateResponse",status, reviewId, isAccepted);
                 DataService.RemoveSignalRData();
             }
             catch(Exception ex) 
