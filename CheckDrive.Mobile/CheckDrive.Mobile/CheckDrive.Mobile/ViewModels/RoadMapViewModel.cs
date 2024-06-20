@@ -16,15 +16,19 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class RoadMapViewModel : BaseViewModel
     {
-        public ICommand AcceptButtonCommand { get; set; }
-        public ICommand RejectButtonCommand { get; set; }
-
         private readonly IDoctorReviewDataStore _doctorReviewDatastore;
         private readonly IMechanicAcceptanceDataStore _mechanicAcceptanceDataStore;
         private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
         private readonly IOperatorReviewDataStore _operatorReviewDataStore;
-
+        
+        public ICommand AcceptButtonCommand { get; set; }
+        public ICommand RejectButtonCommand { get; set; }
+        
+        public DateTime StartDateForProgressBar { get; set; }
+        public DateTime TodayDateForProgressBar { get; set; }
+        public DateTime EndDateForProgressBar { get; set; }
         private DriverDto _driver;
+        private readonly SignalRService _signalRService;
 
         private StatusForDto _doctorStatus;
         public StatusForDto DoctorStatusCheck
@@ -35,7 +39,6 @@ namespace CheckDrive.Mobile.ViewModels
                 SetProperty(ref _doctorStatus, value);
                 OnPropertyChanged(nameof(_doctorStatus));            }
         }
-
         private StatusForDto _mechanicAcceptanceStatus;
         public StatusForDto MechanicAcceptanceStatusCheck
         {
@@ -46,7 +49,6 @@ namespace CheckDrive.Mobile.ViewModels
                 OnPropertyChanged(nameof(_mechanicAcceptanceStatus));
             }
         }
-
         private StatusForDto _operatorStatus;
         public StatusForDto OperatorStatusCheck
         {
@@ -57,7 +59,6 @@ namespace CheckDrive.Mobile.ViewModels
                 OnPropertyChanged(nameof(_operatorStatus));
             }
         }
-
         private StatusForDto _mechanicHandoverStatus;
         public StatusForDto MechanicHandoverStatusCheck
         {
@@ -82,9 +83,7 @@ namespace CheckDrive.Mobile.ViewModels
                 }
             }
         }
-
         public string OilValueToString { get; set; }
-
         private float oilPercent;
         public float OilPercent
         {
@@ -98,8 +97,6 @@ namespace CheckDrive.Mobile.ViewModels
                 }
             }
         }
-
-        private readonly SignalRService _signalRService;
         private string message;
         public string Message
         {
@@ -110,7 +107,6 @@ namespace CheckDrive.Mobile.ViewModels
                 OnPropertyChanged();
             }
         }
-
         private string _doctorCheckTime;
         public string DoctorCheckTime
         {
@@ -128,10 +124,6 @@ namespace CheckDrive.Mobile.ViewModels
         public string OperatorCheckTime { get; set; }
         public string MechanicHandoverCheckTime { get; set; }
 
-        public DateTime StartDateForProgressBar { get; set; }
-        public DateTime TodayDateForProgressBar { get; set; }
-        public DateTime EndDateForProgressBar { get; set; }
-
         public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore,
             IMechanicAcceptanceDataStore mechanicAcceptanceDataStore,
             IOperatorReviewDataStore operatorReviewDataStore, 
@@ -148,29 +140,16 @@ namespace CheckDrive.Mobile.ViewModels
 
             LoadViewPage();
         }
-         public async void LoadViewPage()
+
+
+        public void LoadViewPage()
          {
             IsBusy = true;
-             await GetOilResult();
-             await CheckDoctorStatusValue();
-             await CheckNotification();
+              GetOilResult();
+              CheckDoctorStatusValue();
+              CheckNotification();
             IsBusy = false;
          }
-
-        private async Task CheckStatusForBeforeDay()
-        {
-            var mechanicAccepDS = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesAsync(_driver.Id, "dateDesc");
-            var mechanicAccep = mechanicAccepDS.Data.First();
-
-            if(mechanicAccep != null && mechanicAccep.Status == StatusForDto.Pending)
-            {
-                _doctorStatus = StatusForDto.Pending;
-                _mechanicHandoverStatus = StatusForDto.Pending;
-                _operatorStatus = StatusForDto.Pending;
-                _mechanicAcceptanceStatus = StatusForDto.Pending;
-            }
-            
-        }
 
         private async Task GetOilResult()
         {
@@ -194,16 +173,22 @@ namespace CheckDrive.Mobile.ViewModels
             catch (Exception ex)
             {
 
-                throw new Exception("", ex);
+                throw new Exception("An error occurred while retrieving fuel data.", ex);
             }
             
         }
-
+        private void GetDateForProgressBar()
+        {
+            StartDateForProgressBar = DateTime.Now.Date.AddDays(-(DateTime.Now.Date.Day - 1));
+            TodayDateForProgressBar = DateTime.Now.Date;
+            EndDateForProgressBar = DateTime.Now.Date.AddMonths(+1).AddDays(-DateTime.Now.Date.Day);
+        }
         private async Task CheckNotification()
         {
             await _signalRService.StartConnectionAsync();
         }
 
+        #region Departments check status value methods
         private async Task CheckDoctorStatusValue()
         {
             var doctorReviewsResponse = await _doctorReviewDatastore.GetDoctorReviewsAsync(DateTime.Now);
@@ -233,8 +218,8 @@ namespace CheckDrive.Mobile.ViewModels
         {
             var mechanicHandovers = await _mechanicHandoverDataStore.GetMechanicHandoversAsync(DateTime.Now);
             var mechanicHandover = mechanicHandovers.Data.FirstOrDefault(x => x.DriverId == _driver.Id);
-            
-            if(mechanicHandover != null)
+
+            if (mechanicHandover != null)
             {
                 if (mechanicHandover.IsHanded)
                 {
@@ -285,7 +270,7 @@ namespace CheckDrive.Mobile.ViewModels
             var mechanicAcceptance = mechanicAcceptanceResponse
                 .Data.FirstOrDefault(x => x.DriverId == _driver.Id);
 
-            if(mechanicAcceptance != null)
+            if (mechanicAcceptance != null)
             {
                 if (mechanicAcceptance.IsAccepted)
                 {
@@ -299,14 +284,9 @@ namespace CheckDrive.Mobile.ViewModels
             }
 
         }
+        #endregion
 
-        private void GetDateForProgressBar()
-        {
-            StartDateForProgressBar = DateTime.Now.Date.AddDays(-(DateTime.Now.Date.Day - 1));
-            TodayDateForProgressBar = DateTime.Now.Date;
-            EndDateForProgressBar = DateTime.Now.Date.AddMonths(+1).AddDays(-DateTime.Now.Date.Day);
-        }
-
+        #region Departments status check time methods
         private void ChangedCheckTimeByStatus()
         {
             ChangedDoctorCheckTime();
@@ -314,10 +294,9 @@ namespace CheckDrive.Mobile.ViewModels
             ChangedOperatorCheckTime();
             ChangedMechanicAccCheckTime();
         }
-
         private void ChangedDoctorCheckTime()
         {
-            if(DoctorStatusCheck == StatusForDto.Completed
+            if (DoctorStatusCheck == StatusForDto.Completed
                  || DoctorStatusCheck == StatusForDto.Rejected)
             {
                 DoctorCheckTime = DateTime.Now.ToString("HH : mm");
@@ -328,7 +307,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private void ChangedMechanicAccCheckTime()
         {
-            if(_mechanicAcceptanceStatus == StatusForDto.Completed
+            if (_mechanicAcceptanceStatus == StatusForDto.Completed
                  || _mechanicAcceptanceStatus == StatusForDto.Rejected)
             {
                 MechanicAcceptenceCheckTime = DateTime.Now.ToString("HH : mm");
@@ -339,7 +318,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private void ChangedOperatorCheckTime()
         {
-            if(_operatorStatus == StatusForDto.Completed
+            if (_operatorStatus == StatusForDto.Completed
                  || _operatorStatus == StatusForDto.Rejected)
             {
                 OperatorCheckTime = DateTime.Now.ToString("HH : mm");
@@ -350,7 +329,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private void ChangedMechanicHandoverCheckTime()
         {
-            if(_mechanicHandoverStatus == StatusForDto.Completed
+            if (_mechanicHandoverStatus == StatusForDto.Completed
                  || _mechanicHandoverStatus == StatusForDto.Rejected)
             {
                 MechanicHandoverCheckTime = DateTime.Now.ToString("HH : mm");
@@ -359,24 +338,38 @@ namespace CheckDrive.Mobile.ViewModels
 
             MechanicHandoverCheckTime = "";
         }
+        #endregion
 
-
-
+        #region Notification methods
         private void AcceptButton()
         {
             _signalRService.SendResponse(true);
             ClosePopup();
         }
-
         private void RejectButton()
         {
             _signalRService.SendResponse(false);
             ClosePopup();
         }
-
         private async void ClosePopup()
         {
             await PopupNavigation.Instance.PopAsync(true);
+        }
+        #endregion
+
+        private async Task CheckStatusForBeforeDay()
+        {
+            var mechanicAccepDS = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesAsync(_driver.Id, "dateDesc");
+            var mechanicAccep = mechanicAccepDS.Data.First();
+
+            if (mechanicAccep != null && mechanicAccep.Status == StatusForDto.Pending)
+            {
+                _doctorStatus = StatusForDto.Pending;
+                _mechanicHandoverStatus = StatusForDto.Pending;
+                _operatorStatus = StatusForDto.Pending;
+                _mechanicAcceptanceStatus = StatusForDto.Pending;
+            }
+
         }
 
     }

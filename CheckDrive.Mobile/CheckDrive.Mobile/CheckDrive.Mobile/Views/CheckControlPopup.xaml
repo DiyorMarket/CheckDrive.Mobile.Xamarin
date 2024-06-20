@@ -22,6 +22,7 @@
                 Margin="10"
                 FontSize="22"
                 HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
                 Text="{Binding Message}"
                 TextColor="Black"
                 VerticalOptions="CenterAndExpand" />

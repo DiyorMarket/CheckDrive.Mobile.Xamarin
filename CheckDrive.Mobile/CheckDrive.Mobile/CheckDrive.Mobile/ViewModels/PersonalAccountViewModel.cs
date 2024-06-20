@@ -1,5 +1,4 @@
-﻿using CheckDrive.ApiContracts.Driver;
-using CheckDrive.Mobile.Services;
+﻿using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.Views;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,7 +8,8 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class PersonalAccountViewModel : BaseViewModel
     {
-        
+        public ICommand LogOutProfile { get; }
+
         private string _fullName;
         public string FullName
         {
@@ -31,8 +31,6 @@ namespace CheckDrive.Mobile.ViewModels
             get => _login;
             set => SetProperty(ref _login, value);
         }
-
-        public ICommand LogOutProfile { get; }
 
         public PersonalAccountViewModel( )
         {
