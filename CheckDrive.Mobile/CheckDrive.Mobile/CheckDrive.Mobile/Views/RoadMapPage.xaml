@@ -24,12 +24,16 @@
                     <!--  Main Content  -->
                     <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="7*" />
+                            <RowDefinition Height="0.5*" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="15*" />
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0" Margin="20,25,20,0">
-                            <Label HorizontalOptions="StartAndExpand" Text="{Binding StartDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
+                        <Grid Grid.Row="1" Margin="20,0,20,0">
+                            <Label
+                                HorizontalOptions="StartAndExpand"
+                                Text="{Binding StartDateForProgressBar, StringFormat='{0:MMMM dd}'}"
+                                VerticalOptions="StartAndExpand" />
                             <Label
                                 FontSize="Body"
                                 HorizontalOptions="CenterAndExpand"
@@ -38,6 +42,7 @@
                             <Label HorizontalOptions="EndAndExpand" Text="{Binding EndDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
 
                             <progressBars:DetailedProgressBar
+                                Margin="0,0,0,55"
                                 BackgroundColor="LightGray"
                                 BorderColor="Black"
                                 EndBackgroundColor="LightGray"
@@ -68,9 +73,9 @@
                                 HorizontalOptions="EndAndExpand"
                                 Text="450 L" />
                         </Grid>
-                        <Grid Grid.Row="1">
+                        <Grid Grid.Row="2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="0.5" />
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="2*" />
                                 <RowDefinition Height="*" />
@@ -185,21 +190,6 @@
                                     HorizontalOptions="End"
                                     Text="{Binding MechanicAcceptenceCheckTime}"
                                     TextColor="Black" />
-                            </Grid>
-                            <!--#endregion-->
-                            <!--#region PoPup Button-->
-                            <Grid Grid.Row="8">
-                                <Button
-                                    x:Name="clickToShowPopup"
-                                    Margin="10,10,10,0"
-                                    BackgroundColor="#00a3ff"
-                                    Clicked="ClickToShowPopup_Clicked"
-                                    CornerRadius="30"
-                                    HeightRequest="35"
-                                    HorizontalOptions="EndAndExpand"
-                                    Text="Popup"
-                                    VerticalOptions="Start"
-                                    WidthRequest="85" />
                             </Grid>
                             <!--#endregion-->
                         </Grid>
