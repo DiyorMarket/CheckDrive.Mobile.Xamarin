@@ -1,5 +1,4 @@
-﻿using CheckDrive.ApiContracts.Driver;
-using CheckDrive.Mobile.Services;
+﻿using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.Views;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,22 +8,28 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class PersonalAccountViewModel : BaseViewModel
     {
-        private DriverDto _driver;
-        public DriverDto Driver {
-            get => _driver;
-            set
-            {
-               SetProperty(ref _driver, value);
-               OnPropertyChanged(nameof(_driver));
-            }
-        }
-        
-        private string fullName;
+        public ICommand LogOutProfile { get; }
+
+        private string _fullName;
         public string FullName
         {
 
-            get => fullName;
-            set => SetProperty(ref fullName, value);
+            get => _fullName;
+            set => SetProperty(ref _fullName, value);
+        }
+        private string _phoneNumber;
+        public string PhoneNumber
+        {
+
+            get => _phoneNumber;
+            set => SetProperty(ref _phoneNumber, value);
+        }
+        private string _login;
+        public string Login
+        {
+
+            get => _login;
+            set => SetProperty(ref _login, value);
         }
         private string _phone;
         public string PhoneNumber
@@ -41,9 +46,7 @@ namespace CheckDrive.Mobile.ViewModels
             set => SetProperty(ref _login, value);
         }
 
-        public ICommand LogOutProfile { get; }
-
-        public PersonalAccountViewModel()
+        public PersonalAccountViewModel( )
         {
             LogOutProfile = new Command(NavigationLoginPage);
             InitializeDataAsync().ConfigureAwait(false);
@@ -63,15 +66,15 @@ namespace CheckDrive.Mobile.ViewModels
 
         private void  GetDriverData()
         {
-            _driver = DataService.GetAccount();
+            var _driver = DataService.GetAccount();
             FullName = $"{_driver.FirstName} {_driver.LastName}";
-            Login = _driver.Login;
             PhoneNumber = _driver.PhoneNumber;
+            Login = _driver.Login;
         }
 
         private void NavigationLoginPage()
         {
-            DataService.RemoveAcoountData();
+            DataService.RemoveAllAcoountData();
             Application.Current.MainPage = new LoginPage();
         }
     }
