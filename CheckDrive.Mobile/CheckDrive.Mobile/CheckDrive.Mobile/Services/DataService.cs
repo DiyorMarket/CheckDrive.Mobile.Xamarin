@@ -1,7 +1,6 @@
 ﻿using CheckDrive.ApiContracts.Driver;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using Xamarin.Essentials;
 
 namespace CheckDrive.Mobile.Services
@@ -21,6 +20,8 @@ namespace CheckDrive.Mobile.Services
             {
                 var jsonDateTime = JsonConvert.SerializeObject(DateTime.Now);
                 var json = JsonConvert.SerializeObject(account);
+
+                SecureStorage.Remove(securetyKey);
                 
                 SecureStorage.SetAsync(securetyKey, json);
                 SecureStorage.SetAsync(securetyKeySavedDate, jsonDateTime);
@@ -36,6 +37,8 @@ namespace CheckDrive.Mobile.Services
             var jsonDateTime = JsonConvert.SerializeObject(DateTime.Now);
             try
             {
+                SecureStorage.Remove(securetyKeyToken);
+
                 SecureStorage.SetAsync(securetyKeyToken, token);
                 SecureStorage.SetAsync(securetyKeySavedTokenDate, jsonDateTime);
             }
@@ -123,6 +126,7 @@ namespace CheckDrive.Mobile.Services
         {
             try
             {
+                SecureStorage.Remove(signalRKeyStatus);
                 SecureStorage.SetAsync(signalRKeyStatus, status.ToString());
             }
             catch (Exception ex)
@@ -135,6 +139,7 @@ namespace CheckDrive.Mobile.Services
         {
             try
             {
+                SecureStorage.Remove(signalRKeyReviewId);
                 SecureStorage.SetAsync(signalRKeyReviewId, reviewid.ToString());
             }
             catch (Exception ex)
