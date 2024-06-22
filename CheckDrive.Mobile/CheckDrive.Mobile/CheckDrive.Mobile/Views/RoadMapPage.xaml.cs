@@ -14,7 +14,6 @@ namespace CheckDrive.Mobile.Views
     public partial class RoadMapPage : ContentPage
     {
         private RoadMapViewModel viewModel;
-        private SignalRService _signalRService;
 
         public RoadMapPage()
         {
@@ -31,7 +30,7 @@ namespace CheckDrive.Mobile.Views
 
         }
 
-        protected override void OnAppearing()
+        protected  override void OnAppearing()
         {
             base.OnAppearing();
             viewModel.LoadViewPage();
