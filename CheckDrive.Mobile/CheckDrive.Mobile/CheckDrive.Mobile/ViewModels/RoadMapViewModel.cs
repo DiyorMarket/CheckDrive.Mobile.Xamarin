@@ -1,9 +1,5 @@
 ﻿using CheckDrive.ApiContracts;
-using CheckDrive.ApiContracts.DoctorReview;
 using CheckDrive.ApiContracts.Driver;
-using CheckDrive.ApiContracts.MechanicAcceptance;
-using CheckDrive.ApiContracts.MechanicHandover;
-using CheckDrive.ApiContracts.OperatorReview;
 using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
@@ -111,7 +107,7 @@ namespace CheckDrive.Mobile.ViewModels
                 OnPropertyChanged();
             }
         }
-        private string _doctorCheckTime = "";
+        private string _doctorCheckTime;
         public string DoctorCheckTime
         {
             get => _doctorCheckTime;
@@ -124,45 +120,9 @@ namespace CheckDrive.Mobile.ViewModels
                 }
             }
         }
-        private string _mechanicHandoverCheckTime = "";
-        public string MechanicHandoverCheckTime
-        {
-            get => _mechanicHandoverCheckTime;
-            set
-            {
-                if (_mechanicHandoverCheckTime != value)
-                {
-                    _mechanicHandoverCheckTime = value;
-                    OnPropertyChanged(nameof(_mechanicHandoverCheckTime));
-                }
-            }
-        }
-        private string _operatorCheckTime = "";
-        public string OperatorCheckTime
-        {
-            get => _operatorCheckTime;
-            set
-            {
-                if (_operatorCheckTime != value)
-                {
-                    _operatorCheckTime = value;
-                    OnPropertyChanged(nameof(_operatorCheckTime));
-                }
-            }
-        }
-        private string _mechanicAcceptanceCheckTime = "";
-        public string MechanicAcceptenceCheckTime
-        {
-            get => _mechanicAcceptanceCheckTime;
-            set
-            {
-                if (_mechanicAcceptanceCheckTime != value)
-                {
-                    _mechanicAcceptanceCheckTime = value;
-                    OnPropertyChanged(nameof(_mechanicAcceptanceCheckTime));
-                }
-            }
-        }
+        public string MechanicAcceptenceCheckTime { get; set; }
+        public string OperatorCheckTime { get; set; }
+        public string MechanicHandoverCheckTime { get; set; }
 
         public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore,
             IMechanicAcceptanceDataStore mechanicAcceptanceDataStore,
@@ -182,12 +142,12 @@ namespace CheckDrive.Mobile.ViewModels
         }
 
 
-        public async void LoadViewPage()
+        public void LoadViewPage()
          {
             IsBusy = true;
-              await GetOilResult();
-              await CheckDoctorStatusValue();
-              await CheckNotification();
+              GetOilResult();
+              CheckDoctorStatusValue();
+              CheckNotification();
             IsBusy = false;
          }
 
@@ -241,7 +201,6 @@ namespace CheckDrive.Mobile.ViewModels
                 if (doctorReview.IsHealthy)
                 {
                     DoctorStatusCheck = StatusForDto.Completed;
-                    ChangedDoctorCheckTime(doctorReview);
                     CheckMechanicHandoverStatusValue();
                 }
                 else
@@ -251,6 +210,8 @@ namespace CheckDrive.Mobile.ViewModels
                     _operatorStatus = StatusForDto.Rejected;
                     _mechanicAcceptanceStatus = StatusForDto.Rejected;
                 }
+
+                ChangedCheckTimeByStatus();
             }
         }
         private async void CheckMechanicHandoverStatusValue()
@@ -263,7 +224,6 @@ namespace CheckDrive.Mobile.ViewModels
                 if (mechanicHandover.IsHanded)
                 {
                     MechanicHandoverStatusCheck = StatusForDto.Completed;
-                    ChangedMechanicHandoverCheckTime(mechanicHandover);
                     CheckOperatorStatusValue();
                     return;
                 }
@@ -290,7 +250,6 @@ namespace CheckDrive.Mobile.ViewModels
                 if (operatorReview.IsGiven)
                 {
                     OperatorStatusCheck = StatusForDto.Completed;
-                    ChangedOperatorCheckTime(operatorReview);
                     CheckMechanicAcceptanceStatusValue();
                     return;
                 }
@@ -316,7 +275,6 @@ namespace CheckDrive.Mobile.ViewModels
                 if (mechanicAcceptance.IsAccepted)
                 {
                     MechanicAcceptanceStatusCheck = StatusForDto.Completed;
-                    ChangedMechanicAccCheckTime(mechanicAcceptance);
                 }
                 else
                 {
@@ -329,57 +287,69 @@ namespace CheckDrive.Mobile.ViewModels
         #endregion
 
         #region Departments status check time methods
-        
-        private void ChangedDoctorCheckTime(DoctorReviewDto reviewDto)
+        private void ChangedCheckTimeByStatus()
         {
-            DoctorCheckTime = reviewDto.Date.ToString("HH : mm");
+            ChangedDoctorCheckTime();
+            ChangedMechanicHandoverCheckTime();
+            ChangedOperatorCheckTime();
+            ChangedMechanicAccCheckTime();
         }
-        private void ChangedMechanicAccCheckTime(MechanicAcceptanceDto acceptanceDto)
+        private void ChangedDoctorCheckTime()
         {
-            MechanicAcceptenceCheckTime = acceptanceDto.Date.ToString("HH : mm");
+            if (DoctorStatusCheck == StatusForDto.Completed
+                 || DoctorStatusCheck == StatusForDto.Rejected)
+            {
+                DoctorCheckTime = DateTime.Now.ToString("HH : mm");
+                return;
+            }
+
+            DoctorCheckTime = "";
         }
-        private void ChangedOperatorCheckTime(OperatorReviewDto reviewDto)
+        private void ChangedMechanicAccCheckTime()
         {
-            OperatorCheckTime = reviewDto.Date.ToString("HH : mm");
+            if (_mechanicAcceptanceStatus == StatusForDto.Completed
+                 || _mechanicAcceptanceStatus == StatusForDto.Rejected)
+            {
+                MechanicAcceptenceCheckTime = DateTime.Now.ToString("HH : mm");
+                return;
+            }
+
+            MechanicAcceptenceCheckTime = "";
         }
-        private void ChangedMechanicHandoverCheckTime(MechanicHandoverDto handoverDto)
+        private void ChangedOperatorCheckTime()
         {
-            
-           MechanicHandoverCheckTime = handoverDto.Date.ToString("HH : mm");
-           
+            if (_operatorStatus == StatusForDto.Completed
+                 || _operatorStatus == StatusForDto.Rejected)
+            {
+                OperatorCheckTime = DateTime.Now.ToString("HH : mm");
+                return;
+            }
+
+            OperatorCheckTime = "";
+        }
+        private void ChangedMechanicHandoverCheckTime()
+        {
+            if (_mechanicHandoverStatus == StatusForDto.Completed
+                 || _mechanicHandoverStatus == StatusForDto.Rejected)
+            {
+                MechanicHandoverCheckTime = DateTime.Now.ToString("HH : mm");
+                return;
+            }
+
+            MechanicHandoverCheckTime = "";
         }
         #endregion
 
         #region Notification methods
-        private async void AcceptButton()
+        private void AcceptButton()
         {
-            var statusNumber = DataService.GetSignalRData().statusNumber;
-
-            switch (statusNumber)
-            {
-                case 0: MechanicHandoverStatusCheck = StatusForDto.Completed; break;
-                case 1: OperatorStatusCheck = StatusForDto.Completed; break;
-                case 2: MechanicAcceptanceStatusCheck = StatusForDto.Completed; break;
-            }
-
-            await _signalRService.SendResponse(true);
+            _signalRService.SendResponse(true);
             ClosePopup();
-            LoadViewPage();
         }
-        private async void RejectButton()
+        private void RejectButton()
         {
-            var statusNumber = DataService.GetSignalRData().statusNumber;
-
-            switch (statusNumber)
-            {
-                case 0: MechanicHandoverStatusCheck = StatusForDto.Rejected; break;
-                case 1: OperatorStatusCheck = StatusForDto.Rejected; break;
-                case 2: MechanicAcceptanceStatusCheck = StatusForDto.Rejected; break;
-            }
-
-            await _signalRService.SendResponse(false);
+            _signalRService.SendResponse(false);
             ClosePopup();
-            LoadViewPage();
         }
         private async void ClosePopup()
         {

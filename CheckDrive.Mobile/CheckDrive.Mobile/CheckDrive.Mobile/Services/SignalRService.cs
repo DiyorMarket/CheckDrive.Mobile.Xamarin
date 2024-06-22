@@ -36,8 +36,8 @@ namespace CheckDrive.Mobile.Services
         public async Task SendResponse(bool isAccepted)
         {
             var signalRData = DataService.GetSignalRData();
-            var status = signalRData.statusNumber;
-            int reviewId = signalRData.reviewId;
+            var status = signalRData.Item1;
+            int reviewId = signalRData.Item2;
             try
             {
                 _hubConnection.SendAsync("ReceivePrivateResponse",status, reviewId, isAccepted);
