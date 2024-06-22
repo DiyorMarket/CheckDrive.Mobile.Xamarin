@@ -26,7 +26,7 @@ namespace CheckDrive.Mobile.Services
 
             try
             {
-                var token = await SecureStorage.GetAsync("tasty-cookies");
+                var token = SecureStorage.GetAsync("tasty-cookies").Result;
 
                 if (string.IsNullOrEmpty(token))
                 {
@@ -60,7 +60,7 @@ namespace CheckDrive.Mobile.Services
         {
             try
             {
-                string token = await SecureStorage.GetAsync("tasty-cookies");
+                string token = SecureStorage.GetAsync("tasty-cookies").Result;
 
                 var request = new HttpRequestMessage(HttpMethod.Post, $"{BaseUrl}/{resource}");
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
