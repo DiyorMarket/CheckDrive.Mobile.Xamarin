@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CheckDrive.Mobile.Converter"
+    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
     xmlns:progressBar="clr-namespace:Syncfusion.XForms.ProgressBar;assembly=Syncfusion.SfProgressBar.XForms"
     xmlns:progressBars="clr-namespace:Com.Igniscor.Controls.ProgressBar;assembly=Com.Igniscor.Controls"
     xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
@@ -195,7 +196,6 @@
                             <!--#endregion-->
                         </Grid>
                     </Grid>
-                    <!-- Spinner -->
                     <md:MaterialProgressIndicator
                         AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
                         AbsoluteLayout.LayoutFlags="All"
