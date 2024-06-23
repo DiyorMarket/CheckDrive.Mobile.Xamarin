@@ -1,4 +1,5 @@
-﻿using CheckDrive.ApiContracts.Driver;
+﻿using CheckDrive.ApiContracts;
+using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Helpers;
 using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.DoctorReviews;
@@ -51,7 +52,7 @@ namespace CheckDrive.Mobile.ViewModels
             var doctorItemsResponse = await _doctorReviewDataStore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
             var doctorItems = doctorItemsResponse.Data;
             var mechanicHandoverItemsResponse = await _mechanicHandoverDataStore.GetMechanicHandoversByDriverIdAsync(_driver.Id);
-            var mechanicHandoverItems = mechanicHandoverItemsResponse.Data;
+            var mechanicHandoverItems = mechanicHandoverItemsResponse.Data.ToList();
             var operatorItemsResponse = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
             var operatorItems = operatorItemsResponse.Data;
             var mechanicAcceptenceResponse = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverIdAsync(_driver.Id);
@@ -61,13 +62,28 @@ namespace CheckDrive.Mobile.ViewModels
 
             for (int i = 0; i < itemCount; i++)
             {
+                var isHanded = false;
+                if (mechanicHandoverItems[i].Status == StatusForDto.Completed)
+                {
+                    isHanded = true;
+                }
+                var isGiven = false;
+                if (operatorItems.ToList()[i].Status == StatusForDto.Completed)
+                {
+                    isGiven = true;
+                }
+                var isAccept = false;
+                if (mechanicAcceptence.ToList()[i].Status == StatusForDto.Completed)
+                {
+                    isAccept = true;
+                }
                 var historyItem = new History
                 {
                     Date = doctorItems.ToList()[i].Date,
                     IsHealthy = doctorItems.ToList()[i].IsHealthy,
-                    IsHanded = mechanicHandoverItems.ToList()[i].IsHanded,
-                    IsGiven = operatorItems.ToList()[i].IsGiven,
-                    IsAccepted = mechanicAcceptence.ToList()[i].IsAccepted
+                    IsHanded = isHanded,
+                    IsGiven = isGiven,
+                    IsAccepted = isAccept
                 };
 
                 Reviews.Add(historyItem);
