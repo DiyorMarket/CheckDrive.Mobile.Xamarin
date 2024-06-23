@@ -11,28 +11,33 @@
 
     <ContentPage.Content>
         <AbsoluteLayout>
-            <!--  Main content grid  -->
+            <!--  Background Image  -->
+            <Image
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                AbsoluteLayout.LayoutFlags="All"
+                Aspect="AspectFill"
+                Source="layout_profilePage.png" />
+
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="4*" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-
-                <Image
-                    Grid.RowSpan="3"
-                    Aspect="AspectFill"
-                    Source="layout_profilePage.png" />
 
                 <StackLayout
                     Grid.Row="1"
-                    Margin="0,0,0,25"
+                    Margin="10,250,10,0"
                     HorizontalOptions="Center"
                     Spacing="15"
                     VerticalOptions="Start"
                     WidthRequest="1000">
-                    <!--  Your existing content here  -->
+
+                    <Label
+                        Margin="20,0,0,0"
+                        FontSize="Small"
+                        Text="Ism va familiya"
+                        VerticalOptions="EndAndExpand" />
                     <md:MaterialCard
-                        Margin="10"
+                        Margin="10,-10,10,0"
                         BackgroundColor="#f7f7f7"
                         BorderColor="#00A3FF"
                         CornerRadius="10"
@@ -46,8 +51,13 @@
                             Text="{Binding FullName}"
                             TextColor="#00A3FF" />
                     </md:MaterialCard>
+
+                    <Label
+                        Margin="20,0,0,0"
+                        FontSize="Small"
+                        Text="Login" />
                     <md:MaterialCard
-                        Margin="10"
+                        Margin="10,-10,10,10"
                         BackgroundColor="#f7f7f7"
                         BorderColor="#00A3FF"
                         CornerRadius="10"
@@ -61,8 +71,12 @@
                             Text="{Binding Login}"
                             TextColor="#00A3FF" />
                     </md:MaterialCard>
+                    <Label
+                        Margin="20,0,0,0"
+                        FontSize="Small"
+                        Text="Telefon Raqami" />
                     <md:MaterialCard
-                        Margin="10"
+                        Margin="10,-10,10,10"
                         BackgroundColor="#f7f7f7"
                         BorderColor="#00A3FF"
                         CornerRadius="10"
@@ -76,6 +90,7 @@
                             Text="{Binding PhoneNumber}"
                             TextColor="#00A3FF" />
                     </md:MaterialCard>
+
                     <md:MaterialButton
                         Margin="10"
                         BackgroundColor="Transparent"
@@ -88,43 +103,23 @@
                         TabIndex="3"
                         Text="Profildan chiqish"
                         TextColor="#00A3FF" />
-                </StackLayout>
-
-                <Label
-                    Grid.Row="1"
-                    FontSize="Small"
-                    HorizontalOptions="CenterAndExpand"
-                    Text="Application version: 1.30.27"
-                    VerticalOptions="EndAndExpand" />
-            </Grid>
-
-            <!--  Loading spinner  -->
-            <Frame
-                AbsoluteLayout.LayoutBounds="0.5,0.5,0.3,0.17"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="#80000000"
-                CornerRadius="30"
-                IsVisible="{Binding IsBusy}">
-
-                <Grid BackgroundColor="Transparent" Opacity="0.7">
-                    <ActivityIndicator
-                        HeightRequest="45"
-                        HorizontalOptions="Center"
-                        IsRunning="{Binding IsBusy}"
-                        VerticalOptions="Center"
-                        WidthRequest="35"
-                        Color="White" />
 
                     <Label
-                        Margin="0,60,0,0"
-                        FontSize="Medium"
-                        HorizontalOptions="Center"
-                        Text="Loading..."
-                        TextColor="White"
-                        VerticalOptions="Center" />
-                </Grid>
-            </Frame>
+                        FontSize="Small"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Application version: 1.30.27"
+                        VerticalOptions="EndAndExpand" />
 
+                </StackLayout>
+                <!--  Loading Spinner  -->
+                <md:MaterialProgressIndicator
+                    Grid.Row="1"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                    AbsoluteLayout.LayoutFlags="All"
+                    IsEnabled="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}"
+                    VerticalOptions="Center" />
+            </Grid>
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -7,6 +7,7 @@
     xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
     xmlns:progressBar="clr-namespace:Syncfusion.XForms.ProgressBar;assembly=Syncfusion.SfProgressBar.XForms"
     xmlns:progressBars="clr-namespace:Com.Igniscor.Controls.ProgressBar;assembly=Com.Igniscor.Controls"
+    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
     Title="{Binding Title}">
 
     <ContentPage.Resources>
@@ -195,14 +196,12 @@
                             <!--#endregion-->
                         </Grid>
                     </Grid>
-
                     <md:MaterialProgressIndicator
                         AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
                         AbsoluteLayout.LayoutFlags="All"
                         IsEnabled="{Binding IsBusy}"
                         IsVisible="{Binding IsBusy}"
                         VerticalOptions="CenterAndExpand" />
-
                 </AbsoluteLayout>
             </ScrollView>
         </RefreshView>

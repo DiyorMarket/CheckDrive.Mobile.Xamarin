@@ -77,8 +77,6 @@ namespace CheckDrive.Mobile.ViewModels
 
             try
             {
-                IsBusy = true;
-
                 var isSuccess = CheckingDriverLogin();
                 Application.Current.MainPage = new AppShell();
             }
@@ -91,8 +89,6 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task<bool> CheckingDriverLogin()
         {
-            IsBusy = true;
-
             var token = await _accountDataStore.CreateTokenAsync(Login, Password);
 
             if (token != null)
@@ -113,8 +109,6 @@ namespace CheckDrive.Mobile.ViewModels
                 DataService.SaveAccount(driver);
                 return true;
             }
-
-            IsBusy= false;
 
             return false;
         }
