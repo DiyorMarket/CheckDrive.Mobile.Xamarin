@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:CheckDrive.Mobile.Converter"
     xmlns:progressBar="clr-namespace:Syncfusion.XForms.ProgressBar;assembly=Syncfusion.SfProgressBar.XForms"
     xmlns:progressBars="clr-namespace:Com.Igniscor.Controls.ProgressBar;assembly=Com.Igniscor.Controls"
+    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
     Title="{Binding Title}">
 
     <ContentPage.Resources>
@@ -194,33 +195,13 @@
                             <!--#endregion-->
                         </Grid>
                     </Grid>
-
-                    <Frame
-                        AbsoluteLayout.LayoutBounds="0.5,0.5,0.3,0.17"
+                    <!-- Spinner -->
+                    <md:MaterialProgressIndicator
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
                         AbsoluteLayout.LayoutFlags="All"
-                        BackgroundColor="#80000000"
-                        CornerRadius="30"
-                        IsVisible="{Binding IsBusy}">
-
-                        <Grid Opacity="0.7">
-                            <ActivityIndicator
-                                HeightRequest="45"
-                                HorizontalOptions="Center"
-                                IsRunning="{Binding IsBusy}"
-                                VerticalOptions="Center"
-                                WidthRequest="35"
-                                Color="White" />
-
-                            <Label
-                                Margin="0,60,0,0"
-                                FontSize="Medium"
-                                HorizontalOptions="Center"
-                                Text="Loading..."
-                                TextColor="White"
-                                VerticalOptions="Center" />
-                        </Grid>
-                    </Frame>
-
+                        IsEnabled="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        VerticalOptions="CenterAndExpand" />
                 </AbsoluteLayout>
             </ScrollView>
         </RefreshView>
