@@ -1,12 +1,10 @@
 ﻿using CheckDrive.Mobile.Views;
 using Microsoft.AspNetCore.SignalR.Client;
 using Rg.Plugins.Popup.Services;
-using Syncfusion.XForms.Themes;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace CheckDrive.Mobile.Services
 {
@@ -19,7 +17,7 @@ namespace CheckDrive.Mobile.Services
         public SignalRService()
         {
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://2bvq12nl-7111.euw.devtunnels.ms/api/chat", options =>
+                .WithUrl("https://srvsrv10-7111.asse.devtunnels.ms/api/chat", options =>
                 {
                     options.AccessTokenProvider = async () => await GetTokenAsync();
                 })
@@ -40,7 +38,7 @@ namespace CheckDrive.Mobile.Services
             int reviewId = signalRData.Item2;
             try
             {
-                _hubConnection.SendAsync("ReceivePrivateResponse",status, reviewId, isAccepted);
+                await _hubConnection.SendAsync("ReceivePrivateResponse",status, reviewId, isAccepted);
                 DataService.RemoveSignalRData();
             }
             catch(Exception ex) 

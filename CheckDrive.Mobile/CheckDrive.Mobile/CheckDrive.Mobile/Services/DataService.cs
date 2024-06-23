@@ -148,7 +148,7 @@ namespace CheckDrive.Mobile.Services
             }
         }
 
-        public static (int, int) GetSignalRData()
+        public static (int statusNumber, int reviewId) GetSignalRData()
         {
             try
             {

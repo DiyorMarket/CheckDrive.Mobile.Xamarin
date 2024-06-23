@@ -39,7 +39,7 @@ namespace CheckDrive.Mobile
             return false;
         }
 
-        private void CheckTokenDate(DriverDto driver)
+        private async void CheckTokenDate(DriverDto driver)
         {
             var creationTokenDate = DataService.GetTokenCreationDate();
             var summHours = DateTime.Now - creationTokenDate;
@@ -48,7 +48,7 @@ namespace CheckDrive.Mobile
             {
                 var accaountDS = new AccountDataStore(new ApiClient());
 
-                var token = accaountDS.CreateTokenAsync(driver.Login, driver.Password).Result;
+                var token = await accaountDS.CreateTokenAsync(driver.Login, driver.Password);
 
                 if (token != null)
                 {

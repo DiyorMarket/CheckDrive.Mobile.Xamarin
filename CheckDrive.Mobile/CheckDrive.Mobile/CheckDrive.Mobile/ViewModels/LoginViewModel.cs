@@ -20,8 +20,6 @@ namespace CheckDrive.Mobile.ViewModels
         public ICommand ToggleLoginVisibilityCommand { get; }
         public ICommand LoginCommand { get; }
 
-        private DriverDto Account {  get; set; }
-
         private string _login;
         public string Login
         {
@@ -111,7 +109,7 @@ namespace CheckDrive.Mobile.ViewModels
 
             if (driver != null)
             {
-                Account = driver;
+                driver.Password = Password;
                 DataService.SaveAccount(driver);
                 return true;
             }
