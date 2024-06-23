@@ -46,7 +46,6 @@ namespace CheckDrive.Mobile.ViewModels
         public async void GetHitory()
         {
             Reviews.Clear();
-            IsBusy = true;
 
             var doctorItemsResponse = await _doctorReviewDataStore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
             var doctorItems = doctorItemsResponse.Data;
@@ -72,8 +71,6 @@ namespace CheckDrive.Mobile.ViewModels
 
                 Reviews.Add(historyItem);
             }
-
-            IsBusy = false;
         }
     }
 }

@@ -35,27 +35,22 @@ namespace CheckDrive.Mobile.ViewModels
         public PersonalAccountViewModel( )
         {
             LogOutProfile = new Command(NavigationLoginPage);
-            InitializeDataAsync().ConfigureAwait(false);
+            GetDriverData();
         }
 
-        private async Task InitializeDataAsync()
+        private async void  GetDriverData()
         {
-            if(IsBusy) return;
             IsBusy = true;
 
-            await Task.Run(() => {
-                GetDriverData();    
+            await Task.Run(() =>
+            {
+                Task.Delay(10000).Wait();
+                var _driver = DataService.GetAccount();
+                FullName = $"{_driver.FirstName} {_driver.LastName}";
+                PhoneNumber = _driver.PhoneNumber;
+                Login = _driver.Login;
             });
-
             IsBusy = false;
-        }
-
-        private void  GetDriverData()
-        {
-            var _driver = DataService.GetAccount();
-            FullName = $"{_driver.FirstName} {_driver.LastName}";
-            PhoneNumber = _driver.PhoneNumber;
-            Login = _driver.Login;
         }
 
         private void NavigationLoginPage()
