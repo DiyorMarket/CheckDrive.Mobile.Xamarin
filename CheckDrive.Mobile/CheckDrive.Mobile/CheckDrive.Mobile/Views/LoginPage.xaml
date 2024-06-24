@@ -15,6 +15,8 @@
         <ResourceDictionary>
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <local:PasswordVisibilityConverter x:Key="PasswordVisibilityConverter" />
+            <local:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <local:BoolToRedConverter x:Key="BoolToRedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -51,53 +53,64 @@
                 <StackLayout HorizontalOptions="Center" Spacing="5" />
 
                 <StackLayout HorizontalOptions="Center" Spacing="5">
-                    <md:MaterialEntry
-                        Margin="10"
-                        AnimateError="True"
-                        AnimatePlaceholder="True"
-                        BackgroundColor="#f7f7f7"
-                        BorderColor="#00A3FF"
-                        CornerRadius="10"
-                        FocusedBackgroundColor="#f7f7f7"
-                        FocusedBorderColor="#00A3FF"
-                        FocusedTextColor="#00A3FF"
-                        HasBorder="True"
-                        IsPassword="{Binding IsLoginVisible, Converter={StaticResource InverseBooleanConverter}}"
-                        Keyboard="Text"
-                        LabelTextColor="#00A3FF"
-                        LeadingIcon="mail.png"
-                        MaxLength="300"
-                        Placeholder="Loginni kiriting...."
-                        PlaceholderColor="#00A3FF"
-                        ReturnType="Next"
-                        TabIndex="1"
-                        Text="{Binding Login}"
-                        TextColor="#00A3FF"
-                        TrailingIcon="{Binding IsLoginVisible, Converter={StaticResource PasswordVisibilityConverter}}"
-                        TrailingIconCommand="{Binding ToggleLoginVisibilityCommand}" />
-                    <md:MaterialEntry
-                        x:Name="PasswordEntry"
-                        Margin="10"
-                        AnimateError="True"
-                        AnimatePlaceholder="True"
-                        BackgroundColor="#f7f7f7"
-                        BorderColor="#00A3FF"
-                        CornerRadius="10"
-                        FocusedBackgroundColor="#f7f7f7"
-                        FocusedBorderColor="#00A3FF"
-                        FocusedTextColor="#00A3FF"
-                        HasBorder="True"
-                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
-                        LabelTextColor="#00A3FF"
-                        LeadingIcon="padlock.png"
-                        MaxLength="300"
-                        Placeholder="Parolni kiriting....."
-                        PlaceholderColor="#00A3FF"
-                        TabIndex="2"
-                        Text="{Binding Password}"
-                        TextColor="#00A3FF"
-                        TrailingIcon="{Binding IsPasswordVisible, Converter={StaticResource PasswordVisibilityConverter}}"
-                        TrailingIconCommand="{Binding TogglePasswordVisibilityCommand}" />
+                    <StackLayout>
+                        <md:MaterialEntry
+                            Margin="10"
+                            AnimateError="True"
+                            AnimatePlaceholder="True"
+                            BackgroundColor="#f7f7f7"
+                            BorderColor="{Binding IsLoginError, Converter={StaticResource BoolToRedConverter}}"
+                            CornerRadius="10"
+                            FocusedBackgroundColor="#f7f7f7"
+                            FocusedBorderColor="#00A3FF"
+                            FocusedTextColor="#00A3FF"
+                            HasBorder="True"
+                            IsPassword="{Binding IsLoginVisible, Converter={StaticResource InverseBooleanConverter}}"
+                            Keyboard="Text"
+                            LabelTextColor="#00A3FF"
+                            LeadingIcon="mail.png"
+                            MaxLength="300"
+                            Placeholder="Loginni kiriting...."
+                            PlaceholderColor="#00A3FF"
+                            ReturnType="Next"
+                            TabIndex="1"
+                            Text="{Binding Login}"
+                            TextColor="#00A3FF"
+                            TrailingIcon="{Binding IsLoginVisible, Converter={StaticResource PasswordVisibilityConverter}}"
+                            TrailingIconCommand="{Binding ToggleLoginVisibilityCommand}" />
+                    </StackLayout>
+
+                    <StackLayout>
+                        <md:MaterialEntry
+                            x:Name="PasswordEntry"
+                            Margin="10"
+                            AnimateError="True"
+                            AnimatePlaceholder="True"
+                            BackgroundColor="#f7f7f7"
+                            BorderColor="{Binding IsPasswordError, Converter={StaticResource BoolToRedConverter}}"
+                            CornerRadius="10"
+                            FocusedBackgroundColor="#f7f7f7"
+                            FocusedBorderColor="#00A3FF"
+                            FocusedTextColor="#00A3FF"
+                            HasBorder="True"
+                            IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
+                            LabelTextColor="#00A3FF"
+                            LeadingIcon="padlock.png"
+                            MaxLength="300"
+                            Placeholder="Parolni kiriting....."
+                            PlaceholderColor="#00A3FF"
+                            TabIndex="2"
+                            Text="{Binding Password}"
+                            TextColor="#00A3FF"
+                            TrailingIcon="{Binding IsPasswordVisible, Converter={StaticResource PasswordVisibilityConverter}}"
+                            TrailingIconCommand="{Binding TogglePasswordVisibilityCommand}" />
+                        <!--  Login yoki password xatolik xabari  -->
+                        <Label
+                            Margin="20,0,0,0"
+                            IsVisible="{Binding LoginErrorMessage, Converter={StaticResource StringToBoolConverter}}"
+                            Text="{Binding LoginErrorMessage}"
+                            TextColor="Red" />
+                    </StackLayout>
 
                     <md:MaterialButton
                         Margin="10,40,10,0"

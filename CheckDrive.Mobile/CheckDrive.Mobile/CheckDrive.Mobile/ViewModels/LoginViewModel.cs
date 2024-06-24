@@ -1,126 +1,186 @@
-﻿using CheckDrive.ApiContracts.Driver;
-using CheckDrive.Mobile.Services;
+﻿using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.ViewModels;
+using CheckDrive.Mobile;
 using CheckDrive.Web.Stores.Accounts;
 using CheckDrive.Web.Stores.Drivers;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Linq;
+using System.Security.Claims;
+using System;
 
-namespace CheckDrive.Mobile.ViewModels
+public class LoginViewModel : BaseViewModel
 {
-    public class LoginViewModel : BaseViewModel
+    private readonly IAccountDataStore _accountDataStore;
+    private readonly IDriverDataStore _driverDataStore;
+
+    public ICommand TogglePasswordVisibilityCommand { get; }
+    public ICommand ToggleLoginVisibilityCommand { get; }
+    public ICommand LoginCommand { get; }
+
+    private string _login;
+    public string Login
     {
-        private readonly IAccountDataStore _accountDataStore;
-        private readonly IDriverDataStore _driverDataStore;
-
-        public ICommand TogglePasswordVisibilityCommand { get; }
-        public ICommand ToggleLoginVisibilityCommand { get; }
-        public ICommand LoginCommand { get; }
-
-        private string _login;
-        public string Login
+        get { return _login; }
+        set { SetProperty(ref _login, value); }
+    }
+    private string _password;
+    public string Password
+    {
+        get { return _password; }
+        set { SetProperty(ref _password, value); }
+    }
+    private bool _isPasswordVisible;
+    public bool IsPasswordVisible
+    {
+        get => _isPasswordVisible;
+        set
         {
-            get { return _login; }
-            set { SetProperty(ref _login, value); }
+            _isPasswordVisible = value;
+            OnPropertyChanged();
         }
-        private string _password;
-        public string Password
+    }
+    private bool _isLoginVisible;
+    public bool IsLoginVisible
+    {
+        get => _isLoginVisible;
+        set
         {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
+            _isLoginVisible = value;
+            OnPropertyChanged();
         }
-        private bool _isPasswordVisible;
-        public bool IsPasswordVisible
+    }
+
+    private bool _isLoginError;
+    public bool IsLoginError
+    {
+        get { return _isLoginError; }
+        set { SetProperty(ref _isLoginError, value); }
+    }
+
+    private bool _isPasswordError;
+    public bool IsPasswordError
+    {
+        get { return _isPasswordError; }
+        set { SetProperty(ref _isPasswordError, value); }
+    }
+
+    private string _loginErrorMessage;
+    public string LoginErrorMessage
+    {
+        get { return _loginErrorMessage; }
+        set { SetProperty(ref _loginErrorMessage, value); }
+    }
+
+    private string _passwordErrorMessage;
+    public string PasswordErrorMessage
+    {
+        get { return _passwordErrorMessage; }
+        set { SetProperty(ref _passwordErrorMessage, value); }
+    }
+
+    public LoginViewModel(IAccountDataStore accountDataStore, IDriverDataStore driverDataStore)
+    {
+        _accountDataStore = accountDataStore;
+        _driverDataStore = driverDataStore;
+        LoginCommand = new Command(OnLoginClicked);
+        TogglePasswordVisibilityCommand = new Command(TogglePasswordVisibility);
+        ToggleLoginVisibilityCommand = new Command(ToggleLoginVisibility);
+    }
+
+    private async void OnLoginClicked(object obj)
+    {
+        IsBusy = true;
+        LoginErrorMessage = string.Empty;
+        PasswordErrorMessage = string.Empty;
+        IsLoginError = false;
+        IsPasswordError = false;
+
+        bool isValid = true;
+
+        if (string.IsNullOrWhiteSpace(Login))
         {
-            get => _isPasswordVisible;
-            set
-            {
-                _isPasswordVisible = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool _isLoginVisible;
-        public bool IsLoginVisible
-        {
-            get => _isLoginVisible;
-            set
-            {
-                _isLoginVisible = value;
-                OnPropertyChanged();
-            }
+            LoginErrorMessage = "Login is required.";
+            IsLoginError = true;
+            isValid = false;
         }
 
-        public LoginViewModel(IAccountDataStore accountDataStore, IDriverDataStore driverDataStore)
+        if (string.IsNullOrWhiteSpace(Password))
         {
-            _accountDataStore = accountDataStore;
-            _driverDataStore = driverDataStore;
-            LoginCommand = new Command(OnLoginClicked);
-            TogglePasswordVisibilityCommand = new Command(TogglePasswordVisibility);
-            ToggleLoginVisibilityCommand = new Command(ToggleLoginVisibility);
+            PasswordErrorMessage = "Password is required.";
+            IsPasswordError = true;
+            isValid = false;
         }
 
-        private void OnLoginClicked(object obj)
+        if (!isValid)
         {
-            IsBusy = true;
-            if (string.IsNullOrWhiteSpace(Login))
-            {
-                return;
-            }
+            IsBusy = false;
+            return;
+        }
 
-            if (string.IsNullOrWhiteSpace(Password))
-            {
-                return;
-            }
+        try
+        {
+            bool isSuccess = await CheckingDriverLogin();
 
-            try
+            if (isSuccess)
             {
-                var isSuccess = CheckingDriverLogin();
                 Application.Current.MainPage = new AppShell();
             }
-            catch
+            else
             {
-                Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
+                LoginErrorMessage = "Login yoki parolni xato kiritdingiz !";
+                IsLoginError = true;
+                IsPasswordError = true;
             }
-            IsBusy = false;
         }
-
-        private async Task<bool> CheckingDriverLogin()
+        catch
         {
-            var token = await _accountDataStore.CreateTokenAsync(Login, Password);
+            await Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
+        }
+        IsBusy = false;
+    }
+
+    private async Task<bool> CheckingDriverLogin()
+    {
+        try
+        {
+            var token = _accountDataStore.CreateTokenAsync(Login, Password).Result;
 
             if (token != null)
             {
                 DataService.SaveToken(token);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+                var accountId = int.Parse(jwtToken.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+                var driverResponse = await _driverDataStore.GetDriversAsync(accountId);
+                var driver = driverResponse.Data.ToList().First();
+
+                if (driver != null)
+                {
+                    driver.Password = Password;
+                    DataService.SaveAccount(driver);
+                    return true;
+                }
             }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-            var accountId = int.Parse(jwtToken.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
-
-            var driverResponse = await _driverDataStore.GetDriversAsync(accountId);
-            var driver = driverResponse.Data.ToList().First();
-
-            if (driver != null)
-            {
-                driver.Password = Password;
-                DataService.SaveAccount(driver);
-                return true;
-            }
-
-            return false;
         }
-
-        private void TogglePasswordVisibility()
+        catch(Exception ex)
         {
-            IsPasswordVisible = !IsPasswordVisible;
+            Console.WriteLine("dfdd" + ex.Message);
         }
 
-        private void ToggleLoginVisibility()
-        {
-            IsLoginVisible = !IsLoginVisible;
-        }
+        return false;
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        IsPasswordVisible = !IsPasswordVisible;
+    }
+
+    private void ToggleLoginVisibility()
+    {
+        IsLoginVisible = !IsLoginVisible;
     }
 }
