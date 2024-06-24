@@ -5,9 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CheckDrive.Mobile.Converter"
     xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
-    xmlns:progressBar="clr-namespace:Syncfusion.XForms.ProgressBar;assembly=Syncfusion.SfProgressBar.XForms"
     xmlns:progressBars="clr-namespace:Com.Igniscor.Controls.ProgressBar;assembly=Com.Igniscor.Controls"
-    xmlns:md="clr-namespace:Plugin.MaterialDesignControls.Material3;assembly=Plugin.MaterialDesignControls"
     Title="{Binding Title}">
 
     <ContentPage.Resources>
@@ -35,13 +33,17 @@
                             <Label
                                 HorizontalOptions="StartAndExpand"
                                 Text="{Binding StartDateForProgressBar, StringFormat='{0:MMMM dd}'}"
+                                TextColor="DimGray"
                                 VerticalOptions="StartAndExpand" />
                             <Label
                                 FontSize="Body"
                                 HorizontalOptions="CenterAndExpand"
                                 Text="{Binding TodayDateForProgressBar, StringFormat='{0:MMMM dd}'}"
                                 TextColor="Black" />
-                            <Label HorizontalOptions="EndAndExpand" Text="{Binding EndDateForProgressBar, StringFormat='{0:MMMM dd}'}" />
+                            <Label
+                                HorizontalOptions="EndAndExpand"
+                                Text="{Binding EndDateForProgressBar, StringFormat='{0:MMMM dd}'}"
+                                TextColor="DimGray" />
 
                             <progressBars:DetailedProgressBar
                                 Margin="0,0,0,55"
@@ -63,7 +65,8 @@
                             <Label
                                 Margin="0,45,0,0"
                                 HorizontalOptions="StartAndExpand"
-                                Text="0" />
+                                Text="0"
+                                TextColor="DimGray" />
                             <Label
                                 Margin="0,45,0,0"
                                 FontSize="Body"
@@ -73,7 +76,8 @@
                             <Label
                                 Margin="0,45,0,0"
                                 HorizontalOptions="EndAndExpand"
-                                Text="450 L" />
+                                Text="450 L"
+                                TextColor="DimGray" />
                         </Grid>
                         <Grid Grid.Row="2">
                             <Grid.RowDefinitions>
