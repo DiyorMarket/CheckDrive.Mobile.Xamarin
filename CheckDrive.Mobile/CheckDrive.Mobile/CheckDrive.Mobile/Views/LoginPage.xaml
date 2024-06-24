@@ -41,11 +41,6 @@
                     HorizontalTextAlignment="Center"
                     Text="Check drive mobile ilovasiga xush kelibsiz"
                     TextColor="#00A3FF" />
-                <Label
-                    FontSize="Subtitle"
-                    HorizontalTextAlignment="Center"
-                    Text="Designed By DevHub Group"
-                    TextColor="#00A3FF" />
             </StackLayout>
 
             <StackLayout
@@ -72,7 +67,7 @@
                         LabelTextColor="#00A3FF"
                         LeadingIcon="mail.png"
                         MaxLength="300"
-                        Placeholder="Enter login"
+                        Placeholder="Loginni kiriting...."
                         PlaceholderColor="#00A3FF"
                         ReturnType="Next"
                         TabIndex="1"
@@ -96,7 +91,7 @@
                         LabelTextColor="#00A3FF"
                         LeadingIcon="padlock.png"
                         MaxLength="300"
-                        Placeholder="Parolni kiriting"
+                        Placeholder="Parolni kiriting....."
                         PlaceholderColor="#00A3FF"
                         TabIndex="2"
                         Text="{Binding Password}"
@@ -112,17 +107,17 @@
                         FontSize="18"
                         HeightRequest="50"
                         TabIndex="3"
-                        Text="Log in" />
+                        Text="Kirish" />
                 </StackLayout>
             </StackLayout>
         </Grid>
-        <!-- Spinner -->
+        <!--  Spinner  -->
         <md:MaterialProgressIndicator
             AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
             AbsoluteLayout.LayoutFlags="All"
+            HorizontalOptions="CenterAndExpand"
             IsEnabled="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
-            VerticalOptions="CenterAndExpand"
-            HorizontalOptions="CenterAndExpand" />
+            VerticalOptions="CenterAndExpand" />
     </Grid>
 </ContentPage>
