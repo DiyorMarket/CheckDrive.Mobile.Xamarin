@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using System.Linq;
 using System.Security.Claims;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class LoginViewModel : BaseViewModel
 {
@@ -85,14 +86,70 @@ public class LoginViewModel : BaseViewModel
     {
         _accountDataStore = accountDataStore;
         _driverDataStore = driverDataStore;
-        LoginCommand = new Command(OnLoginClicked);
+        LoginCommand = new Command(CheckLogin);
         TogglePasswordVisibilityCommand = new Command(TogglePasswordVisibility);
         ToggleLoginVisibilityCommand = new Command(ToggleLoginVisibility);
     }
-
-    private async void OnLoginClicked(object obj)
+    private async void CheckLogin()
     {
         IsBusy = true;
+
+        // Perform the login task on a background thread
+        await Task.Run(async () => await PerformLoginTask());
+
+        IsBusy = false;
+    }
+
+    private async Task PerformLoginTask()
+    {
+        // This method will be executed on a background thread
+
+        // Perform the validation and actual login process
+        var isValid = ValidateInputs();
+
+        if (!isValid)
+        {
+            // If validation fails, stop further processing and update UI
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                IsBusy = false;
+            });
+            return;
+        }
+
+        try
+        {
+            bool isSuccess = await CheckingDriverLogin();
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (isSuccess)
+                {
+                    Application.Current.MainPage = new AppShell();
+                }
+                else
+                {
+                    LoginErrorMessage = "Login yoki parolni xato kiritdingiz !";
+                    IsLoginError = true;
+                    IsPasswordError = true;
+                }
+                IsBusy = false;
+            });
+        }
+        catch (Exception ex)
+        {
+            // Log the exception for debugging purposes
+            Console.WriteLine($"Login Error: {ex.Message}");
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
+                IsBusy = false;
+            });
+        }
+    }
+
+    private bool ValidateInputs()
+    {
         LoginErrorMessage = string.Empty;
         PasswordErrorMessage = string.Empty;
         IsLoginError = false;
@@ -102,7 +159,7 @@ public class LoginViewModel : BaseViewModel
 
         if (string.IsNullOrWhiteSpace(Login))
         {
-            LoginErrorMessage = "Login is required.";
+            LoginErrorMessage = "Login yokin parol xato kiritildi.";
             IsLoginError = true;
             isValid = false;
         }
@@ -114,33 +171,10 @@ public class LoginViewModel : BaseViewModel
             isValid = false;
         }
 
-        if (!isValid)
-        {
-            IsBusy = false;
-            return;
-        }
-
-        try
-        {
-            bool isSuccess = await CheckingDriverLogin();
-
-            if (isSuccess)
-            {
-                Application.Current.MainPage = new AppShell();
-            }
-            else
-            {
-                LoginErrorMessage = "Login yoki parolni xato kiritdingiz !";
-                IsLoginError = true;
-                IsPasswordError = true;
-            }
-        }
-        catch
-        {
-            await Application.Current.MainPage.DisplayAlert("Login Failed", "Please check your credentials and try again.", "OK");
-        }
-        IsBusy = false;
+        return isValid;
     }
+
+
 
     private async Task<bool> CheckingDriverLogin()
     {
@@ -166,7 +200,7 @@ public class LoginViewModel : BaseViewModel
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine("dfdd" + ex.Message);
         }
