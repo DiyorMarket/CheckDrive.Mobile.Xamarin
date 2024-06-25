@@ -1,16 +1,15 @@
-﻿using CheckDrive.Mobile.Services;
+﻿using CheckDrive.Mobile;
+using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.ViewModels;
-using CheckDrive.Mobile;
 using CheckDrive.Web.Stores.Accounts;
 using CheckDrive.Web.Stores.Drivers;
+using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using System.Linq;
-using System.Security.Claims;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 public class LoginViewModel : BaseViewModel
 {
@@ -94,7 +93,6 @@ public class LoginViewModel : BaseViewModel
     {
         IsBusy = true;
 
-        // Perform the login task on a background thread
         await Task.Run(async () => await PerformLoginTask());
 
         IsBusy = false;
@@ -102,14 +100,10 @@ public class LoginViewModel : BaseViewModel
 
     private async Task PerformLoginTask()
     {
-        // This method will be executed on a background thread
-
-        // Perform the validation and actual login process
         var isValid = ValidateInputs();
 
         if (!isValid)
         {
-            // If validation fails, stop further processing and update UI
             Device.BeginInvokeOnMainThread(() =>
             {
                 IsBusy = false;
@@ -138,7 +132,6 @@ public class LoginViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            // Log the exception for debugging purposes
             Console.WriteLine($"Login Error: {ex.Message}");
             Device.BeginInvokeOnMainThread(async () =>
             {
