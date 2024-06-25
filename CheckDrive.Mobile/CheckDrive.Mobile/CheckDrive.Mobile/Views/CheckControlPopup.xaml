@@ -4,7 +4,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-    BackgroundColor="#80FFFFFF">
+    BackgroundColor="#80FFFFFF"
+    CloseWhenBackgroundIsClicked="False"
+    BackgroundInputTransparent="False">
     <Frame
         BackgroundColor="{StaticResource Primary}"
         CornerRadius="20"
