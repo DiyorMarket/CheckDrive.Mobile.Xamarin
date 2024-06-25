@@ -24,5 +24,18 @@ namespace CheckDrive.Mobile.Views
 
             BindingContext = new HistoryViewModel(doctorReviewDS, mechanicHandoverDS, operatorReviewDS, mechanicAcceptenceDS);
         }
+
+        private void HistoryRefresh_Refreshing(object sender, System.EventArgs e)
+        {
+            var client = new ApiClient();
+            var doctorReviewDS = new DoctorReviewDataStore(client);
+            var mechanicHandoverDS = new MechanicHandoverDataStore(client);
+            var operatorReviewDS = new OperatorReviewDataStore(client);
+            var mechanicAcceptenceDS = new MechanicAcceptanceDataStore(client);
+
+            BindingContext = new HistoryViewModel(doctorReviewDS, mechanicHandoverDS, operatorReviewDS, mechanicAcceptenceDS);
+
+            HistoryPageRefresh.IsRefreshing = false;
+        }
     }
 }

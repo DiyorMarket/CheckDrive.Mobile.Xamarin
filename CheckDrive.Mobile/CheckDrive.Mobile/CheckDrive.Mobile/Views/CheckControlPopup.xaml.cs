@@ -38,5 +38,10 @@ namespace CheckDrive.Mobile.Views
             base.OnAppearing();
             _mapViewModel.LoadViewPage();
         }
+
+        private async void PopupPage_BackgroundClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
     }
 }

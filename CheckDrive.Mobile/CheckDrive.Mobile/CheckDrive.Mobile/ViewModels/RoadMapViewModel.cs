@@ -349,7 +349,7 @@ namespace CheckDrive.Mobile.ViewModels
         }
         private void ChangedOperatorCheckTime(OperatorReviewDto reviewDto)
         {
-            DateTime utcDateTime = reviewDto.Date;
+            DateTime utcDateTime = reviewDto.Date.Value;
 
             TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT+5");
 

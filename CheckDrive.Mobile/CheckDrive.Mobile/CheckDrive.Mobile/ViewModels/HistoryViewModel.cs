@@ -6,7 +6,6 @@ using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
 using CheckDrive.Web.Stores.MechanicHandovers;
 using CheckDrive.Web.Stores.OperatorReviews;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,53 +39,87 @@ namespace CheckDrive.Mobile.ViewModels
 
             IsBusy = true;
             await Task.Run(() => {
-                GetHitory();
+                ShowHistoryOperations();
             });
             IsBusy = false;
         }
-        public async void GetHitory()
-        {
-            Reviews.Clear();
 
+        public async void ShowHistoryOperations()
+        {
             var doctorItemsResponse = await _doctorReviewDataStore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
-            var doctorItems = doctorItemsResponse.Data;
+            var doctorItems = doctorItemsResponse.Data.ToList();
             var mechanicHandoverItemsResponse = await _mechanicHandoverDataStore.GetMechanicHandoversByDriverIdAsync(_driver.Id);
             var mechanicHandoverItems = mechanicHandoverItemsResponse.Data.ToList();
             var operatorItemsResponse = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
-            var operatorItems = operatorItemsResponse.Data;
+            var operatorItems = operatorItemsResponse.Data.ToList();
             var mechanicAcceptenceResponse = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesByDriverIdAsync(_driver.Id);
-            var mechanicAcceptence = mechanicAcceptenceResponse.Data;
+            var mechanicAcceptence = mechanicAcceptenceResponse.Data.ToList();
 
-            int itemCount = Math.Min(Math.Min(doctorItems.Count(), mechanicHandoverItems.Count()), Math.Min(operatorItems.Count(), mechanicAcceptence.Count()));
-
-            for (int i = 0; i < itemCount; i++)
+            foreach(var item in doctorItems)
             {
-                var isHanded = false;
-                if (mechanicHandoverItems[i].Status == StatusForDto.Completed)
+                if (!item.IsHealthy)
                 {
-                    isHanded = true;
+                    Reviews.Add(new History()
+                    {
+                        Date = item.Date,
+                        IsHealthy = item.IsHealthy,
+                        IsHanded = false,
+                        IsGiven = false,
+                        IsAccepted = false,
+                    });
+                    continue;
                 }
-                var isGiven = false;
-                if (operatorItems.ToList()[i].Status == StatusForDto.Completed)
+                var mechanicHandoverThisDay = mechanicHandoverItems.FirstOrDefault(m => m.Date.Date == item.Date.Date);
+                if(mechanicHandoverThisDay.Status != StatusForDto.Pending && mechanicHandoverThisDay.Status != StatusForDto.Completed)
                 {
-                    isGiven = true;
+                    Reviews.Add(new History()
+                    {
+                        Date = item.Date,
+                        IsHealthy = item.IsHealthy,
+                        IsHanded = false,
+                        IsGiven = false,
+                        IsAccepted = false,
+                    });
+                    continue;
                 }
-                var isAccept = false;
-                if (mechanicAcceptence.ToList()[i].Status == StatusForDto.Completed)
-                {
-                    isAccept = true;
-                }
-                var historyItem = new History
-                {
-                    Date = doctorItems.ToList()[i].Date,
-                    IsHealthy = doctorItems.ToList()[i].IsHealthy,
-                    IsHanded = isHanded,
-                    IsGiven = isGiven,
-                    IsAccepted = isAccept
-                };
 
-                Reviews.Add(historyItem);
+                var operatorReviewThisDay = operatorItems.FirstOrDefault(o => o.Date.Value.Date == item.Date.Date);
+                if(operatorReviewThisDay.Status != StatusForDto.Pending && operatorReviewThisDay.Status != StatusForDto.Completed)
+                {
+                    Reviews.Add(new History()
+                    {
+                        Date = item.Date,
+                        IsHealthy = item.IsHealthy,
+                        IsHanded = true,
+                        IsGiven = false,
+                        IsAccepted = false,
+                    });
+                    continue;
+                }
+
+                var mechanicAcceptThisDay = mechanicAcceptence.FirstOrDefault(o => o.Date.Date == item.Date.Date);
+                if(mechanicAcceptThisDay.Status != StatusForDto.Pending && mechanicAcceptThisDay.Status != StatusForDto.Completed)
+                {
+                    Reviews.Add(new History()
+                    {
+                        Date = item.Date,
+                        IsHealthy = item.IsHealthy,
+                        IsHanded = true,
+                        IsGiven = true,
+                        IsAccepted = false,
+                    });
+                    continue;
+                }
+
+                Reviews.Add(new History()
+                {
+                    Date = item.Date,
+                    IsHealthy = true,
+                    IsHanded = true,
+                    IsGiven = true,
+                    IsAccepted = true,
+                });
             }
-        }
+        } 
     }
 }

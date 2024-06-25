@@ -14,7 +14,6 @@ namespace CheckDrive.Mobile.Views
     public partial class RoadMapPage : ContentPage
     {
         private RoadMapViewModel viewModel;
-        private SignalRService _signalRService;
 
         public RoadMapPage()
         {
