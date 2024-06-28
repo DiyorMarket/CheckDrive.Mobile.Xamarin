@@ -38,7 +38,7 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
 
             if (date != DateTime.MinValue)
             {
-                query.Append($"Date={date.Date.Date}&");
+                query.Append($"Date={date.Month} / {date.Day} / {date.Year}");
             }
 
             var response = await _api.GetAsync("operators/reviews?" + query.ToString());

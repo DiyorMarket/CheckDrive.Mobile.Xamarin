@@ -64,7 +64,7 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
 
             if (date > DateTime.MinValue)
             {
-                query = query.Append($"Date={date.Date}");
+                query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}");
             }
 
             var response = await _api.GetAsync("mechanics/acceptances?" + query.ToString());

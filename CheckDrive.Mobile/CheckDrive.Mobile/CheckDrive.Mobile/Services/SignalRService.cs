@@ -17,7 +17,7 @@ namespace CheckDrive.Mobile.Services
         public SignalRService()
         {
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://x60ngf6c-7111.euw.devtunnels.ms/api/chat", options =>
+                .WithUrl("https://2bvq12nl-7111.euw.devtunnels.ms/api/chat", options =>
                 {
                     options.AccessTokenProvider = async () => await GetTokenAsync();
                 })
@@ -34,8 +34,8 @@ namespace CheckDrive.Mobile.Services
         public async Task SendResponse(bool isAccepted)
         {
             var signalRData = DataService.GetSignalRData();
-            var status = signalRData.Item1;
-            int reviewId = signalRData.Item2;
+            var status = signalRData.statusNumber;
+            int reviewId = signalRData.reviewId;
             try
             {
                 await _hubConnection.SendAsync("ReceivePrivateResponse",status, reviewId, isAccepted);

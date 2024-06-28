@@ -38,7 +38,7 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
 
             if (date != DateTime.MinValue)
             {
-                query.Append($"Date={date.Date}&");
+                query.Append($"Date={date.Month} / {date.Day} / {date.Year}");
             }
 
             var response = await _api.GetAsync("mechanics/handovers?" + query.ToString());

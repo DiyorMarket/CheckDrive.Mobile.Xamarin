@@ -85,29 +85,27 @@ public class LoginViewModel : BaseViewModel
     {
         _accountDataStore = accountDataStore;
         _driverDataStore = driverDataStore;
-        LoginCommand = new Command(CheckLogin);
         TogglePasswordVisibilityCommand = new Command(TogglePasswordVisibility);
         ToggleLoginVisibilityCommand = new Command(ToggleLoginVisibility);
+        LoginCommand = new Command(CheckLogin);
     }
+
     private async void CheckLogin()
     {
         IsBusy = true;
 
-        await Task.Run(async () => await PerformLoginTask());
+        await PerformLoginTask();
 
         IsBusy = false;
     }
 
     private async Task PerformLoginTask()
     {
-        var isValid = ValidateInputs();
+        var isValid = await ValidateInputs();
 
         if (!isValid)
         {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                IsBusy = false;
-            });
+            IsBusy = false;
             return;
         }
 
@@ -115,20 +113,17 @@ public class LoginViewModel : BaseViewModel
         {
             bool isSuccess = await CheckingDriverLogin();
 
-            Device.BeginInvokeOnMainThread(() =>
+            if (isSuccess)
             {
-                if (isSuccess)
-                {
-                    Application.Current.MainPage = new AppShell();
-                }
-                else
-                {
-                    LoginErrorMessage = "Login yoki parolni xato kiritdingiz !";
-                    IsLoginError = true;
-                    IsPasswordError = true;
-                }
-                IsBusy = false;
-            });
+                Application.Current.MainPage = new AppShell();
+            }
+            else
+            {
+                LoginErrorMessage = "Login yoki parolni xato kiritdingiz !";
+                IsLoginError = true;
+                IsPasswordError = true;
+            }
+            IsBusy = false;
         }
         catch (Exception ex)
         {
@@ -141,7 +136,7 @@ public class LoginViewModel : BaseViewModel
         }
     }
 
-    private bool ValidateInputs()
+    private async Task<bool> ValidateInputs()
     {
         LoginErrorMessage = string.Empty;
         PasswordErrorMessage = string.Empty;
