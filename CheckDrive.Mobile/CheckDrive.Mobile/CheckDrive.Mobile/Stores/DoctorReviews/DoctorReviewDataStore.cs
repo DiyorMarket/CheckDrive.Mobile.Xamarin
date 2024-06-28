@@ -38,7 +38,7 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
 
             if (date != null)
             {
-                query = query.Append($"Date={date.Date.Date}&");
+                query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}");
             }
 
             var response = await _api.GetAsync("doctors/reviews?" + query.ToString());

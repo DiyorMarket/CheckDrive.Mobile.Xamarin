@@ -9,7 +9,7 @@ namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "https://x60ngf6c-7111.euw.devtunnels.ms/api";
+        private const string BaseUrl = "https://2bvq12nl-7111.euw.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 
@@ -26,7 +26,7 @@ namespace CheckDrive.Mobile.Services
 
             try
             {
-                var token = SecureStorage.GetAsync("tasty-cookies").Result;
+                var token = await SecureStorage.GetAsync("tasty-cookies");
 
                 if (string.IsNullOrEmpty(token))
                 {
@@ -35,7 +35,7 @@ namespace CheckDrive.Mobile.Services
 
                 var request = new HttpRequestMessage(HttpMethod.Get, new Uri(_client.BaseAddress, url));
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                var response =  _client.SendAsync(request).Result;
+                var response = await  _client.SendAsync(request).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -60,13 +60,13 @@ namespace CheckDrive.Mobile.Services
         {
             try
             {
-                string token = SecureStorage.GetAsync("tasty-cookies").Result;
+                string token = await SecureStorage.GetAsync("tasty-cookies");
 
                 var request = new HttpRequestMessage(HttpMethod.Post, $"{BaseUrl}/{resource}");
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 request.Content = new StringContent(body, Encoding.UTF8, "application/json");
 
-                var response = _client.SendAsync(request).Result;
+                var response = await _client.SendAsync(request).ConfigureAwait(false);
 
                 return response;
             }

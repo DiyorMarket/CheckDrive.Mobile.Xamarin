@@ -38,13 +38,13 @@ namespace CheckDrive.Mobile.ViewModels
         {
 
             IsBusy = true;
-            await Task.Run(() => {
-                ShowHistoryOperations();
-            });
+
+            await ShowHistoryOperations();
+
             IsBusy = false;
         }
 
-        public async void ShowHistoryOperations()
+        public async Task ShowHistoryOperations()
         {
             var doctorItemsResponse = await _doctorReviewDataStore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
             var doctorItems = doctorItemsResponse.Data.ToList();

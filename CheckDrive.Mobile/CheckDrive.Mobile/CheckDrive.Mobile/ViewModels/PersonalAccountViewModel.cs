@@ -49,6 +49,7 @@ namespace CheckDrive.Mobile.ViewModels
                 PhoneNumber = _driver.PhoneNumber;
                 Login = _driver.Login;
             });
+
             IsBusy = false;
         }
 

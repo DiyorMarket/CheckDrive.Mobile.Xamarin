@@ -30,11 +30,11 @@ namespace CheckDrive.Mobile.Views
 
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            viewModel.LoadViewPage();
-        }
+        //protected override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    viewModel.LoadViewPage();
+        //}
 
         private void RoadMapView_Refreshing(Object sender, EventArgs e)
         {
