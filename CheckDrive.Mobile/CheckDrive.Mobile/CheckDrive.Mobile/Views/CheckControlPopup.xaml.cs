@@ -33,11 +33,11 @@ namespace CheckDrive.Mobile.Views
             BindingContext = _mapViewModel;
         }
 
-        //protected override void OnAppearing()
-        //{
-        //    base.OnAppearing();
-        //    _mapViewModel.LoadViewPage();
-        //}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _mapViewModel.LoadViewPage();
+        }
 
         private async void PopupPage_BackgroundClicked(object sender, EventArgs e)
         {
