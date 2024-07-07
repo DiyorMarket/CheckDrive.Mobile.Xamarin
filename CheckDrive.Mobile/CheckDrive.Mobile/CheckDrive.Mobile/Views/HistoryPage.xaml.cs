@@ -1,5 +1,6 @@
 ﻿using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.Stores.DoctorReviews;
+using CheckDrive.Mobile.Stores.Drivers;
 using CheckDrive.Mobile.Stores.MechanicAcceptances;
 using CheckDrive.Mobile.Stores.MechanicHandovers;
 using CheckDrive.Mobile.Stores.OperatorReviews;
@@ -17,23 +18,17 @@ namespace CheckDrive.Mobile.Views
             InitializeComponent();
 
             var client = new ApiClient();
-            var doctorReviewDS = new DoctorReviewDataStore(client);
-            var mechanicHandoverDS = new MechanicHandoverDataStore(client);
-            var operatorReviewDS = new OperatorReviewDataStore(client);
-            var mechanicAcceptenceDS = new MechanicAcceptanceDataStore(client);
+            var driverDataStore = new DriverDataStore(client);
 
-            BindingContext = new HistoryViewModel(doctorReviewDS, mechanicHandoverDS, operatorReviewDS, mechanicAcceptenceDS);
+            BindingContext = new HistoryViewModel(driverDataStore);
         }
 
         private void HistoryRefresh_Refreshing(object sender, System.EventArgs e)
         {
             var client = new ApiClient();
-            var doctorReviewDS = new DoctorReviewDataStore(client);
-            var mechanicHandoverDS = new MechanicHandoverDataStore(client);
-            var operatorReviewDS = new OperatorReviewDataStore(client);
-            var mechanicAcceptenceDS = new MechanicAcceptanceDataStore(client);
+            var driverDataStore = new DriverDataStore(client);
 
-            BindingContext = new HistoryViewModel(doctorReviewDS, mechanicHandoverDS, operatorReviewDS, mechanicAcceptenceDS);
+            BindingContext = new HistoryViewModel(driverDataStore);
 
             HistoryPageRefresh.IsRefreshing = false;
         }

@@ -15,6 +15,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace CheckDrive.Mobile.ViewModels
@@ -214,7 +215,7 @@ namespace CheckDrive.Mobile.ViewModels
                     if (operatorReview.Date >= StartDateForProgressBar
                         && operatorReview.Date <= DateTime.Now)
                     {
-                        _oilPresentValue += operatorReview.OilAmount;
+                        _oilPresentValue += operatorReview.OilAmount.Value;
                     }
                 }
                 OilValueToString = $"{_oilPresentValue} L";
@@ -240,6 +241,7 @@ namespace CheckDrive.Mobile.ViewModels
             await _signalRService.StartConnectionAsync();
         }
 
+
         #region Departments check status value methods
 
         private async Task CheckDoctorStatusValue()
@@ -251,7 +253,7 @@ namespace CheckDrive.Mobile.ViewModels
 
             if (doctorReview != null)
             {
-                if (doctorReview.IsHealthy)
+                if (doctorReview.IsHealthy.Value)
                 {
                     DoctorStatusCheck = StatusForDto.Completed;
                     ChangedDoctorCheckTime(doctorReview);
@@ -274,11 +276,16 @@ namespace CheckDrive.Mobile.ViewModels
 
             if (mechanicHandover != null)
             {
-                if (mechanicHandover.IsHanded && mechanicHandover.Status == StatusForDto.Completed)
+                if (mechanicHandover.IsHanded.Value && mechanicHandover.Status == StatusForDto.Completed)
                 {
                     MechanicHandoverStatusCheck = StatusForDto.Completed;
                     ChangedMechanicHandoverCheckTime(mechanicHandover);
                     await CheckOperatorStatusValue();
+                    return;
+                }
+                else if(mechanicHandover.Status == StatusForDto.Pending)
+                {
+                    MechanicHandoverStatusCheck = StatusForDto.Pending;
                     return;
                 }
 
@@ -296,11 +303,17 @@ namespace CheckDrive.Mobile.ViewModels
 
             if (operatorReview != null)
             {
-                if (operatorReview.IsGiven && operatorReview.Status == StatusForDto.Completed)
+                if (operatorReview.IsGiven.Value && operatorReview.Status == StatusForDto.Completed)
                 {
                     OperatorStatusCheck = StatusForDto.Completed;
                     ChangedOperatorCheckTime(operatorReview);
                     await CheckMechanicAcceptanceStatusValue();
+                    return;
+                }
+
+                else if (operatorReview.Status == StatusForDto.Pending)
+                {
+                    OperatorStatusCheck = StatusForDto.Pending;
                     return;
                 }
 
@@ -317,10 +330,16 @@ namespace CheckDrive.Mobile.ViewModels
 
             if (mechanicAcceptance != null)
             {
-                if (mechanicAcceptance.IsAccepted && mechanicAcceptance.Status == StatusForDto.Completed)
+                if (mechanicAcceptance.IsAccepted.Value && mechanicAcceptance.Status == StatusForDto.Completed)
                 {
                     MechanicAcceptanceStatusCheck = StatusForDto.Completed;
                     ChangedMechanicAcceptanceCheckTime(mechanicAcceptance);
+                    return;
+                }
+
+                else if (mechanicAcceptance.Status == StatusForDto.Pending)
+                {
+                    MechanicAcceptanceStatusCheck = StatusForDto.Pending;
                     return;
                 }
 
@@ -336,15 +355,15 @@ namespace CheckDrive.Mobile.ViewModels
         private void ChangedDoctorCheckTime(DoctorReviewDto reviewDto)
         {
             DateTime utcDateTime = reviewDto.Date;
-            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT+5");
+            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT0");
             DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);
             DoctorCheckTime = localDateTime.ToString("HH : mm");
         }
 
         private void ChangedMechanicAcceptanceCheckTime(MechanicAcceptanceDto acceptanceDto)
         {
-            DateTime utcDateTime = acceptanceDto.Date;
-            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT+5");
+            DateTime utcDateTime = acceptanceDto.Date.Value;
+            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT0");
             DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);
             MechanicAcceptanceCheckTime = localDateTime.ToString("HH : mm");
         }
@@ -352,7 +371,7 @@ namespace CheckDrive.Mobile.ViewModels
         private void ChangedOperatorCheckTime(OperatorReviewDto reviewDto)
         {
             DateTime utcDateTime = reviewDto.Date.Value;
-            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT+5");
+            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT0");
             DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);
             OperatorCheckTime = localDateTime.ToString("HH : mm");
         }
@@ -360,7 +379,7 @@ namespace CheckDrive.Mobile.ViewModels
         private void ChangedMechanicHandoverCheckTime(MechanicHandoverDto handoverDto)
         {
             DateTime utcDateTime = handoverDto.Date;
-            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT+5");
+            TimeZoneInfo localTimeZone = TimeZoneInfo.FindSystemTimeZoneById("GMT0");
             DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);
             MechanicHandoverCheckTime = localDateTime.ToString("HH : mm");
         }
@@ -415,6 +434,9 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task ClosePopup()
         {
+            SecureStorage.Remove("popup_message");
+            SecureStorage.Remove("popup_visible");
+
             await PopupNavigation.Instance.PopAsync(true);
         }
 
@@ -427,6 +449,10 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task CheckStatusForBeforeDay()
         {
+            var doctorReview = await _doctorReviewDatastore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
+            var doctorItem = doctorReview.Data.Max(x => x.Date);
+            var mechanicHendover = await _mechanicHandoverDataStore.GetMechanicHandoversByDriverIdAsync(_driver.Id);
+            var operatorReview = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
             var mechanicAccepDS = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesAsync(_driver.Id, "dateDesc");
             var mechanicAccep = mechanicAccepDS.Data.FirstOrDefault();
 

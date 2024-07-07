@@ -4,6 +4,7 @@ using CheckDrive.Mobile.Services;
 using CheckDrive.Web.Stores.Drivers;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,6 +37,28 @@ namespace CheckDrive.Mobile.Stores.Drivers
 
             var json = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<GetDriverResponse>(json);
+
+            return result;
+        }
+
+        public async Task<List<DriverHistoryDto>> GetDriverHistoryDtosAsync(int driverId)
+        {
+            StringBuilder query = new StringBuilder("");
+
+            if (!driverId.Equals(0))
+            {
+                query.Append($"driverId={driverId}");
+            }
+
+            var response = await _api.GetAsync("drivers/driverHistories?" + query.ToString());
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Could not fetch drivers.");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<List<DriverHistoryDto>>(json);
 
             return result;
         }

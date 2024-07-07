@@ -17,7 +17,7 @@ namespace CheckDrive.Mobile.Services
         public SignalRService()
         {
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://2bvq12nl-7111.euw.devtunnels.ms/api/chat", options =>
+                .WithUrl("http://miraziz-001-site1.ctempurl.com/api/chat", options =>
                 {
                     options.AccessTokenProvider = async () => await GetTokenAsync();
                 })
@@ -56,7 +56,7 @@ namespace CheckDrive.Mobile.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
@@ -75,8 +75,11 @@ namespace CheckDrive.Mobile.Services
 
         private async Task ShowPopupAsync(string message)
         {
-                var popup = new CheckControlPopup(message);
-                await PopupNavigation.Instance.PushAsync(popup);
+            await SecureStorage.SetAsync("popup_message", message);
+            await SecureStorage.SetAsync("popup_visible", "true");
+
+            var popup = new CheckControlPopup(message);
+            await PopupNavigation.Instance.PushAsync(popup);
         }
 
 

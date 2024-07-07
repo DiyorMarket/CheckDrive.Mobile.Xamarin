@@ -13,7 +13,6 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-
         <RefreshView
             x:Name="HistoryPageRefresh"
             RefreshColor="#2196F3"
@@ -33,6 +32,17 @@
                             x:Name="HistoryList"
                             ItemsSource="{Binding Reviews}"
                             SelectionMode="None">
+                            <CollectionView.EmptyView>
+                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label
+                                        Margin="0,0,0,250"
+                                        FontSize="Medium"
+                                        HorizontalOptions="Center"
+                                        Text="Tarix mavjud emas."
+                                        TextColor="DimGray"
+                                        VerticalOptions="CenterAndExpand" />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <StackLayout Margin="10">
