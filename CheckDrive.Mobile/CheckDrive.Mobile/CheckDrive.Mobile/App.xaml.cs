@@ -2,7 +2,10 @@ using CheckDrive.ApiContracts.Driver;
 using CheckDrive.Mobile.Services;
 using CheckDrive.Mobile.Stores.Accounts;
 using CheckDrive.Mobile.Views;
+using Rg.Plugins.Popup.Services;
 using System;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace CheckDrive.Mobile
@@ -18,6 +21,7 @@ namespace CheckDrive.Mobile
             if (isChecked)
             {
                 MainPage = new AppShell();
+                CheckOldNotification();
                 return;
             }
             MainPage = new LoginPage();
@@ -57,16 +61,26 @@ namespace CheckDrive.Mobile
             }
         }
 
+        private async Task CheckOldNotification()
+        {
+            var popupVisible = await SecureStorage.GetAsync("popup_visible");
+            if (popupVisible == "true")
+            {
+                var message = await SecureStorage.GetAsync("popup_message");
+                if (!string.IsNullOrEmpty(message))
+                {
+                    var popup = new CheckControlPopup(message);
+                    await PopupNavigation.Instance.PushAsync(popup);
+                }
+            }
+        }
+
 
         protected override void OnStart()
         {
         }
 
         protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
         {
         }
     }
