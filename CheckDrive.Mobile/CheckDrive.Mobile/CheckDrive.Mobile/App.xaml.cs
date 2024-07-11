@@ -15,26 +15,30 @@ namespace CheckDrive.Mobile
         public App()
         {
             InitializeComponent();
+            TaskRunProject();
+        }
 
-            var isChecked = CheckloginDate();
+        private async void TaskRunProject()
+        {
+            var isChecked = await CheckloginDate();
 
             if (isChecked)
             {
                 MainPage = new AppShell();
-                CheckOldNotification();
+                await CheckOldNotification();
                 return;
             }
             MainPage = new LoginPage();
         }
 
-        private bool CheckloginDate()
+        private async Task<bool> CheckloginDate()
         {
             var creationDate = DataService.GetCreationDate();
             var driver = DataService.GetAccount();
 
             if (creationDate != null && driver != null && DateTime.Now.Date.AddDays(-30) <= creationDate.Date)
             {
-                CheckTokenDate(driver);
+                await CheckTokenDate(driver);
                 return true;
             }
 
@@ -43,7 +47,7 @@ namespace CheckDrive.Mobile
             return false;
         }
 
-        private async void CheckTokenDate(DriverDto driver)
+        private async Task CheckTokenDate(DriverDto driver)
         {
             var creationTokenDate = DataService.GetTokenCreationDate();
             var summHours = DateTime.Now - creationTokenDate;

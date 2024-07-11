@@ -5,6 +5,7 @@ using CheckDrive.ApiContracts.MechanicAcceptance;
 using CheckDrive.ApiContracts.MechanicHandover;
 using CheckDrive.ApiContracts.OperatorReview;
 using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.Stores.DispatcherReviewDataStore;
 using CheckDrive.Mobile.Views;
 using CheckDrive.Web.Stores.DoctorReviews;
 using CheckDrive.Web.Stores.MechanicAcceptances;
@@ -26,6 +27,7 @@ namespace CheckDrive.Mobile.ViewModels
         private readonly IMechanicAcceptanceDataStore _mechanicAcceptanceDataStore;
         private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
         private readonly IOperatorReviewDataStore _operatorReviewDataStore;
+        private readonly IDispatcherReviewDataStore _dispatcherReviewDataStore;
 
         public ICommand AcceptButtonCommand { get; set; }
         public ICommand RejectButtonCommand { get; set; }
@@ -94,7 +96,19 @@ namespace CheckDrive.Mobile.ViewModels
             }
         }
 
-        public string OilValueToString { get; set; }
+        private string _oilValueToString;
+        public string OilValueToString
+        {
+            get => _oilValueToString;
+            set
+            {
+                if (_oilValueToString != value)
+                {
+                    _oilValueToString = value;
+                    OnPropertyChanged(nameof(OilValueToString));
+                }
+            }
+        }
         private float oilPercent;
         public float OilPercent
         {
@@ -179,12 +193,14 @@ namespace CheckDrive.Mobile.ViewModels
         public RoadMapViewModel(IDoctorReviewDataStore doctorReviewDataStore,
             IMechanicAcceptanceDataStore mechanicAcceptanceDataStore,
             IOperatorReviewDataStore operatorReviewDataStore,
-            IMechanicHandoverDataStore mechanicHandoverDataStore)
+            IMechanicHandoverDataStore mechanicHandoverDataStore,
+            IDispatcherReviewDataStore dispatcherReviewDataStore)
         {
             _doctorReviewDatastore = doctorReviewDataStore;
             _mechanicAcceptanceDataStore = mechanicAcceptanceDataStore;
             _operatorReviewDataStore = operatorReviewDataStore;
             _mechanicHandoverDataStore = mechanicHandoverDataStore;
+            _dispatcherReviewDataStore = dispatcherReviewDataStore;
             _driver = DataService.GetAccount();
             _signalRService = new SignalRService();
             AcceptButtonCommand = new Command(async () => await AcceptButton());
@@ -207,26 +223,31 @@ namespace CheckDrive.Mobile.ViewModels
             GetDateForProgressBar();
             try
             {
-                var operatorReviewResponse = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
-                var driverhistoryForOil = operatorReviewResponse.Data.ToList();
+                var dispatcherReviews = await _dispatcherReviewDataStore.GetDispatcherReviewResponses(_driver.Id);
+                var driverhistoryForOil = dispatcherReviews.Data.ToList();
 
-                foreach (var operatorReview in driverhistoryForOil)
+                while (dispatcherReviews.HasNextPage)
                 {
-                    if (operatorReview.Date >= StartDateForProgressBar
-                        && operatorReview.Date <= DateTime.Now)
+                    dispatcherReviews = await _dispatcherReviewDataStore.GetDispatcherReviewResponses(_driver.Id);
+
+                    driverhistoryForOil.Concat(dispatcherReviews.Data);
+                }
+
+                foreach (var dispatcherReview in driverhistoryForOil)
+                {
+                    if (dispatcherReview.Date >= StartDateForProgressBar
+                        && dispatcherReview.Date <= DateTime.Now)
                     {
-                        _oilPresentValue += operatorReview.OilAmount.Value;
+                        _oilPresentValue += dispatcherReview.FuelSpended;
                     }
                 }
                 OilValueToString = $"{_oilPresentValue} L";
-                OilPercent = (float)(OilPresentValue / 450);
+                oilPercent = (float)(_oilPresentValue / 450);
             }
             catch (Exception ex)
             {
                 throw new Exception("An error occurred while retrieving fuel data.", ex);
             }
-
-            await Task.WhenAll();
         }
 
         private void GetDateForProgressBar()
@@ -446,23 +467,5 @@ namespace CheckDrive.Mobile.ViewModels
         }
 
         #endregion
-
-        private async Task CheckStatusForBeforeDay()
-        {
-            var doctorReview = await _doctorReviewDatastore.GetDoctorReviewsByDriverIdAsync(_driver.Id);
-            var doctorItem = doctorReview.Data.Max(x => x.Date);
-            var mechanicHendover = await _mechanicHandoverDataStore.GetMechanicHandoversByDriverIdAsync(_driver.Id);
-            var operatorReview = await _operatorReviewDataStore.GetOperatorReviewsByDriverIdAsync(_driver.Id);
-            var mechanicAccepDS = await _mechanicAcceptanceDataStore.GetMechanicAcceptancesAsync(_driver.Id, "dateDesc");
-            var mechanicAccep = mechanicAccepDS.Data.FirstOrDefault();
-
-            if (mechanicAccep != null && mechanicAccep.Status == StatusForDto.Pending)
-            {
-                DoctorStatusCheck = StatusForDto.Pending;
-                MechanicHandoverStatusCheck = StatusForDto.Pending;
-                OperatorStatusCheck = StatusForDto.Pending;
-                MechanicAcceptanceStatusCheck = StatusForDto.Pending;
-            }
-        }
     }
 }
