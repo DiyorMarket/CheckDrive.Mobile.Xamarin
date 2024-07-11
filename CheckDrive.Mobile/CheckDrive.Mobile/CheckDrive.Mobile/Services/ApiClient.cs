@@ -9,7 +9,7 @@ namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "http://miraziz-001-site1.ctempurl.com/api";
+        private const string BaseUrl = "https://2bvq12nl-7111.euw.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 
@@ -41,7 +41,7 @@ namespace CheckDrive.Mobile.Services
                 {
                     throw new HttpRequestException($"Failed to get data from {resource}. Status code: {response.StatusCode}");
                 }
-
+                
                 return response;
             }
             catch (HttpRequestException ex)
