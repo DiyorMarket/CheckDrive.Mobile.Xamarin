@@ -86,7 +86,6 @@ public class LoginViewModel : BaseViewModel
         _accountDataStore = accountDataStore;
         _driverDataStore = driverDataStore;
         TogglePasswordVisibilityCommand = new Command(TogglePasswordVisibility);
-        ToggleLoginVisibilityCommand = new Command(ToggleLoginVisibility);
         LoginCommand = new Command(CheckLogin);
     }
 
@@ -200,10 +199,5 @@ public class LoginViewModel : BaseViewModel
     private void TogglePasswordVisibility()
     {
         IsPasswordVisible = !IsPasswordVisible;
-    }
-
-    private void ToggleLoginVisibility()
-    {
-        IsLoginVisible = !IsLoginVisible;
     }
 }

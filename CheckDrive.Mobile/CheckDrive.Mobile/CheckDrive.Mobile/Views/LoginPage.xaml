@@ -65,7 +65,6 @@
                             FocusedBorderColor="#00A3FF"
                             FocusedTextColor="#00A3FF"
                             HasBorder="True"
-                            IsPassword="{Binding IsLoginVisible, Converter={StaticResource InverseBooleanConverter}}"
                             Keyboard="Text"
                             LabelTextColor="#00A3FF"
                             LeadingIcon="mail.png"
@@ -75,9 +74,7 @@
                             ReturnType="Next"
                             TabIndex="1"
                             Text="{Binding Login}"
-                            TextColor="#00A3FF"
-                            TrailingIcon="{Binding IsLoginVisible, Converter={StaticResource PasswordVisibilityConverter}}"
-                            TrailingIconCommand="{Binding ToggleLoginVisibilityCommand}" />
+                            TextColor="#00A3FF" />
                     </StackLayout>
 
                     <StackLayout>
