@@ -1,16 +1,18 @@
-﻿using CheckDrive.ApiContracts.Driver;
-using CheckDrive.Mobile.Helpers;
-using CheckDrive.Mobile.Services;
+﻿using CheckDrive.Mobile.Helpers;
 using CheckDrive.Web.Stores.Drivers;
 using System.Collections.ObjectModel;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace CheckDrive.Mobile.ViewModels
 {
     public class HistoryViewModel : BaseViewModel
     {
         private readonly IDriverDataStore _driverDataStore;
-        private readonly DriverDto _driver = DataService.GetAccount();
+        private  int _accountId ;
 
         public ObservableCollection<History> Reviews { get; private set; }
 
@@ -23,11 +25,23 @@ namespace CheckDrive.Mobile.ViewModels
             LoadViewPage();
         }
 
+        private async Task GetAccountId()
+        {
+            var token = await SecureStorage.GetAsync("tasty-cookies");
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+            var accountId = int.Parse(jwtToken.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
+
+            _accountId = accountId;
+        }
+
         public async void LoadViewPage()
         {
 
             IsBusy = true;
 
+            await GetAccountId();
             await ShowHistory();
 
             IsBusy = false;
@@ -35,7 +49,7 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task ShowHistory()
         {
-            var driverHistories = await _driverDataStore.GetDriverHistoryDtosAsync(_driver.Id);
+            var driverHistories = await _driverDataStore.GetDriverHistoryDtosAsync(_accountId);
 
             if(driverHistories != null)
             {

@@ -242,11 +242,13 @@ namespace CheckDrive.Mobile.ViewModels
                     }
                 }
                 OilValueToString = $"{_oilPresentValue} L";
-                oilPercent = (float)(_oilPresentValue / 450);
+                OilPercent = (float)(_oilPresentValue / 450);
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while retrieving fuel data.", ex);
+                await Console.Out.WriteLineAsync($"new exception : {ex.Message}");
+                MessagingCenter.Send(this, "UnauthorizedAccessDetected");
+                return;
             }
         }
 

@@ -156,9 +156,6 @@
     <AndroidResource Include="Resources\drawable\icon_downarrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\down_arrow.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\checkDriveLogo.png" />
     <AndroidResource Include="Resources\drawable\icon_doctor.png" />
     <AndroidResource Include="Resources\drawable\Icon_fuel.png" />
@@ -201,6 +198,9 @@
     <AndroidResource Include="Resources\xml\network_security_config.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_nointernet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ProjectExtensions>

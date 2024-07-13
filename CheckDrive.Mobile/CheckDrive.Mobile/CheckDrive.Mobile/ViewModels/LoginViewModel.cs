@@ -172,7 +172,8 @@ public class LoginViewModel : BaseViewModel
 
             if (token != null)
             {
-                DataService.SaveToken(token);
+                await Task.Run(() => DataService.SaveToken(token));
+
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
                 var accountId = int.Parse(jwtToken.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value);
@@ -183,14 +184,14 @@ public class LoginViewModel : BaseViewModel
                 if (driver != null)
                 {
                     driver.Password = Password;
-                    DataService.SaveAccount(driver);
+                    await Task.Run(() => DataService.SaveAccount(driver));
                     return true;
                 }
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine("dfdd" + ex.Message);
+            Console.WriteLine("Bunday login va password li haydovchi malumotlar omborida mavjud emas !" + ex.Message);
         }
 
         return false;
