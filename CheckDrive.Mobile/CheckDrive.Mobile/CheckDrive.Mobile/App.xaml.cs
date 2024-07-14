@@ -62,10 +62,10 @@ namespace CheckDrive.Mobile
             var creationDate = DataService.GetCreationDate();
             var driver = DataService.GetAccount();
 
-            if (creationDate != null && driver != null && DateTime.Now.Date.AddDays(-30) <= creationDate.Date)
+            if (creationDate != null && driver != null)
             {
-                await CheckTokenDate(driver);
-                return true;
+                var isToken =  await CheckTokenDate(driver);
+                return isToken;
             }
 
             DataService.RemoveAllAcoountData();
@@ -73,34 +73,25 @@ namespace CheckDrive.Mobile
             return false;
         }
 
-        private async Task CheckTokenDate(DriverDto driver)
+        private async Task<bool> CheckTokenDate(DriverDto driver)
         {
-            try
-            {
-                var creationTokenDate = DataService.GetTokenCreationDate();
-                var summHours = DateTime.Now - creationTokenDate;
+            var creationTokenDate = DataService.GetTokenCreationDate();
+            var summHours = DateTime.Now - creationTokenDate;
 
-                if (summHours.TotalHours >= 12)
+            if (summHours.TotalHours >= 12)
+            {
+                var accaountDS = new AccountDataStore(_client);
+
+                var token = await accaountDS.CreateTokenAsync(driver.Login, driver.Password);
+
+                if (token != null)
                 {
-                    var accaountDS = new AccountDataStore(_client);
-
-                    var token = await accaountDS.CreateTokenAsync(driver.Login, driver.Password);
-
-                    if (token != null)
-                    {
-                        await Task.Run(() => UpdateDriverData(token));
-                        return;
-                    }
-
+                    await Task.Run(() => UpdateDriverData(token));
+                    return true;
                 }
+                return false;
             }
-            catch (Exception ex)
-            {
-                await Console.Out.WriteLineAsync($"new error : {ex.Message}");
-                DataService.RemoveAllAcoountData();
-
-                MainPage = new LoginPage();
-            }
+            return true;
         }
 
         private async void UpdateDriverData(string token)

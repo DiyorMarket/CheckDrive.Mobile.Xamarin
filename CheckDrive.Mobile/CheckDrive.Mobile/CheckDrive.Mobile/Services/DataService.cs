@@ -61,7 +61,7 @@ namespace CheckDrive.Mobile.Services
             {
                 Console.WriteLine($"Error getting {securetyKey}: {ex.Message}");
             }
-            return new DriverDto();
+            return null;
         }
 
         public static DateTime GetCreationDate()
