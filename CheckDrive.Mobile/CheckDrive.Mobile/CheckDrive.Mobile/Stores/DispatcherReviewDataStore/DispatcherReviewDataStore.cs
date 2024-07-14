@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace CheckDrive.Mobile.Stores.DispatcherReviewDataStore
 {
@@ -29,6 +30,7 @@ namespace CheckDrive.Mobile.Stores.DispatcherReviewDataStore
             var response = await _api.GetAsync("dispatchers/reviews?" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
+                Application.Current.MainPage = new AppShell();
                 throw new Exception("Could not fetch dispatcher reviews.");
             }
 
