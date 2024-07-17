@@ -126,13 +126,37 @@ namespace CheckDrive.Mobile
             }
         }
 
-
         protected override void OnStart()
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
 
         protected override void OnSleep()
         {
+        }
+
+        protected override void OnResume()
+        {
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            ShowExceptionPage(e.ExceptionObject as Exception);
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            e.SetObserved();
+            ShowExceptionPage(e.Exception);
+        }
+
+        public void ShowExceptionPage(Exception ex)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                MainPage = new ExceptionPage();
+            });
         }
     }
 }
