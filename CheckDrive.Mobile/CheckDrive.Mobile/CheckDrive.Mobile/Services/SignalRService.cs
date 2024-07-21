@@ -26,7 +26,7 @@ namespace CheckDrive.Mobile.Services
             _hubConnection.On<int, int, string>("ReceiveMessage", async (status, reviewId, message) =>
             {
                 DataService.SaveSignalRDataFOrStatus(status);
-                DataService.SaveSignalRDataForReviewID(reviewId);
+                    DataService.SaveSignalRDataForReviewID(reviewId);
                 await ShowPopupAsync(message);
             });
         }
@@ -38,6 +38,7 @@ namespace CheckDrive.Mobile.Services
             int reviewId = signalRData.reviewId;
             try
             {
+                await Task.Delay(2000);
                 await _hubConnection.SendAsync("ReceivePrivateResponse",status, reviewId, isAccepted);
                 DataService.RemoveSignalRData();
             }
