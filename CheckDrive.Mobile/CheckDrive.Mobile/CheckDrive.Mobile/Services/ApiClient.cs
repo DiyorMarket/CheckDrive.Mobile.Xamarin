@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace CheckDrive.Mobile.Services
 {
@@ -35,23 +35,25 @@ namespace CheckDrive.Mobile.Services
 
                 var request = new HttpRequestMessage(HttpMethod.Get, new Uri(_client.BaseAddress, url));
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                var response = await  _client.SendAsync(request).ConfigureAwait(false);
+                var response = await _client.SendAsync(request).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"Failed to get data from {resource}. Status code: {response.StatusCode}");
                 }
-                
+
                 return response;
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"HTTP request failed: {ex.Message}");
+                HandleException(ex);
                 throw;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                HandleException(ex);
                 throw;
             }
         }
@@ -73,13 +75,23 @@ namespace CheckDrive.Mobile.Services
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"{ex.Message}");
+                HandleException(ex);
                 throw;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                HandleException(ex);
                 throw;
             }
+        }
+
+        private void HandleException(Exception ex)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ((App)Application.Current).ShowExceptionPage(ex);
+            });
         }
     }
 }

@@ -182,7 +182,6 @@ namespace CheckDrive.Mobile.Services
                 {
                     SecureStorage.Remove(signalRKeyStatus);
                     Console.WriteLine("file successfuly deleted");
-                    return;
                 }
                 if (SecureStorage.GetAsync(signalRKeyReviewId).GetAwaiter().GetResult() != null)
                 {
