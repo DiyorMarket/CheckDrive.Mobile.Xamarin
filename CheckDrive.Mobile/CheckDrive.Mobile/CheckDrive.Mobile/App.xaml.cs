@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
+
 namespace CheckDrive.Mobile
 {
     public partial class App : Application
@@ -26,17 +27,25 @@ namespace CheckDrive.Mobile
             TaskRunProject();
         }
 
-        private void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        private async void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             if (e.NetworkAccess != NetworkAccess.Internet)
             {
+                // Check if any popup is currently visible
+                if (PopupNavigation.Instance.PopupStack.Count > 0)
+                {
+                    await PopupNavigation.Instance.PopAllAsync();
+                }
+
                 MainPage = new NoInternetPage();
             }
             else
             {
                 MainPage = new AppShell();
+                await CheckOldNotification();
             }
         }
+
 
         private async void TaskRunProject()
         {
@@ -64,7 +73,7 @@ namespace CheckDrive.Mobile
 
             if (creationDate != null && driver != null)
             {
-                var isToken =  await CheckTokenDate(driver);
+                var isToken = await CheckTokenDate(driver);
                 return isToken;
             }
 
@@ -80,14 +89,22 @@ namespace CheckDrive.Mobile
 
             if (summHours.TotalHours >= 12)
             {
-                var accaountDS = new AccountDataStore(_client);
-
-                var token = await accaountDS.CreateTokenAsync(driver.Login, driver.Password);
-
-                if (token != null)
+                try
                 {
-                    await Task.Run(() => UpdateDriverData(token));
-                    return true;
+                    var accaountDS = new AccountDataStore(_client);
+
+                    var token = await accaountDS.CreateTokenAsync(driver.Login, driver.Password);
+                    if (token != null)
+                    {
+                        await Task.Run(() => UpdateDriverData(token));
+                        return true;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+
+                    MainPage = new LoginPage();
                 }
                 return false;
             }
