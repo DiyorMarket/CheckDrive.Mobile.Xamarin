@@ -22,7 +22,7 @@
 
             <Label
                 Margin="10"
-                FontSize="22"
+                FontSize="18"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Text="{Binding Message}"

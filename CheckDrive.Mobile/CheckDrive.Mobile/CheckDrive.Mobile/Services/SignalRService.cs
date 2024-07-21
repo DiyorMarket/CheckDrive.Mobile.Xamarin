@@ -17,7 +17,7 @@ namespace CheckDrive.Mobile.Services
         public SignalRService()
         {
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl("https://x60ngf6c-7111.euw.devtunnels.ms/api/chat", options =>
+                .WithUrl("https://2bvq12nl-7111.euw.devtunnels.ms/api/chat", options =>
                 {
                     options.AccessTokenProvider = async () => await GetTokenAsync();
                 })

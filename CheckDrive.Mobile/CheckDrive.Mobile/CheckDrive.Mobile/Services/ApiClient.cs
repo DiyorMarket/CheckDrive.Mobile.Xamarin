@@ -9,7 +9,7 @@ namespace CheckDrive.Mobile.Services
 {
     public class ApiClient
     {
-        private const string BaseUrl = "https://x60ngf6c-7111.euw.devtunnels.ms/api";
+        private const string BaseUrl = "https://2bvq12nl-7111.euw.devtunnels.ms/api";
 
         private readonly HttpClient _client;
 
