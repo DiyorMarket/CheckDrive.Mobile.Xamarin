@@ -41,7 +41,7 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
                 query.Append($"Date={date.Month} / {date.Day} / {date.Year}");
             }
 
-            var response = await _api.GetAsync("mechanics/handovers?" + query.ToString());
+            var response = await _api.GetAsync("mechanics/handovers?roleId=10&" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic handovers.");

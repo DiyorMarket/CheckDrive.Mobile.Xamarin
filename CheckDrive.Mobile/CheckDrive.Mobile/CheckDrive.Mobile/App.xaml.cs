@@ -18,6 +18,7 @@ namespace CheckDrive.Mobile
     public partial class App : Application
     {
         private readonly ApiClient _client = new ApiClient();
+        
         public App()
         {
             InitializeComponent();
@@ -31,7 +32,9 @@ namespace CheckDrive.Mobile
         {
             if (e.NetworkAccess != NetworkAccess.Internet)
             {
-                // Check if any popup is currently visible
+                var signalRService = new SignalRService();
+                await signalRService.StopConnectionAsync();
+
                 if (PopupNavigation.Instance.PopupStack.Count > 0)
                 {
                     await PopupNavigation.Instance.PopAllAsync();

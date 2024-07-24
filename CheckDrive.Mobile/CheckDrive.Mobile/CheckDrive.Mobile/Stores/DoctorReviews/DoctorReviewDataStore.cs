@@ -41,7 +41,7 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
                 query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}");
             }
 
-            var response = await _api.GetAsync("doctors/reviews?" + query.ToString());
+            var response = await _api.GetAsync("doctors/reviews?roleId=10&" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch doctor reviews.");

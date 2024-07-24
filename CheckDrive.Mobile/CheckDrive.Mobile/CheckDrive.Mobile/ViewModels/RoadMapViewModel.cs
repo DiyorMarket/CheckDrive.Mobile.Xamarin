@@ -29,8 +29,54 @@ namespace CheckDrive.Mobile.ViewModels
         private readonly IOperatorReviewDataStore _operatorReviewDataStore;
         private readonly IDispatcherReviewDataStore _dispatcherReviewDataStore;
 
+        #region Popup Properties 
         public ICommand AcceptButtonCommand { get; set; }
         public ICommand RejectButtonCommand { get; set; }
+
+        private bool _isAcceptButtonEnabled = true;
+        public bool IsAcceptButtonEnabled
+        {
+            get => _isAcceptButtonEnabled;
+            set
+            {
+                _isAcceptButtonEnabled = value;
+                OnPropertyChanged(nameof(IsAcceptButtonEnabled));
+            }
+        }
+
+        private bool _isRejectButtonEnabled = true;
+        public bool IsRejectButtonEnabled
+        {
+            get => _isRejectButtonEnabled;
+            set
+            {
+                _isRejectButtonEnabled = value;
+                OnPropertyChanged(nameof(IsRejectButtonEnabled));
+            }
+        }
+
+        private Color _acceptButtonColor = Color.FromHex("#2A7BEF");
+        public Color AcceptButtonColor
+        {
+            get => _acceptButtonColor;
+            set
+            {
+                _acceptButtonColor = value;
+                OnPropertyChanged(nameof(AcceptButtonColor));
+            }
+        }
+
+        private Color _rejectButtonColor = Color.FromHex("#85929E");
+        public Color RejectButtonColor
+        {
+            get => _rejectButtonColor;
+            set
+            {
+                _rejectButtonColor = value;
+                OnPropertyChanged(nameof(RejectButtonColor));
+            }
+        }
+        #endregion
 
         public DateTime StartDateForProgressBar { get; set; }
         public DateTime TodayDateForProgressBar { get; set; }
@@ -241,7 +287,7 @@ namespace CheckDrive.Mobile.ViewModels
                         _oilPresentValue += dispatcherReview.FuelSpended;
                     }
                 }
-                OilValueToString = $"{_oilPresentValue} L";
+                OilValueToString = $"{(int)_oilPresentValue} L";
                 OilPercent = (float)(_oilPresentValue / 450);
             }
             catch (Exception ex)
@@ -413,6 +459,12 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task AcceptButton()
         {
+            // Disable the buttons and change their colors
+            IsAcceptButtonEnabled = false;
+            IsRejectButtonEnabled = false;
+            AcceptButtonColor = Color.Gray;
+            RejectButtonColor = Color.Gray;
+
             var statusNumber = DataService.GetSignalRData().statusNumber;
 
             switch (statusNumber)
@@ -435,6 +487,12 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task RejectButton()
         {
+            // Disable the buttons and change their colors
+            IsAcceptButtonEnabled = false;
+            IsRejectButtonEnabled = false;
+            AcceptButtonColor = Color.Gray;
+            RejectButtonColor = Color.Gray;
+
             var statusNumber = DataService.GetSignalRData().statusNumber;
 
             switch (statusNumber)
@@ -457,10 +515,26 @@ namespace CheckDrive.Mobile.ViewModels
 
         private async Task ClosePopup()
         {
-            SecureStorage.Remove("popup_message");
-            SecureStorage.Remove("popup_visible");
+            try
+            {
+                SecureStorage.Remove("popup_message");
+                SecureStorage.Remove("popup_visible");
 
-            await PopupNavigation.Instance.PopAsync(true);
+                if (PopupNavigation.Instance.PopupStack.Any())
+                {
+                    await PopupNavigation.Instance.PopAsync(true);
+                    Console.WriteLine("Popup yopildi.");
+                }
+                else
+                {
+                    Console.WriteLine("PopupStack bo'sh.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Popup yopishda xatolik: {ex.Message}");
+                throw new Exception($"Popup yopilmayapti... {ex.Message}");
+            }
         }
 
         private async Task RefreshPage()

@@ -17,6 +17,8 @@
             <local:PasswordVisibilityConverter x:Key="PasswordVisibilityConverter" />
             <local:StringToBoolConverter x:Key="StringToBoolConverter" />
             <local:BoolToRedConverter x:Key="BoolToRedConverter" />
+            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <!--  Add this converter  -->
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -111,7 +113,7 @@
 
                     <md:MaterialButton
                         Margin="10,40,10,0"
-                        BackgroundColor="#00A3FF"
+                        BackgroundColor="{Binding IsLoginButtonPressed, Converter={StaticResource BoolToColorConverter}}"
                         Command="{Binding LoginCommand}"
                         CornerRadius="10"
                         FontSize="18"

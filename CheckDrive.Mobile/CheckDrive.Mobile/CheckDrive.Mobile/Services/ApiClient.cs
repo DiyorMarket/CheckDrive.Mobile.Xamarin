@@ -11,6 +11,7 @@ namespace CheckDrive.Mobile.Services
     {
         private const string BaseUrl = "http://miraziz-001-site1.ctempurl.com/api";
 
+
         private readonly HttpClient _client;
 
         public ApiClient()

@@ -67,7 +67,7 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
                 query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}");
             }
 
-            var response = await _api.GetAsync("mechanics/acceptances?" + query.ToString());
+            var response = await _api.GetAsync("mechanics/acceptances?roleId=10&" + query.ToString());
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("Could not fetch mechanic acceptance.");

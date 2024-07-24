@@ -36,16 +36,18 @@
                 VerticalOptions="End">
                 <Button
                     Margin="10,10,0,10"
-                    BackgroundColor="#85929E"
+                    BackgroundColor="{Binding RejectButtonColor}"
                     Command="{Binding RejectButtonCommand}"
                     CornerRadius="100"
+                    IsEnabled="{Binding IsRejectButtonEnabled}"
                     Text="Yo'q"
                     WidthRequest="130" />
                 <Button
                     Margin="10"
-                    BackgroundColor="#2A7BEF"
+                    BackgroundColor="{Binding AcceptButtonColor}"
                     Command="{Binding AcceptButtonCommand}"
                     CornerRadius="100"
+                    IsEnabled="{Binding IsAcceptButtonEnabled}"
                     Text="Ha"
                     WidthRequest="130" />
             </StackLayout>

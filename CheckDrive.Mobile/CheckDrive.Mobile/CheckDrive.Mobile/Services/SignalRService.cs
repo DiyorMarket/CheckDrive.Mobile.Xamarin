@@ -76,11 +76,19 @@ namespace CheckDrive.Mobile.Services
 
         private async Task ShowPopupAsync(string message)
         {
-            await SecureStorage.SetAsync("popup_message", message);
-            await SecureStorage.SetAsync("popup_visible", "true");
+            try
+            {
+                await SecureStorage.SetAsync("popup_message", message);
+                await SecureStorage.SetAsync("popup_visible", "true");
 
-            var popup = new CheckControlPopup(message);
-            await PopupNavigation.Instance.PushAsync(popup);
+                var popup = new CheckControlPopup(message);
+                await PopupNavigation.Instance.PushAsync(popup);
+                Console.WriteLine("Popup ochildi.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Popup ochishda xatolik: {ex.Message}");
+            }
         }
 
 

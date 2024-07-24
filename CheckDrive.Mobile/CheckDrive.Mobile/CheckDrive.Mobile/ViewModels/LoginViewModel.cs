@@ -81,6 +81,13 @@ public class LoginViewModel : BaseViewModel
         set { SetProperty(ref _passwordErrorMessage, value); }
     }
 
+    private bool _isLoginButtonPressed;
+    public bool IsLoginButtonPressed
+    {
+        get { return _isLoginButtonPressed; }
+        set { SetProperty(ref _isLoginButtonPressed, value); }
+    }
+
     public LoginViewModel(IAccountDataStore accountDataStore, IDriverDataStore driverDataStore)
     {
         _accountDataStore = accountDataStore;
@@ -91,11 +98,13 @@ public class LoginViewModel : BaseViewModel
 
     private async void CheckLogin()
     {
+        IsLoginButtonPressed = true;
         IsBusy = true;
 
         await PerformLoginTask();
 
         IsBusy = false;
+        IsLoginButtonPressed = false;
     }
 
     private async Task PerformLoginTask()
@@ -160,8 +169,6 @@ public class LoginViewModel : BaseViewModel
 
         return isValid;
     }
-
-
 
     private async Task<bool> CheckingDriverLogin()
     {
