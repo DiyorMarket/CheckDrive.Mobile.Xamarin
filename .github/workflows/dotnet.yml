@@ -7,37 +7,44 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-
+  build-android:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    
-    - name: Install .NET workloads
+    - name: Install .NET workloads for Android
       run: |
         dotnet workload install android
-        dotnet workload install ios
-    
-    - name: List installed workloads
-      run: dotnet workload list
-    
-    - name: List SDK directory contents
-      run: ls -R /usr/share/dotnet/sdk/8.0.303/
-    
     - name: Restore dependencies
       run: dotnet restore
       working-directory: CheckDrive.Mobile
-    
-    - name: Build
+    - name: Build Android
       run: dotnet build --no-restore
       working-directory: CheckDrive.Mobile
-    
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      working-directory: CheckDrive.Mobile
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Install .NET workloads for iOS
+      run: |
+        dotnet workload install ios
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: CheckDrive.Mobile
+    - name: Build iOS
+      run: dotnet build --no-restore
+      working-directory: CheckDrive.Mobile
     - name: Test
       run: dotnet test --no-build --verbosity normal
       working-directory: CheckDrive.Mobile
