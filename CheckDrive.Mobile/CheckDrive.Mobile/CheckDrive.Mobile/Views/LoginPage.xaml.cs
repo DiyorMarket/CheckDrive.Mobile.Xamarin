@@ -1,9 +1,7 @@
-﻿using CheckDrive.Mobile.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CheckDrive.Mobile.Services;
+using CheckDrive.Mobile.Stores.Accounts;
+using CheckDrive.Mobile.Stores.Drivers;
+using CheckDrive.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,7 +13,11 @@ namespace CheckDrive.Mobile.Views
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
+
+            var client = new ApiClient();
+            var accountDS = new AccountDataStore(client);
+            var driverDS = new DriverDataStore(client);
+            this.BindingContext = new LoginViewModel(accountDS,driverDS);
         }
     }
 }
