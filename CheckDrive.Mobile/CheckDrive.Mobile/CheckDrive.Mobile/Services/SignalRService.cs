@@ -91,7 +91,6 @@ namespace CheckDrive.Mobile.Services
             }
         }
 
-
         private async Task<string> GetTokenAsync()
         {
             try
@@ -104,6 +103,5 @@ namespace CheckDrive.Mobile.Services
                 return string.Empty;
             }
         }
-
     }
 }
