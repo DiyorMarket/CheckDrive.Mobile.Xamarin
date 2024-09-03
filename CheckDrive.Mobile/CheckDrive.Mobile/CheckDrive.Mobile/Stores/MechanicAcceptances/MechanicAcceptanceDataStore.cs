@@ -58,13 +58,13 @@ namespace CheckDrive.Mobile.Stores.MechanicAcceptances
             return result;
         }
 
-        public async Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(DateTime date)
+        public async Task<GetMechanicAcceptanceResponse> GetMechanicAcceptancesAsync(DateTime date, int driverId)
         {
             StringBuilder query = new StringBuilder("");
 
-            if (date > DateTime.MinValue)
+            if (driverId != null)
             {
-                query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}");
+                query = query.Append($"DriverId=" + driverId);
             }
 
             var response = await _api.GetAsync("mechanics/acceptances?roleId=10&" + query.ToString());

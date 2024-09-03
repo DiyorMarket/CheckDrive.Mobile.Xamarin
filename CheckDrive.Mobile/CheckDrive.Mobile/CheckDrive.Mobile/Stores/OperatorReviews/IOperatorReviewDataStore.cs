@@ -9,7 +9,7 @@ namespace CheckDrive.Web.Stores.OperatorReviews
     {
         Task<GetOperatorReviewResponse> GetOperatorReviewsAsync();
         Task<GetOperatorReviewResponse> GetOperatorReviewsByDriverIdAsync(int driverId);
-        Task<GetOperatorReviewResponse> GetOperatorReviewsAsync(DateTime date);
+        Task<GetOperatorReviewResponse> GetOperatorReviewsAsync(DateTime date, int driverId);
         Task<OperatorReviewDto> GetOperatorReviewAsync(int id);
     }
 }

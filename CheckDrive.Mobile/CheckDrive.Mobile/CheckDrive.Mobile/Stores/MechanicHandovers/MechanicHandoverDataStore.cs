@@ -32,13 +32,17 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
             return result;
         }
 
-        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync(DateTime date)
+        public async Task<GetMechanicHandoverResponse> GetMechanicHandoversAsync(DateTime date, int driverId)
         {
             StringBuilder query = new StringBuilder("");
 
-            if (date != DateTime.MinValue)
+            //if (date != DateTime.MinValue)
+            //{
+            //    query.Append($"Date={date.Month} / {date.Day} / {date.Year}&");
+            //}
+            if (driverId != null)
             {
-                query.Append($"Date={date.Month} / {date.Day} / {date.Year}");
+                query = query.Append($"DriverId=" + driverId);
             }
 
             var response = await _api.GetAsync("mechanics/handovers?roleId=10&" + query.ToString());

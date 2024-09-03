@@ -32,13 +32,17 @@ namespace CheckDrive.Mobile.Stores.OperatorReviews
             return result;
         }
 
-        public async Task<GetOperatorReviewResponse> GetOperatorReviewsAsync(DateTime date)
+        public async Task<GetOperatorReviewResponse> GetOperatorReviewsAsync(DateTime date, int driverId)
         {
             StringBuilder query = new StringBuilder("");
 
-            if (date != DateTime.MinValue)
+            //if (date != DateTime.MinValue)
+            //{
+            //    query.Append($"Date={date.Month} / {date.Day} / {date.Year}&");
+            //}
+            if (driverId != null)
             {
-                query.Append($"Date={date.Month} / {date.Day} / {date.Year}");
+                query = query.Append($"DriverId=" + driverId);
             }
 
             var response = await _api.GetAsync("operators/reviews?roleId=10&" + query.ToString());

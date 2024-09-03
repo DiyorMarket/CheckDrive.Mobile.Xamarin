@@ -32,13 +32,17 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
             return result;
         }
 
-        public async Task<GetDoctorReviewResponse> GetDoctorReviewsAsync(DateTime date)
+        public async Task<GetDoctorReviewResponse> GetDoctorReviewsAsync(DateTime date, int driverId)
         {
             StringBuilder query = new StringBuilder("");
 
-            if (date != null)
+            //if (date != null)
+            //{
+            //    query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}&");
+            //}
+            if(driverId != null)
             {
-                query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}");
+                query = query.Append($"DriverId=" + driverId);
             }
 
             var response = await _api.GetAsync("doctors/reviews?roleId=10&" + query.ToString());
