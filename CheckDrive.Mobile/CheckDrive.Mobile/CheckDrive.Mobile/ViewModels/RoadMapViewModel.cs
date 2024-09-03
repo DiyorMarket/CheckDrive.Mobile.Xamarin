@@ -23,7 +23,6 @@ namespace CheckDrive.Mobile.ViewModels
 {
     public class RoadMapViewModel : BaseViewModel
     {
-        #region DeleteThisRegion
         private readonly IDoctorReviewDataStore _doctorReviewDatastore;
         private readonly IMechanicAcceptanceDataStore _mechanicAcceptanceDataStore;
         private readonly IMechanicHandoverDataStore _mechanicHandoverDataStore;
@@ -259,7 +258,7 @@ namespace CheckDrive.Mobile.ViewModels
         public async void LoadViewPage()
         {
             IsBusy = true;
-            await GetOilResult();
+            //await GetOilResult();
             await CheckDoctorStatusValue();
             await CheckNotification();
             IsBusy = false;
@@ -310,7 +309,6 @@ namespace CheckDrive.Mobile.ViewModels
         {
             await _signalRService.StartConnectionAsync();
         }
-        #endregion
 
         #region Departments check status value methods
 
@@ -392,32 +390,34 @@ namespace CheckDrive.Mobile.ViewModels
         private async Task CheckMechanicHandoverStatusForManyValue(int reviewCount, DateTime reviewDate)
         {
             var mechanicHandovers = await _mechanicHandoverDataStore.GetMechanicHandoversAsync(TodayDateForProgressBar, _driver.Id);
-            var mechanicHandover = mechanicHandovers.Data.Last();
 
-            if (mechanicHandovers.Data.Count() >= reviewCount && reviewDate < mechanicHandover.Date)
+            if (mechanicHandovers.Data.Count() >= reviewCount)
             {
+                var mechanicHandover = mechanicHandovers.Data.Last();
 
-                if (mechanicHandover != null)
+                if (reviewDate < mechanicHandover.Date)
                 {
-                    if (mechanicHandover.IsHanded.Value && mechanicHandover.Status == StatusForDto.Completed)
+                    if (mechanicHandover != null)
                     {
-                        MechanicHandoverStatusCheck = StatusForDto.Completed;
+                        if (mechanicHandover.IsHanded.Value && mechanicHandover.Status == StatusForDto.Completed)
+                        {
+                            MechanicHandoverStatusCheck = StatusForDto.Completed;
+                            ChangedMechanicHandoverCheckTime(mechanicHandover);
+                            await CheckOperatorStatusForManyValue(reviewCount, reviewDate);
+                            return;
+                        }
+                        else if (mechanicHandover.Status == StatusForDto.Pending)
+                        {
+                            MechanicHandoverStatusCheck = StatusForDto.Pending;
+                            return;
+                        }
+
+                        MechanicHandoverStatusCheck = StatusForDto.Rejected;
+                        OperatorStatusCheck = StatusForDto.Rejected;
+                        MechanicAcceptanceStatusCheck = StatusForDto.Rejected;
                         ChangedMechanicHandoverCheckTime(mechanicHandover);
-                        await CheckOperatorStatusForManyValue(reviewCount, reviewDate);
-                        return;
                     }
-                    else if (mechanicHandover.Status == StatusForDto.Pending)
-                    {
-                        MechanicHandoverStatusCheck = StatusForDto.Pending;
-                        return;
-                    }
-
-                    MechanicHandoverStatusCheck = StatusForDto.Rejected;
-                    OperatorStatusCheck = StatusForDto.Rejected;
-                    MechanicAcceptanceStatusCheck = StatusForDto.Rejected;
-                    ChangedMechanicHandoverCheckTime(mechanicHandover);
                 }
-
             }
             else
             {

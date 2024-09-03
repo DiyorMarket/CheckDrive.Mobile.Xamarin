@@ -36,10 +36,10 @@ namespace CheckDrive.Mobile.Stores.MechanicHandovers
         {
             StringBuilder query = new StringBuilder("");
 
-            if (date != DateTime.MinValue)
-            {
-                query.Append($"Date={date.Month} / {date.Day} / {date.Year}&");
-            }
+            //if (date != DateTime.MinValue)
+            //{
+            //    query.Append($"Date={date.Month} / {date.Day} / {date.Year}&");
+            //}
             if (driverId != null)
             {
                 query = query.Append($"DriverId=" + driverId);

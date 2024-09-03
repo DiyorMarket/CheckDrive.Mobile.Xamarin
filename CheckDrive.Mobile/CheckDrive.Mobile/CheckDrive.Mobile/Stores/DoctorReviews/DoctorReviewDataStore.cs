@@ -36,10 +36,10 @@ namespace CheckDrive.Mobile.Stores.DoctorReviews
         {
             StringBuilder query = new StringBuilder("");
 
-            if (date != null)
-            {
-                query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}&");
-            }
+            //if (date != null)
+            //{
+            //    query = query.Append($"Date={date.Month}/{date.Day}/{date.Year}&");
+            //}
             if(driverId != null)
             {
                 query = query.Append($"DriverId=" + driverId);
